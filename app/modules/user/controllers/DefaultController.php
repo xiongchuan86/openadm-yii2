@@ -14,6 +14,8 @@ use app\common\Controller;
 class DefaultController extends Controller
 {
 	public $layout = '/column2';
+	
+	public $defaultAction = "login";
     /**
      * @inheritdoc
      */
@@ -24,7 +26,7 @@ class DefaultController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'confirm', 'resend'],
+                        'actions' => [ 'confirm', 'resend'],
                         'allow'   => true,
                         'roles'   => ['?', '@'],
                     ],
@@ -65,21 +67,6 @@ class DefaultController extends Controller
 	
 	    return true; // or false to not run the action
 	}
-
-    /**
-     * Display index - debug page, login page, or account page
-     */
-    public function actionIndex()
-    {
-        if (defined('YII_DEBUG') && YII_DEBUG) {
-            $actions = Yii::$app->getModule("user")->getActions();
-            return $this->render('index', ["actions" => $actions]);
-        } elseif (Yii::$app->user->isGuest) {
-            return $this->redirect(["/user/login"]);
-        } else {
-            return $this->redirect(["/user/account"]);
-        }
-    }
 
     /**
      * Display login page
