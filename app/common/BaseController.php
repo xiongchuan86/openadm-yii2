@@ -12,6 +12,7 @@ use app\common\SystemConfig;
 
 class BaseController extends Controller
 {
+	public $enableCsrfValidation = false;
 	public function init(){
 		parent::init();
 		$this->GetSystemConfig();

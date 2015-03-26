@@ -8,7 +8,6 @@ use app\models\Mplugin;
 class MpluginController extends Controller
 {
     public $layout = "/column2";
-	public $enableCsrfValidation = false;
 	
 	//plugin list
 	public function actionIndex()
