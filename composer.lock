@@ -4,52 +4,8 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "072c24a356a0394b6e5a7693e396480c",
+    "hash": "504179394fa751a524ac5affb9960b63",
     "packages": [
-        {
-            "name": "amnah/yii2-user",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/amnah/yii2-user.git",
-                "reference": "596937ec03d10a569aebc95ed189dd25aa027f78"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/amnah/yii2-user/zipball/596937ec03d10a569aebc95ed189dd25aa027f78",
-                "reference": "596937ec03d10a569aebc95ed189dd25aa027f78",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "*",
-                "yiisoft/yii2-authclient": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "amnah\\yii2\\user\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "amnah",
-                    "email": "amnah.dev@gmail.com"
-                }
-            ],
-            "description": "Yii 2 user authentication module",
-            "keywords": [
-                "Authentication",
-                "auth",
-                "user",
-                "yii",
-                "yii2"
-            ],
-            "time": "2015-02-21 16:44:17"
-        },
         {
             "name": "bower-asset/bootstrap",
             "version": "v3.3.4",
@@ -424,12 +380,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "affc71838579bd0895f2f3e0080abe2ac55d847f"
+                "reference": "50425fb9af782517684ba1b6d1595d8f795e6c57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/affc71838579bd0895f2f3e0080abe2ac55d847f",
-                "reference": "affc71838579bd0895f2f3e0080abe2ac55d847f",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/50425fb9af782517684ba1b6d1595d8f795e6c57",
+                "reference": "50425fb9af782517684ba1b6d1595d8f795e6c57",
                 "shasum": ""
             },
             "require": {
@@ -504,55 +460,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-03-25 01:18:59"
-        },
-        {
-            "name": "yiisoft/yii2-authclient",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yiisoft/yii2-authclient.git",
-                "reference": "1cdbcbdf1e36eb6f8ae810ba6a779c9d2541b47d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-authclient/zipball/1cdbcbdf1e36eb6f8ae810ba6a779c9d2541b47d",
-                "reference": "1cdbcbdf1e36eb6f8ae810ba6a779c9d2541b47d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "yii\\authclient\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Paul Klimov",
-                    "email": "klimov.paul@gmail.com"
-                }
-            ],
-            "description": "External authentication via OAuth and OpenID for the Yii framework",
-            "keywords": [
-                "OpenId",
-                "auth",
-                "oauth",
-                "yii2"
-            ],
-            "time": "2015-03-23 14:49:54"
+            "time": "2015-03-26 01:54:06"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -657,16 +565,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-swiftmailer.git",
-                "reference": "cab046bddcac9cf179fbcbe48ab62aa512f088ad"
+                "reference": "e204c9920deb730f0a53b05ebacfa18c7a9ac0b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-swiftmailer/zipball/cab046bddcac9cf179fbcbe48ab62aa512f088ad",
-                "reference": "cab046bddcac9cf179fbcbe48ab62aa512f088ad",
+                "url": "https://api.github.com/repos/yiisoft/yii2-swiftmailer/zipball/e204c9920deb730f0a53b05ebacfa18c7a9ac0b7",
+                "reference": "e204c9920deb730f0a53b05ebacfa18c7a9ac0b7",
                 "shasum": ""
             },
             "require": {
-                "swiftmailer/swiftmailer": "~5.4",
+                "swiftmailer/swiftmailer": "~5.0",
                 "yiisoft/yii2": "*"
             },
             "type": "yii2-extension",
@@ -699,7 +607,7 @@
                 "swiftmailer",
                 "yii2"
             ],
-            "time": "2015-03-24 11:41:29"
+            "time": "2015-03-25 09:26:59"
         }
     ],
     "packages-dev": [
@@ -771,7 +679,7 @@
             ],
             "authors": [
                 {
-                    "name": "François Zaninotto"
+                    "name": "Francois Zaninotto"
                 }
             ],
             "description": "Faker is a PHP library that generates fake data for you.",
@@ -1011,9 +919,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "amnah/yii2-user": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

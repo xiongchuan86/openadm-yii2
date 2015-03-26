@@ -1,4 +1,5 @@
 <?php
+\Yii::setAlias('@bower', WEB_PATH . DIRECTORY_SEPARATOR .'vendor' . DIRECTORY_SEPARATOR . 'bower-asset');
 $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'yetcms',
@@ -41,14 +42,14 @@ $config = [
 		   ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
-            'messageConfig' => [
-                'from' => ['xiongchuan86@vip.qq.com' => 'Admin'], // this is needed for sending emails
-                'charset' => 'UTF-8',
-            ]
+	        'transport' => [
+	              'class' => 'Swift_SmtpTransport',
+	              'host' => 'localhost',
+	              'username' => 'username',
+	              'password' => 'password',
+	              'port' => '587',
+	              'encryption' => 'tls',
+	        ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

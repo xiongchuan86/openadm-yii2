@@ -36,7 +36,7 @@ class DefaultController extends Controller
                     [
                         'actions' => ['login', 'register', 'forgot', 'reset'],
                         'allow'   => true,
-                        'roles'   => ['?'],
+                        'roles'   => ['?','@'],
                     ],
                 ],
             ],

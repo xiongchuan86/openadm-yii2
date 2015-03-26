@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=127.0.0.1;dbname=yetcms',
+    'dsn' => 'mysql:host=127.0.0.1;dbname=yetcms2',
     'username' => 'root',
     'password' => '123456',
     'charset' => 'utf8',
-    'tablePrefix' => 'jj_',
+    'tablePrefix' => 'yet_',
 ];

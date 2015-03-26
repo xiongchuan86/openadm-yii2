@@ -15,6 +15,8 @@ class BaseController extends Controller
 	public function init(){
 		parent::init();
 		$this->GetSystemConfig();
+		
+		Yii::setAlias('@bower', Yii::$app->vendorPath . DIRECTORY_SEPARATOR . 'bower-asset');
 	}
 	
 	//获取系统配置
