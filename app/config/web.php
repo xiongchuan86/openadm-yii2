@@ -37,18 +37,20 @@ $config = [
 		       'rules'=>[
 		           '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 		           'mplugin/local/<tab:\w+>' => 'mplugin/local',
-		           'mplugin/ajax' => 'mplugin/ajax',
 		       ],
 		   ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
+            'messageConfig' => [
+            	'from'  => '41404756@qq.com',
+            ],
 	        'transport' => [
 	              'class' => 'Swift_SmtpTransport',
-	              'host' => 'localhost',
-	              'username' => 'username',
-	              'password' => 'password',
-	              'port' => '587',
-	              'encryption' => 'tls',
+	              'host' => 'smtp.qq.com',
+	              'username' => '',
+	              'password' => '',
+	              //'port' => '465',
+	              //'encryption' => 'tls',
 	        ],
         ],
         'log' => [
