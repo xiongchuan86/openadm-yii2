@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-26 09:20:37
+-- Generation Time: 2015-03-26 14:27:13
 -- 服务器版本： 5.6.21
 -- PHP Version: 5.6.3
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `{dbname}`
 --
-CREATE DATABASE IF NOT EXISTS `{dbname}` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `{dbname}`;
 
 -- --------------------------------------------------------
 
@@ -35,17 +33,14 @@ CREATE TABLE IF NOT EXISTS `{tableprefix}profile` (
   `create_time` timestamp NULL DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT NULL,
   `full_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- 转存表中的数据 `{tableprefix}profile`
 --
 
 INSERT INTO `{tableprefix}profile` (`id`, `user_id`, `create_time`, `update_time`, `full_name`) VALUES
-(1, 1, '2015-03-25 05:14:25', NULL, 'the one'),
-(2, 2, '2015-03-24 22:58:37', '2015-03-25 07:49:02', '熊川'),
-(3, 3, '2015-03-25 02:01:28', NULL, NULL),
-(4, 4, '2015-03-25 02:02:02', NULL, NULL);
+(2, 2, '2015-03-24 22:58:37', '2015-03-26 06:25:23', '熊川');
 
 -- --------------------------------------------------------
 
@@ -130,17 +125,14 @@ CREATE TABLE IF NOT EXISTS `{tableprefix}user` (
   `update_time` timestamp NULL DEFAULT NULL,
   `ban_time` timestamp NULL DEFAULT NULL,
   `ban_reason` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- 转存表中的数据 `{tableprefix}user`
 --
 
 INSERT INTO `{tableprefix}user` (`id`, `role_id`, `status`, `email`, `new_email`, `username`, `password`, `auth_key`, `api_key`, `login_ip`, `login_time`, `create_ip`, `create_time`, `update_time`, `ban_time`, `ban_reason`) VALUES
-(1, 1, 1, 'neo@neo.com', NULL, 'neo', '$2y$13$dyVw4WkZGkABf2UrGWrhHO4ZmVBv.K4puhOL59Y9jQhIdj63TlV.O', 'd1jCev9TwuXzgqRMRsaEARG3IbC-xV2b', 'UKLww3de0tgiQFcjgDIVt-qDDTRGPpQP', NULL, NULL, NULL, '2015-03-25 05:14:25', NULL, NULL, NULL),
-(2, 1, 1, 'xiongchuan86@vip.qq.com', NULL, 'xiongchuan86', '$2y$13$x9lIni10tIjwqCvmOxhlmuRaoNl9XqZz4mEDv.2pS5CLN8CLs8fs.', 'rnJ08wbKZ09_l_InpAPvMrsJLkuvFogO', '3YyCNmSHJMh9vR_rDAJhK4z3_JXJ1lq6', '127.0.0.1', '2015-03-25 09:26:19', '127.0.0.1', '2015-03-24 22:58:37', '2015-03-25 07:47:57', NULL, NULL),
-(3, 2, 0, '41404756@qq.com', NULL, NULL, '$2y$13$OFC4ywYSFw5qymoGnVHOWuSnxpXiyXwbN3JrYXmGVoCQ2kdgu6laO', 'O_bjjcT-HAliD9Fu9XI4JZFeDNeTtvVo', 'PvUIrpXP482lq_J_xjtlBhB9GuAR2x6M', NULL, NULL, '127.0.0.1', '2015-03-25 02:01:28', NULL, NULL, NULL),
-(4, 2, 0, '414047561@qq.com', NULL, NULL, '$2y$13$r3VpWDv/QACG3K4mojxfmutgVr9uCd74jk1v7GH3V1bv.xxADSc3q', 'q9m8wwxjPlMwheFl2Wc0jrIzwCsriSNF', 'CUgLAkhQBTuzDypaAxr7z4i35cRmOO_l', NULL, NULL, '127.0.0.1', '2015-03-25 02:02:02', NULL, NULL, NULL);
+(2, 1, 1, 'admin@yetcms.com', NULL, 'admin', '$2y$13$n6XTxg7cSg./PM2aTkE2.OLysym7x4u1aLn8BBTXvxb/sAxek7IAC', 'rnJ08wbKZ09_l_InpAPvMrsJLkuvFogO', '3YyCNmSHJMh9vR_rDAJhK4z3_JXJ1lq6', '127.0.0.1', '2015-03-26 06:26:01', '127.0.0.1', '2015-03-24 22:58:37', '2015-03-26 06:25:23', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -174,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `{tableprefix}user_key` (
   `create_time` timestamp NULL DEFAULT NULL,
   `consume_time` timestamp NULL DEFAULT NULL,
   `expire_time` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- 转存表中的数据 `{tableprefix}user_key`
@@ -182,8 +174,6 @@ CREATE TABLE IF NOT EXISTS `{tableprefix}user_key` (
 
 INSERT INTO `{tableprefix}user_key` (`id`, `user_id`, `type`, `key`, `create_time`, `consume_time`, `expire_time`) VALUES
 (1, 2, 1, 'iWL22aiDnmXHG_OFVTpfVL5o0uW-6LbS', '2015-03-24 22:58:37', NULL, NULL),
-(2, 3, 1, 'a69-i0Mvv105vL7p6LmsJlzb3yOIUoEl', '2015-03-25 02:02:42', NULL, NULL),
-(3, 4, 1, 'qpfbNQA5Kmc6Q5NEKk8vvsmHwrJjOyfT', '2015-03-25 02:02:02', NULL, NULL),
 (4, 2, 3, '-eU8QWIe57OOmJF7_yjnG3OJ7ohKKe_6', '2015-03-25 02:06:34', NULL, '2015-03-27 02:06:34');
 
 --
@@ -234,7 +224,7 @@ ALTER TABLE `{tableprefix}user_key`
 -- AUTO_INCREMENT for table `{tableprefix}profile`
 --
 ALTER TABLE `{tableprefix}profile`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `{tableprefix}role`
 --
@@ -249,7 +239,7 @@ MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5844;
 -- AUTO_INCREMENT for table `{tableprefix}user`
 --
 ALTER TABLE `{tableprefix}user`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `{tableprefix}user_auth`
 --
@@ -259,7 +249,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `{tableprefix}user_key`
 --
 ALTER TABLE `{tableprefix}user_key`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- 限制导出的表
 --
