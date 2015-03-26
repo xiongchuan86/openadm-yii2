@@ -49,6 +49,23 @@ class DefaultController extends Controller
         ];
     }
 
+	public function beforeAction($action)
+	{
+		
+	    if (!parent::beforeAction($action)) {
+	        return false;
+	    }
+		
+		if(in_array($action->id, ['login','register','confirm','forgot','reset'])){
+			$this->layout = "/main";
+			if(!Yii::$app->user->isGuest){
+	    		return $this->redirect(Yii::$app->getModule("user")->loginRedirect);
+	    	}
+		}
+	
+	    return true; // or false to not run the action
+	}
+
     /**
      * Display index - debug page, login page, or account page
      */
@@ -69,7 +86,6 @@ class DefaultController extends Controller
      */
     public function actionLogin()
     {
-    	$this->layout = "/main";
         /** @var \app\modules\user\models\forms\LoginForm $model */
 
         // load post data and login
@@ -106,7 +122,6 @@ class DefaultController extends Controller
      */
     public function actionRegister()
     {
-    	$this->layout = "/main";
         /** @var \app\modules\user\models\User    $user */
         /** @var \app\modules\user\models\Profile $profile */
         /** @var \app\modules\user\models\Role    $role */
@@ -301,7 +316,6 @@ class DefaultController extends Controller
      */
     public function actionResend()
     {
-    	$this->layout = "/main";
         /** @var \app\modules\user\models\forms\ResendForm $model */
 
         // load post data and send email
@@ -373,7 +387,6 @@ class DefaultController extends Controller
      */
     public function actionForgot()
     {
-    	$this->layout = "/main";
         /** @var \app\modules\user\models\forms\ForgotForm $model */
 
         // load post data and send email

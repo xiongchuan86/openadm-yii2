@@ -12,7 +12,8 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('user', 'Resend');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-default-resend">
+<div class="row">
+<div id="content" class="col-sm-12 full">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
@@ -37,4 +38,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<?php endif; ?>
 
+</div>
 </div>
