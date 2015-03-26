@@ -12,3 +12,12 @@ YetCMS
 6. http://www.yetcms.com
 7. 默认的管理员用户名和密码，admin@yetcms.com,123456
 8. 注册需要邮箱验证，配置config.php里面的mailer
+9. 设置权限
+   
+   chmod -R 777 static/assets
+    
+   chmod -R 777 app/runtime 
+   
+   chmod -R 777 app/modules/plugin/src
+   
+   chmod -R 777 app/modules/plugin/controllers
