@@ -43,7 +43,7 @@ use yii\widgets\ActiveForm;
 						</fieldset>	
 					<?php ActiveForm::end(); ?>
 					<a class="pull-left" href="<?=Url::to(["/user/forgot"])?>">忘记密码?</a>
-					<?php if(1):?><a class="pull-right" href="<?=Url::to(["/user/register"])?>">注册!</a>
+					<?php if(0):?><a class="pull-right" href="<?=Url::to(["/user/register"])?>">注册!</a>
 					<a class="pull-right" href="<?=Url::to(["/user/resend"])?>">重发注册邮件!</a>
 					<?php endif;?>
 					<div class="clearfix"></div>				

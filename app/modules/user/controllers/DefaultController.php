@@ -4,7 +4,7 @@ namespace app\modules\user\controllers;
 
 use Yii;
 use yii\web\Response;
-use yii\filters\AccessControl;
+use app\modules\rbac\components\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use app\common\Controller;
@@ -17,7 +17,32 @@ class DefaultController extends Controller
 	public $layout = '/column2';
 	
 	public $defaultAction = "login";
-   
+
+	public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [ 'confirm', 'resend'],
+                        'allow'   => true,
+                        'roles'   => ['?', '@'],
+                    ],
+                    [
+                        'actions' => ['account','register', 'profile', 'resend-change', 'cancel', 'logout'],
+                        'allow'   => true,
+                        'roles'   => ['@'],
+                    ],
+                    [
+                        'actions' => ['login', 'forgot', 'reset'],
+                        'allow'   => true,
+                        'roles'   => ['?','@'],
+                    ],
+                ],
+            ],
+        ];
+    }   
 
 	public function beforeAction($action)
 	{
