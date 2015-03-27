@@ -8,10 +8,14 @@ $config = [
     'bootstrap' => ['log'],
     'name' => 'YetCMS',
     'language'=>'zh-cn',
+    'on beforeRequest' =>['app\common\SystemEvent','beforeRequest'],
+    'on beforeAction' => ['app\common\SystemEvent','beforeAction'],
     'components' => [
+    	
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '123',
+            'enableCsrfValidation' => false,
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -39,6 +43,7 @@ $config = [
 		           'mplugin/local/<tab:\w+>' => 'mplugin/local',
 		       ],
 		   ],
+		
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'messageConfig' => [
