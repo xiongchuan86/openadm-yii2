@@ -10,6 +10,7 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\common\Controller;
+use app\common\SystemEvent;
 /**
  * AdminController implements the CRUD actions for User model.
  */
@@ -28,6 +29,7 @@ class AdminController extends Controller
         }
 
         parent::init();
+		SystemEvent::GetAdminMenu();
     }
 
     /**
