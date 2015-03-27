@@ -37,7 +37,7 @@ class SystemEvent
 			$plugin_type = isset(self::$requestedPlugin['config']['type']) ? self::$requestedPlugin['config']['type'] : '';
 			if($plugin_type == Mplugin::PLUGIN_TYPE_ADMIN) self::GetAdminMenu();
 		}else{
-			if(Yii::$app->id == Yii::$app->controller->module->id)self::GetAdminMenu();;
+			if(in_array(Yii::$app->controller->module->id,[Yii::$app->id,'rbac']))self::GetAdminMenu();;
 		}
 		self::Authenticate();
 		

@@ -126,7 +126,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
 
         // check for valid email/username properties
         $this->checkModuleProperties();
-
+		/*
         // set up i8n
         if (empty(Yii::$app->i18n->translations['user'])) {
             Yii::$app->i18n->translations['user'] = [
@@ -134,7 +134,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
                 'basePath' => __DIR__ . '/messages',
                 //'forceTranslation' => true,
             ];
-        }
+        }*/
 
         // override modelClasses
         $this->modelClasses = array_merge($this->getDefaultModelClasses(), $this->modelClasses);

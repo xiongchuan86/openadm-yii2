@@ -43,12 +43,12 @@ $this->params['breadcrumbs'][] = $this->title;
             	'options' => ['style'=>'width:20%']
             ],
             [
-                'attribute' => 'role_id',
+                'attribute' => 'role',
                 'label' => Yii::t('user', 'Role'),
                 'filter' => $role::dropdown(),
                 'value' => function($model, $index, $dataColumn) use ($role) {
                     $roleDropdown = $role::dropdown();
-                    return $roleDropdown[$model->role_id];
+                    return $roleDropdown[$model->role];
                 },
                 'options' => ['style'=>'width:10%']
             ],

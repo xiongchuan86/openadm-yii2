@@ -12,7 +12,7 @@ use app\common\Controller;
 
 class SiteController extends Controller
 {
-	public $layout = '/main';
+	public $layout = 'column2';
 
     public function actions()
     {
@@ -27,5 +27,13 @@ class SiteController extends Controller
     {
         return $this->redirect('/user/login/');
     }
+	
+	public function actionError()
+	{
+	    $exception = Yii::$app->errorHandler->exception;
+	    if ($exception !== null) {
+	        return $this->render('error', ['exception' => $exception]);
+	    }
+	}
 
 }

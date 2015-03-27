@@ -10,7 +10,7 @@ use yii\helpers\Html;
 $this->title = $name;
 ?>
 <div class="row">
-<div id="content" class="col-lg-5">
+<div id="content" class="col-sm-12 full">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

@@ -106,8 +106,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
 
             // admin crud rules
-            [['role_id', 'status'], 'required', 'on' => ['admin']],
-            [['role_id', 'status'], 'integer', 'on' => ['admin']],
+            [['role', 'status'], 'required', 'on' => ['admin']],
             [['ban_time'], 'integer', 'on' => ['admin']],
             [['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
         ];
@@ -141,7 +140,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id'          => Yii::t('user', 'ID'),
-            'role_id'     => Yii::t('user', 'Role ID'),
+            'role'     => Yii::t('user', 'Role'),
             'status'      => Yii::t('user', 'Status'),
             'email'       => Yii::t('user', 'Email'),
             'new_email'   => Yii::t('user', 'New Email'),
@@ -208,7 +207,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function getRole()
     {
         $role = Yii::$app->getModule("user")->model("Role");
-        return $this->hasOne($role::className(), ['id' => 'role_id']);
+        return $this->hasOne($role::className(), ['id' => 'name']);
     }
 
     /**
@@ -311,11 +310,11 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $status
      * @return static
      */
-    public function setRegisterAttributes($roleId, $userIp, $status = null)
+    public function setRegisterAttributes($role="User", $userIp, $status = null)
     {
         // set default attributes
         $attributes = [
-            "role_id"   => $roleId,
+            "role"   => $role,
             "create_ip" => $userIp,
             "auth_key"  => Yii::$app->security->generateRandomString(),
             "api_key"   => Yii::$app->security->generateRandomString(),
@@ -416,6 +415,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
          // check for auth manager rbac
         $auth = Yii::$app->getAuthManager();
+		
         if ($auth) {
             if ($allowCaching && empty($params) && isset($this->_access[$permissionName])) {
                 return $this->_access[$permissionName];

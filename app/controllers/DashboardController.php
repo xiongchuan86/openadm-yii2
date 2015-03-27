@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\common\Controller;
+use app\modules\rbac\components\AccessControl;
 
 class DashboardController extends Controller
 {
@@ -12,5 +13,6 @@ class DashboardController extends Controller
     {
         return $this->render('main');
     }
+	
 
 }

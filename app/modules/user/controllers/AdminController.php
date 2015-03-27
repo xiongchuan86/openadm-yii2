@@ -22,30 +22,11 @@ class AdminController extends Controller
      */
     public function init()
     {
-        // check for admin permission (`tbl_role.can_admin`)
-        // note: check for Yii::$app->user first because it doesn't exist in console commands (throws exception)
-        if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
-            throw new ForbiddenHttpException('You are not allowed to perform this action.');
-        }
-
         parent::init();
 		SystemEvent::GetAdminMenu();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+  
 
     /**
      * List all User models
@@ -96,6 +77,8 @@ class AdminController extends Controller
         if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate()) {
             $user->save(false);
             $profile->setUser($user->id)->save(false);
+			//更新授权
+			Yii::$app->authManager->assign(Yii::$app->authManager->getRole($user->role), $user->id);
             return $this->redirect(['view', 'id' => $user->id]);
         }
 
@@ -119,12 +102,17 @@ class AdminController extends Controller
         $user = $this->findModel($id);
         $user->setScenario("admin");
         $profile = $user->profile;
-
+		
+		$old_role = $user->role;
         // load post data and validate
         $post = Yii::$app->request->post();
         if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate()) {
             $user->save(false);
             $profile->setUser($user->id)->save(false);
+			//删除授权
+			Yii::$app->authManager->revoke(Yii::$app->authManager->getRole($old_role), $user->id);
+			//更新授权
+			Yii::$app->authManager->assign(Yii::$app->authManager->getRole($user->role), $user->id);
             return $this->redirect(['view', 'id' => $user->id]);
         }
 
@@ -151,7 +139,8 @@ class AdminController extends Controller
         UserAuth::deleteAll(['user_id' => $user->id]);
         $profile->delete();
         $user->delete();
-
+		//删除授权
+		Yii::$app->authManager->revoke(Yii::$app->authManager->getRole($user->role), $user->id);
         return $this->redirect(['index']);
     }
 

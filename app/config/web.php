@@ -1,5 +1,4 @@
 <?php
-\Yii::setAlias('@bower', WEB_PATH . DIRECTORY_SEPARATOR .'vendor' . DIRECTORY_SEPARATOR . 'bower-asset');
 $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'yetcms',
@@ -7,9 +6,10 @@ $config = [
     'vendorPath' => WEB_PATH . '/vendor',
     'bootstrap' => ['log'],
     'name' => 'YetCMS',
-    'language'=>'zh-cn',
+    'language'=>'zh-CN',
     'on beforeRequest' =>['app\common\SystemEvent','beforeRequest'],
     'on beforeAction' => ['app\common\SystemEvent','beforeAction'],
+    
     'components' => [
     	
         'request' => [
@@ -20,7 +20,13 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-       
+        'i18n' => [
+		    'translations' => [
+		        'user*' => [
+		            'class' => 'yii\i18n\PhpMessageSource',
+		        ],
+		    ],
+		],
         'assetManager' => [
         	'class' => 'yii\web\AssetManager',
         	'basePath' => '@webroot/static/assets',
@@ -58,6 +64,15 @@ $config = [
 	              //'encryption' => 'tls',
 	        ],
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest', 'user'],
+            'cache' => 'yii\caching\FileCache',
+            'ruleTable' => '{{%AuthRule}}', // Optional
+            'itemTable' => '{{%AuthItem}}',  // Optional
+            'itemChildTable' => '{{%AuthItemChild}}',  // Optional
+            'assignmentTable' => '{{%AuthAssignment}}',  // Optional
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -77,6 +92,16 @@ $config = [
 	    ],
 	    'plugin' => [
             'class' => 'app\modules\plugin\Module',
+        ],
+        'rbac' => [
+            'class' => 'app\modules\rbac\Module',
+            //Some controller property maybe need to change. 
+            'controllerMap' => [
+                'assignment' => [
+                    'class' => 'app\modules\rbac\controllers\AssignmentController',
+                    'userClassName' => 'app\modules\user\models\User',
+                ]
+            ]
         ],
     ],
     'params' => $params,

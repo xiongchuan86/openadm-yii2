@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use app\common\Controller;
+use app\common\SystemEvent;
 /**
  * Default controller for User module
  */
@@ -16,40 +17,7 @@ class DefaultController extends Controller
 	public $layout = '/column2';
 	
 	public $defaultAction = "login";
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => [ 'confirm', 'resend'],
-                        'allow'   => true,
-                        'roles'   => ['?', '@'],
-                    ],
-                    [
-                        'actions' => ['account', 'profile', 'resend-change', 'cancel', 'logout'],
-                        'allow'   => true,
-                        'roles'   => ['@'],
-                    ],
-                    [
-                        'actions' => ['login', 'register', 'forgot', 'reset'],
-                        'allow'   => true,
-                        'roles'   => ['?','@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                   // 'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
+   
 
 	public function beforeAction($action)
 	{
@@ -227,6 +195,7 @@ class DefaultController extends Controller
      */
     public function actionAccount()
     {
+    	SystemEvent::GetAdminMenu();
         /** @var \app\modules\user\models\User $user */
         /** @var \app\modules\user\models\UserKey $userKey */
 
@@ -273,6 +242,7 @@ class DefaultController extends Controller
      */
     public function actionProfile()
     {
+    	SystemEvent::GetAdminMenu();
         /** @var \app\modules\user\models\Profile $profile */
 
         // set up profile and load post data

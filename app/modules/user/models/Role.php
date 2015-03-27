@@ -4,7 +4,7 @@ namespace app\modules\user\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-
+use yii\rbac\Item;
 /**
  * This is the model class for table "tbl_role".
  *
@@ -33,7 +33,7 @@ class Role extends ActiveRecord
      */
     public static function tableName()
     {
-        return static::getDb()->tablePrefix . "role";
+        return "{{%AuthItem}}";
     }
 
     /**
@@ -44,7 +44,7 @@ class Role extends ActiveRecord
         return [
             [['name'], 'required'],
             //            [['create_time', 'update_time'], 'safe'],
-            [['can_admin'], 'integer'],
+            [['type'], 'integer'],
             [['name'], 'string', 'max' => 255]
         ];
     }
@@ -55,11 +55,9 @@ class Role extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => Yii::t('user', 'ID'),
             'name'        => Yii::t('user', 'Name'),
-            'create_time' => Yii::t('user', 'Create Time'),
-            'update_time' => Yii::t('user', 'Update Time'),
-            'can_admin'   => Yii::t('user', 'Can Admin'),
+            'created_at' => Yii::t('user', 'Create Time'),
+            'updated_at' => Yii::t('user', 'Update Time'),
         ];
     }
 
@@ -71,23 +69,15 @@ class Role extends ActiveRecord
         return [
             'timestamp' => [
                 'class'      => 'yii\behaviors\TimestampBehavior',
-                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'value'      => function () { return time(); },
                 'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'create_time',
-                    ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
                 ],
             ],
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUsers()
-    {
-        $user = Yii::$app->getModule("user")->model("User");
-        return $this->hasMany($user::className(), ['role_id' => 'id']);
-    }
 
     /**
      * Check permission
@@ -113,9 +103,10 @@ class Role extends ActiveRecord
         if ($dropdown === null) {
 
             // get all records from database and generate
-            $models = static::find()->all();
+            $models = static::find()->where(["type"=>Item::TYPE_ROLE])->all();
+			
             foreach ($models as $model) {
-                $dropdown[$model->id] = $model->name;
+                $dropdown[$model->name] = $model->name;
             }
         }
 
