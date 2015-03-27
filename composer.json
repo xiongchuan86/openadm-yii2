@@ -1,7 +1,6 @@
-
 {
     "name": "YetCMS",
-    "description": "Another CMS",
+    "description": "YetCMS是一个基于Yii2的快速开发框架，集成了用户和插件系统，可以非常方便的开发新的功能。",
     "keywords": ["yii2", "framework", "yetcms"],
     "homepage": "http://www.yetcms.com/",
     "type": "project",
