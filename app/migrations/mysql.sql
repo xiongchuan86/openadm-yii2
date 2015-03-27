@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `{tableprefix}s_config` (
   `cfg_order` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `cfg_pid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父id',
   `ctime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `cfg_type` set('SYSTEM','USER') NOT NULL DEFAULT 'USER' COMMENT 'SYSTEM:系统配置,USER:用户配置',
+  `cfg_type` set('SYSTEM','USER','ROUTE') NOT NULL DEFAULT 'USER' COMMENT 'SYSTEM:系统配置,USER:用户配置',
   `cfg_status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1显示 0 不显示',
   `cfg_comment` varchar(255) DEFAULT NULL COMMENT '配置说明'
 ) ENGINE=InnoDB AUTO_INCREMENT=5844 DEFAULT CHARSET=utf8;
