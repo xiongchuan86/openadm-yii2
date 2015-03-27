@@ -16,6 +16,10 @@ class Mplugin
 	const ERROR_NEEDED   = 110;
 	const ERROR_NOTATLOCAL = 120;
 	
+	const PLUGIN_TYPE_ADMIN = "ADMIN";
+	const PLUGIN_TYPE_API   = "API";
+	const PLUGIN_TYPE_HOME  = "HOME";
+	
 	static private $_plugins = array();
 	static private $_setupedplugins = array();
 	static private $_valid_menu_cfgnames = array('MAINMENU','SUBMENU','THIRDMENU');
@@ -56,9 +60,11 @@ class Mplugin
 	/**
 	 * 获取单个plugin的config
 	 * @param $pluginid string
+	 * @param $cache 是否缓存
 	 * @param $dir string  实时获取配置
+	 * @param $checkDependency 是否检查依赖插件
 	 */
-	static public function GetPluginConfig($pluginid,$cache=true,$dir=null)
+	static public function GetPluginConfig($pluginid,$cache=true,$dir=null,$checkDependency = true)
 	{
 		$dir = $dir ? $dir : self::GetPluginPath($pluginid);
 		$config = array(
@@ -71,7 +77,7 @@ class Mplugin
 			if(!self::ParsePluginConfig($pluginid))return false;
 			$config['config'] = require $pluginconfigfile;
 			//检查依赖插件
-			self::CheckDependency($config['config']);
+			if($checkDependency)self::CheckDependency($config['config']);
 		}
 		if($cache){
 			self::$_plugins[$pluginid] = $config;
@@ -211,6 +217,26 @@ class Mplugin
 	static public function CheckMenuCfgName($cfg_name)
 	{
 		return in_array($cfg_name,self::$_valid_menu_cfgnames);
+	}
+	
+	/**
+	 * 插件注入route
+	 */
+	static public function PluginInjectRoute(array $conf)
+	{
+		if(isset($conf['route']) && !empty($conf['route'] && is_array($conf['route']))){
+			foreach($conf['route'] as $rule){
+				$params = [
+					'cfg_value'   => $rule,
+					'cfg_comment' => $conf['id'],
+					'cfg_pid'     => 0,
+					'cfg_order'   => 0,
+					'cfg_type'    => 'ROUTE'
+				];
+				$cfg_name = strtoupper("plugin_{$conf['id']}_route");
+				SystemConfig::Set($cfg_name,$params);
+			}
+		}
 	}
 	
 	/**
@@ -380,6 +406,12 @@ class Mplugin
 				break;
 			}
 		}
+		//route
+		$pluginroutes = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_ROUTE"),null,"ROUTE");
+		if(!empty($pluginroutes))foreach($pluginroutes as $row){
+			SystemConfig::Remove($row['id']);
+		}
+		
 		//版本号
 		$pluginversions = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_VERSION"),null,"USER");
 		if(!empty($pluginversions))foreach($pluginversions as $row){
@@ -435,6 +467,8 @@ class Mplugin
 				}
 				//注入菜单
 				self::PluginInjectMenu($config);
+				//注入route
+				self::PluginInjectRoute($config);
 				//导入数据表
 				self::PluginExecSQL($config);
 				//完成最后操作

@@ -8,7 +8,7 @@ return array(
 'id' => 'hello',
 //插件名称 显示用
 'name' => 'Hello',
-//插件类型 ADMIN|API
+//插件类型 ADMIN|API|HOME
 'type' => 'ADMIN',
 //开发者
 'author' => '熊川',
@@ -23,15 +23,19 @@ return array(
 //只更新文件
 'onlyupdatefiles'=>false,
 //菜单
-'menus' => array(
+'menus' => [
 //子菜单
-	'SUBMENU' => array(
+	'SUBMENU' => [
 			'cfg_value' => '/plugin/hello/video',
 			'cfg_pid'   => 17,
 			'cfg_comment' => 'Hello',
 			'cfg_order' => 5
-		),
-),
+		],
+],
+//route
+'route' => [
+	'/=>/plugin/hello/video'
+],
 //sql
 'execsql' => array()
 

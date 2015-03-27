@@ -41,7 +41,7 @@ class SystemConfig
 	 * 获取配置的数据
 	 * @return array
 	 */
-	static public function Get($name,$pid=0,$type='SYSTEM')
+	static public function Get($name='',$pid=0,$type='SYSTEM')
 	{
 		$cacheKey = $name.'-'.$pid.'-'.$type;
 		
@@ -65,7 +65,8 @@ class SystemConfig
 				cfg_pid     = :cfg_pid,
 				cfg_order   = :cfg_order,
 				cfg_comment = :cfg_comment,
-				ctime       = :ctime
+				ctime       = :ctime,
+				cfg_type    = :cfg_type
 				";
 		$cmd = Yii::$app->db->createCommand($sql);
 		$cmd->bindvalue(":cfg_name",$name);
@@ -73,6 +74,7 @@ class SystemConfig
 		$cmd->bindvalue(":cfg_pid",isset($value['cfg_pid']) ? intval($value['cfg_pid']) : 0);
 		$cmd->bindvalue(":cfg_order",isset($value['cfg_order']) ? intval($value['cfg_order']) : 0);
 		$cmd->bindvalue(":cfg_comment",isset($value['cfg_comment']) ? $value['cfg_comment'] : '');
+		$cmd->bindvalue(":cfg_type",isset($value['cfg_type']) ? $value['cfg_type'] : 'USER');
 		$cmd->bindvalue(":ctime",time());
 		$status = $cmd->execute();
 		if($status){
@@ -141,28 +143,24 @@ class SystemConfig
 	 * 查询配置
 	 * @return array|boolean
 	 */
-	static private function _Get($name,$pid,$type){
-		$where = " cfg_name=:name ";
+	static private function _Get($name='',$pid,$type){
+		$where = " 1 ";
 		$pid   = intval($pid);
+		if($name){
+			$where .= " AND cfg_name=:name ";
+		}
 		if($pid && $pid>0){
-			$where .= "AND cfg_pid=:pid ";
+			$where .= " AND cfg_pid=:pid ";
 		}
 		if($type){
-			$where .= "AND cfg_type=:type ";
+			$where .= " AND cfg_type=:type ";
 		}
 		$sql = "SELECT * FROM {{".self::$_tableName."}} WHERE {$where} ORDER BY cfg_order ASC";
 		$cmd = Yii::$app->db->createCommand($sql);
-		$cmd->bindvalue(":name",$name);
+		if($name)$cmd->bindvalue(":name",$name);
 		if($pid && $pid>0) $cmd->bindValue(":pid",$pid);
 		if($type) $cmd->bindValue(":type",$type);
 		$rows = $cmd->queryAll();
-		if("VIDEO_CATEGORY"==$name){
-			foreach ($rows as $key => $value) {
-				if(102 == $value['cfg_value']){
-					unset($rows[$key]);
-				}
-			}
-		}
 		return $rows;
 	}
 	
