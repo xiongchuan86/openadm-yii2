@@ -23,7 +23,7 @@ class AdminController extends Controller
     public function init()
     {
         parent::init();
-		SystemEvent::GetAdminMenu();
+		
     }
 
   
@@ -35,6 +35,7 @@ class AdminController extends Controller
      */
     public function actionIndex()
     {
+    	SystemEvent::GetAdminMenu();
         /** @var \app\modules\user\models\search\UserSearch $searchModel */
         $searchModel = Yii::$app->getModule("user")->model("UserSearch");
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
@@ -53,6 +54,7 @@ class AdminController extends Controller
      */
     public function actionView($id)
     {
+    	SystemEvent::GetAdminMenu();
         return $this->render('view', [
             'user' => $this->findModel($id),
         ]);
@@ -66,6 +68,7 @@ class AdminController extends Controller
      */
     public function actionCreate()
     {
+    	SystemEvent::GetAdminMenu();
         /** @var \app\modules\user\models\User $user */
         /** @var \app\modules\user\models\Profile $profile */
 
@@ -98,6 +101,7 @@ class AdminController extends Controller
      */
     public function actionUpdate($id)
     {
+    	SystemEvent::GetAdminMenu();
         // set up user and profile
         $user = $this->findModel($id);
         $user->setScenario("admin");
