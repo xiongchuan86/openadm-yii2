@@ -245,7 +245,8 @@ class Mplugin
 	static public function PluginInjectMenu(array $conf)
 	{
 		$pluginId = $conf['id'];
-		if($conf['menus'])foreach ($conf['menus'] as $cfg_name => $menu) {
+		$lastPuginId = 0;
+		if(isset($conf['menus']) && is_array($conf['menus']) && !empty($conf['menus']))foreach ($conf['menus'] as $cfg_name => $menu) {
 			if(!self::CheckMenuCfgName($cfg_name)) continue;
 			$params = array(
 				'cfg_value'   => isset($menu['cfg_value']) ? $menu['cfg_value'] : '',
