@@ -8,7 +8,7 @@ use yii\widgets\Breadcrumbs;
 		<div id="sidebar-left" class="col-lg-2 col-sm-1 ">
 			<div class="sidebar-nav nav-collapse collapse navbar-collapse">
 				<ul class="nav main-menu">
-					<?php if(Yii::$app->params['MAINMENU'])foreach(Yii::$app->params['MAINMENU'] as $menu):?>
+					<?php if(isset(Yii::$app->params['MAINMENU'])  && Yii::$app->params['MAINMENU'])foreach(Yii::$app->params['MAINMENU'] as $menu):?>
 					<li <?php if(is_int(strpos("/".Yii::$app->controller->route,$menu['cfg_value']))):?>class="active"<?php endif;?>><a  <?php if(isset(Yii::$app->params['SUBMENU'][$menu['id']])):?>class="dropmenu"<?php endif;?> href="<?php echo Url::to($menu['cfg_value']);?>"><i class="fa <?php echo isset(Yii::$app->params['ICONS'][$menu['cfg_comment']]) ? Yii::$app->params['ICONS'][$menu['cfg_comment']] : 'fa-ellipsis-h';?>"></i><span class="hidden-sm text"> <?php echo $menu['cfg_comment'];?></span> <?php if(isset(Yii::$app->params['SUBMENU'][$menu['id']])):?><span class="chevron closed"></span><?php endif;?></a>	
 					<?php if(isset(Yii::$app->params['SUBMENU'][$menu['id']])):?>
 					<ul>
