@@ -52,7 +52,7 @@ AppAsset::register($this);
 			      <span class="icon-bar"></span>
 			</button>
 			<a id="main-menu-toggle" class="hidden-xs open"><i class="fa fa-bars"></i></a>		
-			<a class="navbar-brand col-md-2 col-sm-1 col-xs-2" href="index.html"><span><?= Html::encode(Yii::$app->name) ?></span></a>
+			<a class="navbar-brand col-md-2 col-sm-1 col-xs-2" href="/dashboard/"><span><?= Html::encode(Yii::$app->name) ?></span></a>
 			<!-- start: Header Menu -->
 			<div class="nav-no-collapse header-nav">
 				<ul class="nav navbar-nav pull-right">
@@ -63,7 +63,7 @@ AppAsset::register($this);
 							<div class="avatar"><img src="<?=Url::home(true)?>static/img/avatar.jpg" alt="Avatar"></div>
 							<div class="user">
 								<span class="hello">Welcome!</span>
-								<span class="name"><?=Yii::$app->user->displayName?></span>
+								<span class="name"><?=Yii::$app->user->identity->role?>:<?=Yii::$app->user->displayName?></span>
 							</div>
 						</a>
 						<ul class="dropdown-menu">
