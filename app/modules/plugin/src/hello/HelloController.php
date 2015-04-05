@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\plugin\controllers;
+namespace app\modules\plugin\src\hello;
 use app\modules\plugin\components\PluginBaseController;
 class HelloController extends PluginBaseController
 {

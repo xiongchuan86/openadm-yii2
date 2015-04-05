@@ -4,12 +4,18 @@ namespace app\modules\plugin;
 use yii;
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'app\modules\plugin\controllers';
+    public $controllerNamespace = '';
 
+	public $pluginid = "";
+	
     public function init()
     {
         parent::init();
-        
+        //reset controllerNamespace
+        $route = Yii::$app->requestedRoute;
+		$array = explode("/",trim($route,"/"));
+		$this->pluginid = $array[1];
+        $this->controllerNamespace = 'app\modules\plugin\src\\' . strtolower($this->pluginid) ;
     }
 	
 	public function beforeAction($action)
@@ -24,9 +30,11 @@ class Module extends \yii\base\Module
 	
 	public function setPluginViewPath()
 	{
-		$pluginid = strtolower(Yii::$app->controller->id);
-		$path = dirname(__FILE__).DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.$pluginid.DIRECTORY_SEPARATOR.'views';
-		if(is_dir($path))
+		$path = dirname(__FILE__).DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.$this->pluginid.DIRECTORY_SEPARATOR.'views';
+		if(is_dir($path)){
 			$this->setViewPath($path);
+			Yii::setAlias("@pluginView",$path);
+		}
+			
 	}
 }

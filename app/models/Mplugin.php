@@ -450,22 +450,6 @@ class Mplugin
 				return $data;
 			}
 			if($config){
-				//安装本地的插件
-				$controller = self::GetPluginPath($pluginid).ucfirst($pluginid)."Controller.php";
-				$destController = self::$plugin_controller_dir .ucfirst($pluginid)."Controller.php";
-				try{
-					//移动控制器文件
-					if(!is_file($controller)){
-						$data['msg'] = "安装失败，$controller 不存在";
-						return $data;
-					}
-					if(is_file($controller)){
-						copy($controller,$destController);
-					}
-				}catch(ErrorException $e){
-					$data['msg'] = "安装失败,没有权限写入:{$destController}";
-					return $data;
-				}
 				//注入菜单
 				self::PluginInjectMenu($config);
 				//注入route
@@ -509,9 +493,6 @@ class Mplugin
 	static public function delete($pluginid)
 	{
 		try{
-			//delete {$pluginid}Controller.php
-			$pluginController = APP_PATH."/modules/plugin/controllers/".ucfirst($pluginid)."Controller.php";
-			unlink($pluginController);
 			//delete /plugin/src/{$pluginid}
 			$pluginDir = self::GetPluginPath($pluginid);
 			FileHelper::removeDirectory($pluginDir);
