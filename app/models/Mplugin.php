@@ -24,8 +24,6 @@ class Mplugin
 	static private $_setupedplugins = array();
 	static private $_valid_menu_cfgnames = array('MAINMENU','SUBMENU','THIRDMENU');
 	
-	static public $plugin_controller_dir = APP_PATH."/modules/plugin/controllers/";
-	
 	/**
 	 * 获取已经安装的插件
 	 */
@@ -224,7 +222,7 @@ class Mplugin
 	 */
 	static public function PluginInjectRoute(array $conf)
 	{
-		if(isset($conf['route']) && !empty($conf['route'] && is_array($conf['route']))){
+		if(isset($conf['route']) && !empty($conf['route']) && is_array($conf['route'])){
 			foreach($conf['route'] as $rule){
 				$params = [
 					'cfg_value'   => $rule,
@@ -527,12 +525,6 @@ class Mplugin
 						$destconffile = self::GetPluginPath($pluginid)."/config.php";
 						if(is_file($conffile)){
 							copy($conffile,$destconffile);
-						}
-						//更新controller
-						$controller = $updateDir.ucfirst($pluginid)."Controller.php";
-						$destController = self::GetPluginPath($pluginid)."/../../controllers/".ucfirst($pluginid)."Controller.php";
-						if(is_file($controller)){
-							copy($controller,$destController);
 						}
 						//更新lib和views
 						$libDir = $updateDir."lib";
