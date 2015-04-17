@@ -45,7 +45,7 @@ $config = [
 		       'showScriptName' => false,
 		       'enableStrictParsing' => false,
 		       'rules'=>[
-		           '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+		           //'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 		           'mplugin/local/<tab:\w+>' => 'mplugin/local',
 		       ],
 		   ],
