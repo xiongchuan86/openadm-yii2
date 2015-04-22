@@ -35,5 +35,12 @@ class SiteController extends Controller
 	        return $this->render('error', ['exception' => $exception]);
 	    }
 	}
+	
+	public function actionClear()
+	{
+		$asset = Yii::getAlias("@webroot")."/static/assets/*";
+		//var_dump($asset);
+		exec("rm -rf $asset");
+	}
 
 }

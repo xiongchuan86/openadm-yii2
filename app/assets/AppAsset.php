@@ -19,6 +19,13 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+    	'static/css/bootstrap.min.css',
+    	'static/css/style.min.css',
+    	'static/css/bootstrap-datetimepicker.css',
+    	
+    	'static/css/retina.min.css',
+    	//'static/css/print.css',
+    	
     ];
     public $js = [
     	'static/js/jquery-migrate-1.2.1.min.js',
@@ -27,9 +34,11 @@ class AppAsset extends AssetBundle
     	//'static/js/core.min.js',
     	'static/js/uncompressed/core.js',
     	'static/js/jquery.noty.min.js',
+    	'static/js/bootstrap-datetimepicker.min.js',
     ];
+	public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
     public $depends = [
         'yii\web\YiiAsset',
-       // 'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapAsset',
     ];
 }

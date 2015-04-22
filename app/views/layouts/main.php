@@ -21,17 +21,7 @@ AppAsset::register($this);
 	<!-- start: Mobile Specific -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- end: Mobile Specific -->
-	<!-- start: CSS -->
-	<link href="<?=Url::home(true)?>static/css/bootstrap.min.css" rel="stylesheet">
-	<link href="<?=Url::home(true)?>static/css/style.min.css" rel="stylesheet">
-	<link href="<?=Url::home(true)?>static/css/retina.min.css" rel="stylesheet">
-	<link href="<?=Url::home(true)?>static/css/print.css" rel="stylesheet" type="text/css" media="print"/>
-	<!-- end: CSS -->
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
-	  	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<script src="<?=Url::home(true)?>static/js/respond.min.js"></script>
-	<![endif]-->
 	<!-- start: Favicon and Touch Icons -->
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?=Url::home(true)?>static/ico/apple-touch-icon-144-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?=Url::home(true)?>static/ico/apple-touch-icon-114-precomposed.png">
@@ -39,6 +29,7 @@ AppAsset::register($this);
 	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="<?=Url::home(true)?>static/ico/apple-touch-icon-57-precomposed.png">
 	<link rel="shortcut icon" href="<?=Url::home(true)?>static/ico/favicon.png">
 	<!-- end: Favicon and Touch Icons -->	
+	<![CDATA[YII-BLOCK-HEAD]]>
 </head>
 <body>
 	<?php $this->beginBody() ?>
