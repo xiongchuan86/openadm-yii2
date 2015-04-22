@@ -8,15 +8,29 @@ class Module extends \yii\base\Module
 
 	public $pluginid = "";
 	
+	public $realRoute = "";
+	
     public function init()
     {
         parent::init();
-        //reset controllerNamespace
-        $route = Yii::$app->requestedRoute;
+		$route = Yii::$app->requestedRoute;
 		$array = explode("/",trim($route,"/"));
-		$this->pluginid = $array[1];
-        $this->controllerNamespace = 'app\modules\plugin\src\\' . strtolower($this->pluginid) ;
+		$pluginid = isset($array[1]) ? explode(":", $array[1]) : $array[1];
+		$namespace = join("\\",$pluginid);
+	    $this->controllerNamespace = 'app\modules\plugin\src\\' . strtolower($namespace) ;
+		$this->pluginid = $pluginid[0];
+		if(count($pluginid)>1){
+			unset($array[0]);
+			unset($array[1]);
+			$this->realRoute = join("/",$array);
+		}
     }
+	
+	//重写module的controller加载方式
+	public function createController($route)
+	{
+		return parent::createController($this->realRoute ? $this->realRoute : $route);
+	}
 	
 	public function beforeAction($action)
 	{
