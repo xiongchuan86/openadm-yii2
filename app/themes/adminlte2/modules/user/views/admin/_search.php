@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var app\modules\user\models\search\UserSearch $model
+ * @var amnah\yii2\user\models\search\UserSearch $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
@@ -25,29 +25,27 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email') ?>
 
-    <?= $form->field($model, 'new_email') ?>
-
     <?php // echo $form->field($model, 'username') ?>
 
     <?php // echo $form->field($model, 'password') ?>
 
     <?php // echo $form->field($model, 'auth_key') ?>
 
-    <?php // echo $form->field($model, 'api_key') ?>
+    <?php // echo $form->field($model, 'access_token') ?>
 
-    <?php // echo $form->field($model, 'login_ip') ?>
+    <?php // echo $form->field($model, 'logged_in_ip') ?>
 
-    <?php // echo $form->field($model, 'login_time') ?>
+    <?php // echo $form->field($model, 'logged_in_at') ?>
 
-    <?php // echo $form->field($model, 'create_ip') ?>
+    <?php // echo $form->field($model, 'created_ip') ?>
 
-    <?php // echo $form->field($model, 'create_time') ?>
+    <?php // echo $form->field($model, 'created_at') ?>
 
-    <?php // echo $form->field($model, 'update_time') ?>
+    <?php // echo $form->field($model, 'updated_at') ?>
 
-    <?php // echo $form->field($model, 'ban_time') ?>
+    <?php // echo $form->field($model, 'banned_at') ?>
 
-    <?php // echo $form->field($model, 'ban_reason') ?>
+    <?php // echo $form->field($model, 'banned_reason') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('user', 'Search'), ['class' => 'btn btn-primary']) ?>

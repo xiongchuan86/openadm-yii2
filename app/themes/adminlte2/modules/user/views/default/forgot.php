@@ -1,24 +1,22 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
- * @var app\modules\user\models\forms\ForgotForm $model
+ * @var amnah\yii2\user\models\forms\ForgotForm $model
  */
 
 $this->title = Yii::t('user', 'Forgot password');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="row">
-<div id="content" class="col-sm-12 full">
+<div class="user-default-forgot">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-	<?php if ($flash = Yii::$app->session->getFlash('Forgot-success')): ?>
+    <?php if ($flash = Yii::$app->session->getFlash('Forgot-success')): ?>
 
         <div class="alert alert-success">
             <p><?= $flash ?></p>
@@ -37,7 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
 
-	<?php endif; ?>
-<a class="pull-left" href="<?=Url::to(["/user/login"])?>">登录</a>
-</div>
+    <?php endif; ?>
+
 </div>

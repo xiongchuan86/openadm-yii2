@@ -15,16 +15,16 @@ class BaseController extends Controller
 		parent::init();
 	}
 	
-	public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'denyCallback' => function ($rule, $action) {
-			        throw new UserException('You are not allowed to access this page');
-			    }
-            ],
-        ];
-    }
+//	public function behaviors()
+//    {
+//        return [
+//            'access' => [
+//                'class' => AccessControl::className(),
+//                'denyCallback' => function ($rule, $action) {
+//			        throw new UserException('You are not allowed to access this page');
+//			    }
+//            ],
+//        ];
+//    }
 	
 }

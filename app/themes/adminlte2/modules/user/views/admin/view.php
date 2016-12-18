@@ -5,20 +5,21 @@ use yii\widgets\DetailView;
 
 /**
  * @var yii\web\View $this
- * @var app\modules\user\models\User $user
+ * @var amnah\yii2\user\models\User $user
  */
 
-$this->title = $user->id;
+$this->title = Yii::t('user', 'User').":".$user->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box box-primary">
-	<div class="box-header with-border">
-    	<h3 class="box-title"><i class="fa fa-user"></i><span class="break">用户信息</span></h3>
-    	<div class="box-icon">
-		</div>
+    <div class="box-header with-border">
+        <h3 class="box-title"><i class="fa fa-user"></i><span class="break"><?php echo Html::encode($this->title); ?></span></h3>
+        <div class="box-icon">
+        </div>
     </div>
     <div class="box-body pad table-responsive">
+
     <p>
         <?= Html::a(Yii::t('user', 'Update'), ['update', 'id' => $user->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('user', 'Delete'), ['delete', 'id' => $user->id], [
@@ -28,30 +29,29 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?php echo Html::a(Yii::t('user', '返回'),['index'], ['class' => 'btn btn-default']); ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $user,
         'attributes' => [
             'id',
-            'role',
+            'role_id',
             'status',
             'email:email',
-            'new_email:email',
             'username',
             'profile.full_name',
             'password',
             'auth_key',
-            'api_key',
-            'login_ip',
-            'login_time',
-            'create_ip',
-            'create_time',
-            'update_time',
-            'ban_time',
-            'ban_reason',
+            'access_token',
+            'logged_in_ip',
+            'logged_in_at',
+            'created_ip',
+            'created_at',
+            'updated_at',
+            'banned_at',
+            'banned_reason',
         ],
     ]) ?>
-
 </div>
 </div>

@@ -9,6 +9,8 @@ class SystemEvent
 	const PLUGIN_MODULE_NAME = "plugin";
 	
 	static private $requestedPlugin = false;
+
+    static private $hasGetMenu         = false;
 	
 	static public function beforeRequest()
 	{
@@ -39,7 +41,7 @@ class SystemEvent
 			if(in_array(Yii::$app->controller->module->id,['rbac']))self::GetAdminMenu();
 		}
 		self::Authenticate();
-		
+		self::GetAdminMenu();
 	}
 	
 	static public function Authenticate()
@@ -59,6 +61,7 @@ class SystemEvent
 	
 	//获取Admin菜单
 	static public function GetAdminMenu(){
+	    if(self::$hasGetMenu)return;
 		//获取主菜单
 		Yii::$app->params['MAINMENU']   = SystemConfig::Get("MAINMENU",null,'USER');
 		//获取子菜单
@@ -93,6 +96,7 @@ class SystemEvent
 		Yii::$app->params['SUBMENU'] = $submenus;	
 		//获取ICONS
 		Yii::$app->params['ICONS']      = SystemConfig::GetArrayValue("ICONS",null,'USER');
+        self::$hasGetMenu = true;
 	}
 	
 	/**

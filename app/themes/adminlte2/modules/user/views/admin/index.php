@@ -2,59 +2,82 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\bootstrap\Button;
-$user = Yii::$app->getModule("user")->model("User");
-$role = Yii::$app->getModule("user")->model("Role");
+use yii2mod\editable\EditableColumn;
 
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\modules\user\models\search\UserSearch $searchModel
- * @var app\modules\user\models\User $user
- * @var app\modules\user\models\Role $role
+ * @var amnah\yii2\user\Module $module
+ * @var amnah\yii2\user\models\search\UserSearch $searchModel
+ * @var amnah\yii2\user\models\User $user
+ * @var amnah\yii2\user\models\Role $role
  */
 
+$module = $this->context->module;
+$user = $module->model("User");
+$role = $module->model("Role");
 $this->title = Yii::t('user', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box box-primary">
     <div class="box-header with-border">
-    	<h3 class="box-title"><i class="fa fa-user"></i><span class="break">用户列表</span></h3>
-        <div class="btn-group pull-right">
-            <?= Html::a('添加', ['create'], ['class' => 'btn btn-success btn-xs']) ?>
+        <h3 class="box-title"><i class="fa fa-user"></i><span class="break"><?php echo Html::encode($this->title); ?></span></h3>
+        <div class="box-icon">
         </div>
     </div>
     <div class="box-body pad table-responsive">
 
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <p>
+        <?= Html::a(Yii::t('user', 'Create {modelClass}', [
+          'modelClass' => '用户',
+        ]), ['create'], ['class' => 'btn btn-success btn-sm']) ?>
+    </p>
+
+    <?php \yii\widgets\Pjax::begin(); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'layout' => "{items}{summary}{pager}",
         'columns' => [
-           // ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn'],
+
             [
-            	'attribute' => 'id',
-            	'options' => ['style'=>'width:5%']
+                'attribute' => 'id',
+                'filterOptions'=>['style'=>'width:50px']
             ],
+            'username',
             [
-            	'attribute' => 'email',
-            	'options' => ['style'=>'width:20%']
-            ],
-            [
-            	'attribute' => 'profile.full_name',
-            	'options' => ['style'=>'width:20%']
-            ],
-            [
-                'attribute' => 'role',
+                'class' => EditableColumn::className(),
+                'url' => ['change-role'],
+                'type' => 'select',
+                'editableOptions' => function ($model) use($role){
+                    return [
+                        'source' => $role::dropdown(),
+                        'value' => $model->role_id,
+                    ];
+                },
+                'attribute' => 'role_id',
                 'label' => Yii::t('user', 'Role'),
                 'filter' => $role::dropdown(),
                 'value' => function($model, $index, $dataColumn) use ($role) {
                     $roleDropdown = $role::dropdown();
-                    return $roleDropdown[$model->role];
+                    return $roleDropdown[$model->role_id];
                 },
-                'options' => ['style'=>'width:10%']
             ],
             [
+                'class' => EditableColumn::className(),
+                'url' => ['change-status'],
+                'type' => 'select',
+                'editableOptions' => function ($model) use($user){
+                    $source = $user::statusDropdown();
+                    krsort($source);//如果不倒序排列,source序列化会变成数组而不是对象
+                    return [
+                        'source' => $source,
+                        'value' => $model->status,
+                    ];
+                },
                 'attribute' => 'status',
                 'label' => Yii::t('user', 'Status'),
                 'filter' => $user::statusDropdown(),
@@ -62,28 +85,26 @@ $this->params['breadcrumbs'][] = $this->title;
                     $statusDropdown = $user::statusDropdown();
                     return $statusDropdown[$model->status];
                 },
-                'options' => ['style'=>'width:15%']
+                'filterOptions'=>['style'=>'width:100px']
             ],
-            
-            [
-            	'attribute' => 'create_time',
-            	'options' => ['style'=>'width:20%']
-            ],
-            // 'new_email:email',
-            // 'username',
+            'email:email',
+            //'profile.full_name',
+            //'profile.timezone',
+            'created_at',
+
             // 'password',
             // 'auth_key',
-            // 'api_key',
-            // 'login_ip',
-            // 'login_time',
-            // 'create_ip',
-            // 'create_time',
-            // 'update_time',
-            // 'ban_time',
-            // 'ban_reason',
+            // 'access_token',
+            // 'logged_in_ip',
+            // 'logged_in_at',
+            // 'created_ip',
+            // 'updated_at',
+            // 'banned_at',
+            // 'banned_reason',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-	</div>
+    <?php \yii\widgets\Pjax::end(); ?>
+</div>
 </div>

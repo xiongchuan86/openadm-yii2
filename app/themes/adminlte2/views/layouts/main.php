@@ -1,7 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Nav;
+use yii\bootstrap\Alert;
+use lo\modules\noty\Wrapper;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\themes\adminlte2\ThemeAsset;
@@ -56,7 +57,28 @@ ThemeAsset::register($this);
 
     </div>
     <!-- ./wrapper -->
+    <?php
+    //for notification
+    echo Wrapper::widget([
+        'layerClass' => 'lo\modules\noty\layers\Noty',
+        'layerOptions'=>[
+            // for every layer (by default)
+            'layerId' => 'noty-layer',
+            'customTitleDelimiter' => '|',
+            'overrideSystemConfirm' => true,
+            'showTitle' => true,
+        ],
 
+        // clientOptions
+        'options' => [
+            'dismissQueue' => true,
+            'layout' => 'topRight',
+            'timeout' => 1000,
+            'theme' => 'relax',
+        ],
+    ]);
+
+    ?>
 	<!-- end: JavaScript-->
 	<?php $this->endBody() ?>
 </body>

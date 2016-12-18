@@ -6,24 +6,23 @@ use yii\widgets\ActiveForm;
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
- * @var app\modules\user\models\forms\ResendForm $model
+ * @var amnah\yii2\user\models\forms\ResendForm $model
  */
 
 $this->title = Yii::t('user', 'Resend');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="row">
-<div id="content" class="col-sm-12 full">
+<div class="user-default-resend">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-	<?php if ($flash = Yii::$app->session->getFlash('Resend-success')): ?>
+    <?php if ($flash = Yii::$app->session->getFlash('Resend-success')): ?>
 
         <div class="alert alert-success">
             <p><?= $flash ?></p>
         </div>
 
-	<?php else: ?>
+    <?php else: ?>
 
         <div class="row">
             <div class="col-lg-5">
@@ -36,7 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
 
-	<?php endif; ?>
+    <?php endif; ?>
 
-</div>
 </div>

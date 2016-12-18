@@ -6,9 +6,9 @@ use yii\widgets\ActiveForm;
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
- * @var app\modules\user\models\User $user
+ * @var amnah\yii2\user\models\User $user
  * @var bool $success
- * @var bool $invalidKey
+ * @var bool $invalidToken
  */
 
 $this->title = Yii::t('user', 'Reset');
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-default-reset">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <?php if (!empty($success)): ?>
 
@@ -27,16 +27,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
         </div>
 
-    <?php elseif (!empty($invalidKey)): ?>
+    <?php elseif (!empty($invalidToken)): ?>
 
         <div class="alert alert-danger">
-            <p><?= Yii::t("user", "Invalid key") ?></p>
+            <p><?= Yii::t("user", "Invalid token") ?></p>
         </div>
 
-	<?php else: ?>
+    <?php else: ?>
 
         <div class="row">
             <div class="col-lg-5">
+
+                <div class="alert alert-warning">
+                    <p><?= Yii::t("user", "Email") ?> [ <?= $user->email ?> ]</p>
+                </div>
+
                 <?php $form = ActiveForm::begin(['id' => 'reset-form']); ?>
 
                     <?= $form->field($user, 'newPassword')->passwordInput() ?>
@@ -48,6 +53,6 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
 
-	<?php endif; ?>
+    <?php endif; ?>
 
 </div>

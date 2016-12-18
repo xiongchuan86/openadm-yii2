@@ -15,7 +15,6 @@ class DashboardController extends Controller
 	
     public function actionMain()
     {
-    	SystemEvent::GetAdminMenu();
         return $this->render('main');
     }
 	

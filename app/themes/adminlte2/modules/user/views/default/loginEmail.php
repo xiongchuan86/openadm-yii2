@@ -5,23 +5,20 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var yii\widgets\ActiveForm $form
  * @var amnah\yii2\user\Module $module
- * @var amnah\yii2\user\models\User $user
- * @var amnah\yii2\user\models\User $profile
- * @var string $userDisplayName
+ * @var amnah\yii2\user\models\forms\LoginEmailForm $loginEmailForm
  */
 
 $module = $this->context->module;
 
-$this->title = Yii::t('user', 'Register');
+$this->title = Yii::t('user', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-default-register">
+<div class="user-default-login-email">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php if ($flash = Yii::$app->session->getFlash("Register-success")): ?>
+    <?php if ($flash = Yii::$app->session->getFlash("Login-success")): ?>
 
         <div class="alert alert-success">
             <p><?= $flash ?></p>
@@ -29,36 +26,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php else: ?>
 
+        <p>This will send a link to the email address to log in or register</p>
+
+        <p>These links expire in <?= $module->loginExpireTime ?></p>
+
         <?php $form = ActiveForm::begin([
-            'id' => 'register-form',
+            'id' => 'login-form',
             'options' => ['class' => 'form-horizontal'],
             'fieldConfig' => [
                 'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
                 'labelOptions' => ['class' => 'col-lg-2 control-label'],
             ],
-            'enableAjaxValidation' => true,
         ]); ?>
 
-        <?php if ($module->requireEmail): ?>
-            <?= $form->field($user, 'email') ?>
-        <?php endif; ?>
-
-        <?php if ($module->requireUsername): ?>
-            <?= $form->field($user, 'username') ?>
-        <?php endif; ?>
-
-        <?= $form->field($user, 'newPassword')->passwordInput() ?>
-
-        <?php /* uncomment if you want to add profile fields here
-        <?= $form->field($profile, 'full_name') ?>
-        */ ?>
+        <?= $form->field($loginEmailForm, 'email') ?>
+        <?= $form->field($loginEmailForm, 'rememberMe', [
+            'template' => "{label}<div class=\"col-lg-offset-2 col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
+        ])->checkbox() ?>
 
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">
-                <?= Html::submitButton(Yii::t('user', 'Register'), ['class' => 'btn btn-primary']) ?>
-
-                <br/><br/>
-                <?= Html::a(Yii::t('user', 'Login'), ["/user/login"]) ?>
+                <?= Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
 
@@ -73,5 +61,4 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
 
     <?php endif; ?>
-
 </div>

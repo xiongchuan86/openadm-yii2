@@ -33,11 +33,6 @@ $config = [
         	'basePath' => '@webroot/static/assets',
         	'baseUrl'  => '@web/static/assets'
         ],
-        'user' => [
-        	'class' => 'app\modules\user\components\User',
-            //'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -86,31 +81,57 @@ $config = [
             'theme' => [
                 'pathMap' => [
                     '@app/views' => '@app/themes/adminlte2/views',
-                    '@app/modules' => '@app/themes/adminlte2/modules',
+                    '@vendor/yii2mod/yii2-rbac/views' => '@app/themes/adminlte2/modules/rbac/views',
+                    '@vendor/amnah/yii2-user/views' => '@app/themes/adminlte2/modules/user/views',
                 ],
             ],
         ],
+        'user' => [
+            'class' => 'amnah\yii2\user\components\User',
+        ],
+
+    ],
+    //globally whole applications
+    'as access' => [
+        'class' => yii2mod\rbac\filters\AccessControl::class,
+        'allowActions' => [
+            //'site/*',
+            //'admin/*',
+            'user/*'
+            // The actions listed here will be allowed to everyone including guests.
+            // So, 'admin/*' should not appear here in the production, of course.
+            // But in the earlier stages of your development, you may probably want to
+            // add a lot of actions here until you finally completed setting up rbac,
+            // otherwise you may not even take a first step.
+        ]
     ],
     'modules' => [
+        'noty' => [
+            'class' => 'lo\modules\noty\Module',
+        ],
         'user' => [
-	        'class' => 'app\modules\user\Module',
+            'class' => 'amnah\yii2\user\Module',
 	        'loginRedirect' => '/dashboard/main',
-	        'logoutRedirect'=>'/user/login'
+	        'logoutRedirect'=>'/user/login',
+            'controllerMap' => [
+                'admin' => [
+                    'class' => 'app\common\components\AdminController',
+                ]
+            ],
 	    ],
 	    'plugin' => [
             'class' => 'app\modules\plugin\Module',
         ],
         'rbac' => [
-            //'class' => 'app\modules\rbac\Module',
             'class' => 'yii2mod\rbac\Module',
-            //Some controller property maybe need to change. 
             'controllerMap' => [
                 'assignment' => [
-                    //'class' => 'app\modules\rbac\controllers\AssignmentController',
                     'class' => 'yii2mod\rbac\controllers\AssignmentController',
-                    'userIdentityClass' => 'app\modules\user\models\User',
+                ],
+                'role' => [
+                    'class' => 'app\common\components\RoleController',
                 ]
-            ]
+            ],
         ],
     ],
     'params' => $params,

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "297771d1b441e8cd510f6c9b26e72d5a",
-    "content-hash": "6844ee5fd01ab09ccb3aeb67cb57df59",
+    "hash": "75452d8de4184db4efce24fe1a3713e2",
+    "content-hash": "d2dbd6a4c0a0e48fa33c0fa0e83e4e5e",
     "packages": [
         {
             "name": "2amigos/yii2-arrayquery-component",
@@ -63,6 +63,50 @@
                 "yii2"
             ],
             "time": "2015-03-16 23:33:30"
+        },
+        {
+            "name": "amnah/yii2-user",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amnah/yii2-user.git",
+                "reference": "9cfcbeecd6e691074d90603a9bb94a94e5a34f7a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/amnah/yii2-user/9cfcbeecd6e691074d90603a9bb94a94e5a34f7a.zip",
+                "reference": "9cfcbeecd6e691074d90603a9bb94a94e5a34f7a",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-authclient": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "amnah\\yii2\\user\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "amnah",
+                    "email": "amnah.dev@gmail.com"
+                }
+            ],
+            "description": "Yii 2 user authentication module",
+            "keywords": [
+                "Authentication",
+                "auth",
+                "user",
+                "yii",
+                "yii2"
+            ],
+            "time": "2016-12-08 00:46:08"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -145,6 +189,56 @@
             ]
         },
         {
+            "name": "bower-asset/jquery-growl",
+            "version": "v1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksylvest/jquery-growl.git",
+                "reference": "eb8a8d4308b024510a6f168179986df6b46ed423"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksylvest/jquery-growl/zipball/eb8a8d4308b024510a6f168179986df6b46ed423",
+                "reference": "eb8a8d4308b024510a6f168179986df6b46ed423",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": "dev-default|*"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "./javascripts/jquery.growl.js",
+                    "./stylesheets/jquery.growl.css"
+                ],
+                "bower-asset-ignore": [
+                    "README*",
+                    "LICENSE*",
+                    "**/*.sass",
+                    "**/*.coffee",
+                    "**/sample.*",
+                    "**/rainbow.js",
+                    "**/rainbow.css",
+                    "**/jquery.js",
+                    "**/jquery.css",
+                    "samples",
+                    "spec",
+                    "bourbon",
+                    "neat",
+                    "packages",
+                    "images",
+                    "Cakefile*",
+                    "Rakefile*",
+                    "Gemfile*",
+                    ".git*",
+                    ".travis*",
+                    "*bower.json",
+                    "*jquery.json",
+                    "index*"
+                ]
+            }
+        },
+        {
             "name": "bower-asset/jquery-ui",
             "version": "1.11.4",
             "source": {
@@ -216,6 +310,27 @@
             ]
         },
         {
+            "name": "bower-asset/noty",
+            "version": "v2.3.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/needim/noty.git",
+                "reference": "0a9ab6f14feeda587251b82c6720e2a004e1eb58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/needim/noty/zipball/0a9ab6f14feeda587251b82c6720e2a004e1eb58",
+                "reference": "0a9ab6f14feeda587251b82c6720e2a004e1eb58",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "js/noty/packaged/jquery.noty.packaged.js",
+                "bower-asset-ignore": []
+            },
+            "description": "noty is a jQuery plugin that makes it easy to create alert - success - error - warning - information - confirmation messages as an alternative the standard alert dialog. Each notification is added to a queue. (Optional)"
+        },
+        {
             "name": "bower-asset/punycode",
             "version": "v1.3.2",
             "source": {
@@ -240,6 +355,40 @@
                     "Gruntfile.js",
                     "node_modules",
                     "package.json"
+                ]
+            }
+        },
+        {
+            "name": "bower-asset/x-editable",
+            "version": "1.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vitalets/x-editable.git",
+                "reference": "f32802f48a33b8a7ec9cca32eec4ca844b7d39b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vitalets/x-editable/zipball/f32802f48a33b8a7ec9cca32eec4ca844b7d39b2",
+                "reference": "f32802f48a33b8a7ec9cca32eec4ca844b7d39b2",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.6"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-ignore": [
+                    "CHANGELOG.txt",
+                    "Gruntfile.js",
+                    "LICENSE-MIT",
+                    "Package.nuspec",
+                    "README.md",
+                    "composer.json",
+                    "package.json",
+                    "node_modules",
+                    "components",
+                    "src",
+                    "test"
                 ]
             }
         },
@@ -382,6 +531,64 @@
             "time": "2016-07-16 12:58:58"
         },
         {
+            "name": "loveorigami/yii2-notification-wrapper",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/loveorigami/yii2-notification-wrapper.git",
+                "reference": "6f569015e436c2eb02724658b7267e43abe29f61"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/loveorigami/yii2-notification-wrapper/6f569015e436c2eb02724658b7267e43abe29f61.zip",
+                "reference": "6f569015e436c2eb02724658b7267e43abe29f61",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "bootstrap": "lo\\modules\\noty\\Bootstrap"
+            },
+            "autoload": {
+                "psr-4": {
+                    "lo\\modules\\noty\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Lukyanov",
+                    "email": "loveorigami@mail.ru",
+                    "homepage": "http://loveorigami.info",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This module for renders a message from session flash (with ajax, pjax support and etc.)",
+            "homepage": "https://github.com/loveorigami/yii2-notification-wrapper",
+            "keywords": [
+                "alert",
+                "flash",
+                "growl",
+                "lobibox",
+                "module",
+                "notific8",
+                "notification",
+                "noty",
+                "notyfy",
+                "notyjs",
+                "pnotyfy",
+                "sweetalert",
+                "toastr",
+                "yii2"
+            ],
+            "time": "2016-10-23 09:35:55"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "5.x-dev",
             "source": {
@@ -433,6 +640,52 @@
                 "mailer"
             ],
             "time": "2016-12-06 13:58:36"
+        },
+        {
+            "name": "yii2mod/yii2-editable",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yii2mod/yii2-editable.git",
+                "reference": "09c108de0b265ffd3b4ece2b95c9f934196ebd08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/yii2mod/yii2-editable/09c108de0b265ffd3b4ece2b95c9f934196ebd08.zip",
+                "reference": "09c108de0b265ffd3b4ece2b95c9f934196ebd08",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/x-editable": "*",
+                "yiisoft/yii2": "*"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "yii2mod\\editable\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Chepurnoi",
+                    "email": "igorzfort@gmail.com"
+                }
+            ],
+            "description": "Yii2 editable field extension",
+            "keywords": [
+                "yii2",
+                "yii2 editable",
+                "yii2 editable column",
+                "yii2 editable field"
+            ],
+            "time": "2016-12-12 22:44:57"
         },
         {
             "name": "yii2mod/yii2-rbac",
@@ -493,17 +746,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "b26b76311fda2bbcc76259af014620a23c679a00"
+                "reference": "767bd2fa792e8415abc816fdea53b619f50743ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-framework/b26b76311fda2bbcc76259af014620a23c679a00.zip",
-                "reference": "b26b76311fda2bbcc76259af014620a23c679a00",
+                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-framework/767bd2fa792e8415abc816fdea53b619f50743ed.zip",
+                "reference": "767bd2fa792e8415abc816fdea53b619f50743ed",
                 "shasum": ""
             },
             "require": {
                 "bower-asset/jquery": "2.2.*@stable | 2.1.*@stable | 1.11.*@stable | 1.12.*@stable",
-                "bower-asset/jquery.inputmask": "~3.2.2",
+                "bower-asset/jquery.inputmask": "~3.2.2 | ~3.3.3",
                 "bower-asset/punycode": "1.3.*",
                 "bower-asset/yii2-pjax": "~2.0.1",
                 "cebe/markdown": "~1.0.0 | ~1.1.0",
@@ -579,7 +832,55 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-12-16 10:19:14"
+            "time": "2016-12-18 10:22:09"
+        },
+        {
+            "name": "yiisoft/yii2-authclient",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-authclient.git",
+                "reference": "b461cdebc205fc1d467f33f46881b766b5792055"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-authclient/b461cdebc205fc1d467f33f46881b766b5792055.zip",
+                "reference": "b461cdebc205fc1d467f33f46881b766b5792055",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2-httpclient": "~2.0.1"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\authclient\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "External authentication via OAuth and OpenID for the Yii framework",
+            "keywords": [
+                "OpenId",
+                "api",
+                "auth",
+                "oauth",
+                "yii2"
+            ],
+            "time": "2016-11-24 11:23:04"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -680,6 +981,53 @@
                 "yii2"
             ],
             "time": "2016-12-15 15:02:05"
+        },
+        {
+            "name": "yiisoft/yii2-httpclient",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-httpclient.git",
+                "reference": "14f9850a89cdfca660c5157c45aa8e5c49ebce0b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-httpclient/14f9850a89cdfca660c5157c45aa8e5c49ebce0b.zip",
+                "reference": "14f9850a89cdfca660c5157c45aa8e5c49ebce0b",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\httpclient\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "HTTP client extension for the Yii framework",
+            "keywords": [
+                "curl",
+                "http",
+                "httpclient",
+                "yii2"
+            ],
+            "time": "2016-11-24 11:03:08"
         },
         {
             "name": "yiisoft/yii2-jui",
@@ -2548,12 +2896,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "a7a4ffcafcc52a474dd12e391837365a580d33bf"
+                "reference": "dc7074a2128a7fef1afaf7ef41903404176ac6d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/symfony/console/a7a4ffcafcc52a474dd12e391837365a580d33bf.zip",
-                "reference": "a7a4ffcafcc52a474dd12e391837365a580d33bf",
+                "url": "https://packagist.phpcomposer.com/files/symfony/console/dc7074a2128a7fef1afaf7ef41903404176ac6d9.zip",
+                "reference": "dc7074a2128a7fef1afaf7ef41903404176ac6d9",
                 "shasum": ""
             },
             "require": {
@@ -2603,7 +2951,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2016-12-13 15:32:21"
+            "time": "2016-12-17 10:47:22"
         },
         {
             "name": "symfony/css-selector",
@@ -2664,12 +3012,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "342af93b6be3aedfc922c7cf07e4e5d0bc96c6a7"
+                "reference": "e45647910b4b6fcb48d8cfe33e1793dd2d56306f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/symfony/debug/342af93b6be3aedfc922c7cf07e4e5d0bc96c6a7.zip",
-                "reference": "342af93b6be3aedfc922c7cf07e4e5d0bc96c6a7",
+                "url": "https://packagist.phpcomposer.com/files/symfony/debug/e45647910b4b6fcb48d8cfe33e1793dd2d56306f.zip",
+                "reference": "e45647910b4b6fcb48d8cfe33e1793dd2d56306f",
                 "shasum": ""
             },
             "require": {
@@ -2713,7 +3061,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2016-11-19 20:35:20"
+            "time": "2016-12-16 16:05:39"
         },
         {
             "name": "symfony/dom-crawler",

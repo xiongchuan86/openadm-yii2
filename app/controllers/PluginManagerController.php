@@ -16,7 +16,6 @@ class PluginManagerController extends Controller
 	
 	public function actionLocal($tab = "all",$page=1)
 	{
-		SystemEvent::GetAdminMenu();
 		$tab = in_array($tab,array('all','setuped','new')) ? $tab : 'all';
 		$pid = 145;//插件管理的id(s_config的主键)
 		$tabs = SystemConfig::GetArrayValue("THIRDMENU",$pid,"USER");
@@ -28,12 +27,10 @@ class PluginManagerController extends Controller
 	
 	public function actionShop()
 	{
-		SystemEvent::GetAdminMenu();
 		$url = Yii::app()->params['boss'].'/admin/plugin/GetPlugin/token/'.Yii::app()->params['token'];
 		$this->render("shop",array('url'=>$url));
 	}
 	public function actionGetPlugin(){
-		SystemEvent::GetAdminMenu();
 		//下载状态   1 已下载已安装  2 更新  3 未下载
 		$url = Yii::app()->params['boss'].'/admin/plugin/GetPlugin/token/'.Yii::app()->params['token'];
 		$content = Curl::curlRequest($url,'');
@@ -155,7 +152,6 @@ class PluginManagerController extends Controller
 	    return $count;
 	}
 	public function actionDownloadPlugin(){
-		SystemEvent::GetAdminMenu();
 		$result['status'] = 0;
 		$url  = $this->getParam('url');
 		$boss = SystemConfig::Get('SYSTEM_BOSS_DOMAIN',NULL,'USER');

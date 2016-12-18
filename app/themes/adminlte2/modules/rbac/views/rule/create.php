@@ -2,28 +2,20 @@
 
 use yii\helpers\Html;
 
-/**
- * @var yii\web\View                 $this
- * @var yii2mod\rbac\models\AuthItem $model
- */
+/* @var $this  yii\web\View */
+/* @var $model \yii2mod\rbac\models\BizRuleModel */
 
-$this->title = 'Create BizRule';
-$this->params['breadcrumbs'][] = [
-    'label' => 'BizRules',
-    'url' => ['index']
-];
+$this->title = Yii::t('yii2mod.rbac', 'Create Rule');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('yii2mod.rbac', 'Rules'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->render('/layouts/_sidebar');
 ?>
-<div class="box">
-    <div class="box-header">
-    	<h2><i class="fa fa-user"></i><span class="break">添加规则</span></h2>
-    	<div class="box-icon">
-		</div>
-    </div>
-    <div class="box-content">
+<div class="rule-item-create">
+
+    <h1><?php echo Html::encode($this->title); ?></h1>
+
     <?php echo $this->render('_form', [
         'model' => $model,
     ]); ?>
 
-</div>
 </div>

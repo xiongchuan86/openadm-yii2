@@ -1,54 +1,61 @@
 <?php
+
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
- * @var app\models\LoginForm $model
+ * @var amnah\yii2\user\models\forms\LoginForm $model
  */
+
+$this->title = Yii::t('user', 'Login');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="row">
-		<div id="content" class="col-sm-12 full">
-			<div class="row">
-				<div class="login-box">
-					<div class="header">
-						<?= Html::encode(Yii::$app->name) ?>
-					</div>
-					<?php $form = ActiveForm::begin([
-						'id' => 'login-form',
-						'options' => ['class' => 'form-horizontal'],
-					]); ?>
-						<fieldset class="col-sm-12">
-							<?= $form->field($model, 'username',[
-								'template' => "
-							  <div class=\"controls row\">
-						      <div class=\"input-group col-sm-12\">{input}<span class=\"input-group-addon\"><i class=\"fa fa-user\"></i></span>
-							  </div></div>\n<div class=\"col-lg-12\">{error}</div>",
-							])->textInput(['placeholder'=>'输入Email或用户名']) ?>
-							<?= $form->field($model, 'password',[
-								'template' => "
-							  <div class=\"controls row\">
-						      <div class=\"input-group col-sm-12\">{input}<span class=\"input-group-addon\"><i class=\"fa fa-key\"></i></span>
-							  </div></div>\n<div class=\"col-lg-12\">{error}</div>",
-							])->passwordInput(['placeholder'=>'输入密码']) ?>
-							<div class="confirm" style="  margin: 20px 0 10px -48px;">
-								<?= $form->field($model, 'rememberMe', [
-									'template' => "{input}",
-								])->checkbox() ?>
-							</div>
-							<div class="row">
-								<?= Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-lg btn-primary col-xs-12']) ?>
-							</div>
-						</fieldset>	
-					<?php ActiveForm::end(); ?>
-					<a class="pull-left" href="<?=Url::to(["/user/forgot"])?>">忘记密码?</a>
-					<?php if(0):?><a class="pull-right" href="<?=Url::to(["/user/register"])?>">注册!</a>
-					<a class="pull-right" href="<?=Url::to(["/user/resend"])?>">重发注册邮件!</a>
-					<?php endif;?>
-					<div class="clearfix"></div>				
-				</div>
-			</div><!--/row-->
-		
-		</div>				
-</div><!--/row-->	
+<div class="user-default-login">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <?php $form = ActiveForm::begin([
+        'id' => 'login-form',
+        'options' => ['class' => 'form-horizontal'],
+        'fieldConfig' => [
+            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
+            'labelOptions' => ['class' => 'col-lg-2 control-label'],
+        ],
+
+    ]); ?>
+
+    <?= $form->field($model, 'email') ?>
+    <?= $form->field($model, 'password')->passwordInput() ?>
+    <?= $form->field($model, 'rememberMe', [
+        'template' => "{label}<div class=\"col-lg-offset-2 col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
+    ])->checkbox() ?>
+
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
+            <?= Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary']) ?>
+
+            <br/><br/>
+            <?= Html::a(Yii::t("user", "Register"), ["/user/register"]) ?> /
+            <?= Html::a(Yii::t("user", "Forgot password") . "?", ["/user/forgot"]) ?> /
+            <?= Html::a(Yii::t("user", "Resend confirmation email"), ["/user/resend"]) ?>
+        </div>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
+    <?php if (Yii::$app->get("authClientCollection", false)): ?>
+        <div class="col-lg-offset-2 col-lg-10">
+            <?= yii\authclient\widgets\AuthChoice::widget([
+                'baseAuthUrl' => ['/user/auth/login']
+            ]) ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="col-lg-offset-2" style="color:#999;">
+        You may login with <strong>neo/neo</strong>.<br>
+        To modify the username/password, log in first and then <?= HTML::a("update your account", ["/user/account"]) ?>.
+    </div>
+
+</div>

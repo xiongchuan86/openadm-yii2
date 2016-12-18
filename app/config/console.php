@@ -30,9 +30,9 @@ return [
         'db' => $db,
     ],
     'modules' => [
-	    'user' => [
-	        'class' => 'app\modules\user\Module',
-	    ],
+//	    'user' => [
+//	        'class' => 'app\modules\user\Module',
+//	    ],
 	    'gii' => 'yii\gii\Module',
 	],
 		
