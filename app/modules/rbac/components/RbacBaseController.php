@@ -14,7 +14,7 @@ class RbacBaseController extends Controller
 		parent::init();
 		RbacAsset::register($this->view);
 		
-		$pid = 5874;
-		$this->tabs = SystemConfig::GetArrayValue("THIRDMENU",$pid,"USER");
+		//$pid = 5874;
+		//$this->tabs = SystemConfig::GetArrayValue("THIRDMENU",$pid,"USER");
 	}
 }

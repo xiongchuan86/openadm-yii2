@@ -37,9 +37,6 @@ class AssignmentController extends RbacBaseController
      * @var string search class name for assignments search
      */
     public $searchClass;
-	
-	public $layout = '/column2';
-
 
     /**
      * Init function

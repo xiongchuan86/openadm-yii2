@@ -3,7 +3,8 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'yetcms',
     'basePath' => APP_PATH,
-    'vendorPath' => WEB_PATH . '/vendor',
+    'vendorPath' => WEB_PATH . '/../vendor',
+    'runtimePath' => '@app/../runtime',
     'bootstrap' => ['log'],
     'name' => 'YetCMS',
     'language'=>'zh-CN',
@@ -22,7 +23,7 @@ $config = [
         ],
         'i18n' => [
 		    'translations' => [
-		        'user*' => [
+		        '*' => [
 		            'class' => 'yii\i18n\PhpMessageSource',
 		        ],
 		    ],
@@ -45,8 +46,6 @@ $config = [
 		       'showScriptName' => false,
 		       'enableStrictParsing' => false,
 		       'rules'=>[
-		           //'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-		           'mplugin/local/<tab:\w+>' => 'mplugin/local',
 		       ],
 		   ],
 		
@@ -83,6 +82,14 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@app/views' => '@app/themes/adminlte2/views',
+                    '@app/modules' => '@app/themes/adminlte2/modules',
+                ],
+            ],
+        ],
     ],
     'modules' => [
         'user' => [
@@ -94,12 +101,14 @@ $config = [
             'class' => 'app\modules\plugin\Module',
         ],
         'rbac' => [
-            'class' => 'app\modules\rbac\Module',
+            //'class' => 'app\modules\rbac\Module',
+            'class' => 'yii2mod\rbac\Module',
             //Some controller property maybe need to change. 
             'controllerMap' => [
                 'assignment' => [
-                    'class' => 'app\modules\rbac\controllers\AssignmentController',
-                    'userClassName' => 'app\modules\user\models\User',
+                    //'class' => 'app\modules\rbac\controllers\AssignmentController',
+                    'class' => 'yii2mod\rbac\controllers\AssignmentController',
+                    'userIdentityClass' => 'app\modules\user\models\User',
                 ]
             ]
         ],

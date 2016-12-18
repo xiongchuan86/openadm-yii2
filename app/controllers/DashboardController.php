@@ -7,8 +7,6 @@ use app\common\SystemEvent;
 
 class DashboardController extends Controller
 {
-	public $layout = "column2";
-	
 	public function init()
 	{
 		parent::init();

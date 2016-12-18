@@ -14,7 +14,6 @@ use app\common\SystemEvent;
  */
 class DefaultController extends Controller
 {
-	public $layout = '/column2';
 	
 	public $defaultAction = "login";
 

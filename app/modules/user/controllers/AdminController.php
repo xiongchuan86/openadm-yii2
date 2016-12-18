@@ -16,7 +16,6 @@ use app\common\SystemEvent;
  */
 class AdminController extends Controller
 {
-	public $layout = '/column2';
     /**
      * @inheritdoc
      */

@@ -3,13 +3,13 @@ namespace app\common;
 use yii;
 
 /**
- * 获取s_config的配置
- * @author xiongchuan <xiongchuan@luxtonenet.com>
+ * 获取sytem_config的配置
+ * @author xiongchuan <xiongchuan86@gmail.com>
  */
  
 class SystemConfig 
 {
-	static private $_tableName = "%s_config";
+	static private $_tableName = "%system_config";
 	static private $_config = array();
 	
 	/**

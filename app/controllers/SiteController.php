@@ -12,8 +12,6 @@ use app\common\Controller;
 
 class SiteController extends Controller
 {
-	public $layout = 'column2';
-
     public function actions()
     {
         return [

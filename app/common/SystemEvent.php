@@ -1,7 +1,7 @@
 <?php
 namespace app\common;
 use yii;
-use app\models\Mplugin;
+use app\models\PluginManager;
 use yii\web\Request;
 
 class SystemEvent
@@ -12,8 +12,6 @@ class SystemEvent
 	
 	static public function beforeRequest()
 	{
-		Yii::setAlias('@bower', Yii::$app->vendorPath . DIRECTORY_SEPARATOR . 'bower-asset');
-		
 		self::AddUrlRules();
 	}
 	
@@ -36,7 +34,7 @@ class SystemEvent
 		self::GetRequestedPlugin();
 		if( self::$requestedPlugin){
 			$plugin_type = isset(self::$requestedPlugin['config']['type']) ? self::$requestedPlugin['config']['type'] : '';
-			if($plugin_type == Mplugin::PLUGIN_TYPE_ADMIN) self::GetAdminMenu();
+			if($plugin_type == PluginManager::PLUGIN_TYPE_ADMIN) self::GetAdminMenu();
 		}else{
 			if(in_array(Yii::$app->controller->module->id,['rbac']))self::GetAdminMenu();
 		}
@@ -55,7 +53,7 @@ class SystemEvent
 		if(self::PLUGIN_MODULE_NAME == strtolower(Yii::$app->controller->module->id))
 		{
 			//读取插件信息
-			self::$requestedPlugin = Mplugin::GetPluginConfig(strtolower(Yii::$app->controller->id),false,null,false);
+			self::$requestedPlugin = PluginManager::GetPluginConfig(strtolower(Yii::$app->controller->id),false,null,false);
 		}
 	}
 	
@@ -67,15 +65,29 @@ class SystemEvent
 		$submenus    = array();
 		foreach(Yii::$app->params['MAINMENU'] as $i=>$menu){
 			if(!self::CheckAccessMenu($menu['cfg_value']))unset(Yii::$app->params['MAINMENU'][$i]);
+            //判断当前主菜单是否为active
+            if(is_int(strpos("/".Yii::$app->controller->route,$menu['cfg_value']))){
+                Yii::$app->params['CURRENTMENU'] = array(
+                    'MAINMENU' => $menu['id'],
+                );
+            }
 			$submenu = SystemConfig::GetArrayValue("SUBMENU",$menu['id'],'USER');
 			if(!empty($submenu)){
 				foreach($submenu as $url=>$label){
 					if(!self::CheckAccessMenu($url))unset($submenu[$url]);
+                    //判断当前子菜单是否为active
+                    if(is_int(strpos("/".Yii::$app->controller->route,$url))){
+                        Yii::$app->params['CURRENTMENU'] = array(
+                            'MAINMENU' => $menu['id'],
+                            'SUBMENU'  => $url
+                        );
+                    }
 				}
 				if(!empty($submenu))
 					$submenus[$menu['id']] = $submenu;
 				if(!isset($submenus[$menu['id']]) || empty($submenus[$menu['id']]))
 					unset(Yii::$app->params['MAINMENU'][$i]);
+
 			}
 		}	
 		Yii::$app->params['SUBMENU'] = $submenus;	

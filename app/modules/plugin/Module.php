@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * 插件模块具体插件在 app\plugins\
+ * @author chuan xiong <xiongchuan86@gmail.com>
+ */
 namespace app\modules\plugin;
 use yii;
 class Module extends \yii\base\Module
@@ -17,7 +20,7 @@ class Module extends \yii\base\Module
 		$array = explode("/",trim($route,"/"));
 		$pluginid = isset($array[1]) ? explode(":", $array[1]) : $array[1];
 		$namespace = join("\\",$pluginid);
-	    $this->controllerNamespace = 'app\modules\plugin\src\\' . strtolower($namespace) ;
+	    $this->controllerNamespace = 'app\plugins\\' . strtolower($namespace) ;
 		$this->pluginid = $pluginid[0];
 		if(count($pluginid)>1){
 			unset($array[0]);
@@ -44,7 +47,7 @@ class Module extends \yii\base\Module
 	
 	public function setPluginViewPath()
 	{
-		$path = dirname(__FILE__).DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.$this->pluginid.DIRECTORY_SEPARATOR.'views';
+		$path = APP_PATH.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$this->pluginid.DIRECTORY_SEPARATOR.'views';
 		if(is_dir($path)){
 			$this->setViewPath($path);
 			Yii::setAlias("@pluginView",$path);
