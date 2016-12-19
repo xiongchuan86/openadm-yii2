@@ -11,8 +11,6 @@ class PluginBaseController extends BaseController
 {
 	protected $pluginName = "";
 	
-	public $layout = '/column2';
-	
 	public function init()
 	{
 		parent::init();

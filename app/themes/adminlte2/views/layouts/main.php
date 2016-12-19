@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Alert;
-use lo\modules\noty\Wrapper;
+use app\modules\noty\Wrapper;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\themes\adminlte2\ThemeAsset;

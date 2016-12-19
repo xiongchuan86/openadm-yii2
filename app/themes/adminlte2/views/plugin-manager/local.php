@@ -117,7 +117,7 @@ function plugin_action(o,action)
 	}
 	var tr = $(o).parent().parent();
 	var id = tr.find("td:first").text();
-	$.post('/plugin-manager/ajax',{pluginid:id,action:action},function(json){
+	$.post('/plugin-manager/ajax',{pluginid:id,action:action,'_csrf':'<?=Yii::$app->request->csrfToken?>'},function(json){
 		if(1==json.status){
 			noty({text: json.msg,type:'success'});
 			setTimeout(function(){location.reload();},1000);
