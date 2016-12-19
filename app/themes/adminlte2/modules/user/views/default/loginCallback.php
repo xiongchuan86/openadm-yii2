@@ -16,7 +16,8 @@ $module = $this->context->module;
 $this->title = Yii::t('user', 'Register');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-default-login-callback">
+<div class="box box-widget">
+    <div class="box-body">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -52,4 +53,5 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php ActiveForm::end(); ?>
 
     <?php endif; ?>
+</div>
 </div>

@@ -10,7 +10,8 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('user', $success ? 'Confirmed' : 'Error');
 ?>
-<div class="user-default-confirm">
+<div class="box box-widget">
+    <div class="box-body">
 
     <?php if ($success): ?>
 
@@ -40,5 +41,5 @@ $this->title = Yii::t('user', $success ? 'Confirmed' : 'Error');
         <div class="alert alert-danger"><?= Yii::t("user", "Invalid token") ?></div>
 
     <?php endif; ?>
-
+</div>
 </div>

@@ -73,6 +73,7 @@ return [
     'Delete' => '删除',
     'Search' => '搜索',
     'Reset' => '重置',
+    'Time zone' => '时区',
     'Create {modelClass}' => '创建 {modelClass}',
     'Update {modelClass}: ' => '更新 {modelClass}: ',
     'Are you sure you want to delete this item?' => '确定要删除该项目吗？',

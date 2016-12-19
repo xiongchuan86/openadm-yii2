@@ -12,50 +12,28 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('user', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-default-login">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="/">Open<b>Adm</b></a>
+    </div>
+<div class="login-box-body">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <p class="login-box-msg"><?=Yii::t('user','Login')?></p>
 
-    <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'options' => ['class' => 'form-horizontal'],
-        'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-2 control-label'],
-        ],
+    <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-    ]); ?>
-
-    <?= $form->field($model, 'email') ?>
-    <?= $form->field($model, 'password')->passwordInput() ?>
+    <?= $form->field($model, 'email',['template'=>"<div class=\"form-group has-feedback\">{input}<span class=\"glyphicon glyphicon-envelope form-control-feedback\"></span><div class=\"\">{error}</div></div>"])->textInput(['placeholder'=>'Username/Email']) ?>
+    <?= $form->field($model, 'password',['template'=>"<div class=\"form-group has-feedback\">{input}<span class=\"glyphicon glyphicon-lock form-control-feedback\"></span><div class=\"\">{error}</div></div>"])->passwordInput(['placeholder'=>'Password']) ?>
     <?= $form->field($model, 'rememberMe', [
-        'template' => "{label}<div class=\"col-lg-offset-2 col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
+        'template' => "{label}<div class=\"form-group\">{input}</div>\n<div class=\"\">{error}</div>",
     ])->checkbox() ?>
 
     <div class="form-group">
-        <div class="col-lg-offset-2 col-lg-10">
-            <?= Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary','style'=>'width:100%']) ?>
 
-            <br/><br/>
-            <?= Html::a(Yii::t("user", "Register"), ["/user/register"]) ?> /
-            <?= Html::a(Yii::t("user", "Forgot password") . "?", ["/user/forgot"]) ?> /
-            <?= Html::a(Yii::t("user", "Resend confirmation email"), ["/user/resend"]) ?>
-        </div>
     </div>
 
     <?php ActiveForm::end(); ?>
 
-    <?php if (Yii::$app->get("authClientCollection", false)): ?>
-        <div class="col-lg-offset-2 col-lg-10">
-            <?= yii\authclient\widgets\AuthChoice::widget([
-                'baseAuthUrl' => ['/user/auth/login']
-            ]) ?>
-        </div>
-    <?php endif; ?>
-
-    <div class="col-lg-offset-2" style="color:#999;">
-        You may login with <strong>neo/neo</strong>.<br>
-        To modify the username/password, log in first and then <?= HTML::a("update your account", ["/user/account"]) ?>.
-    </div>
-
+</div>
 </div>

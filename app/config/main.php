@@ -92,14 +92,18 @@ $config = [
     'as access' => [
         'class' => yii2mod\rbac\filters\AccessControl::class,
         'allowActions' => [
-            //'site/*',
-            //'admin/*',
-            'user/*'
-            // The actions listed here will be allowed to everyone including guests.
-            // So, 'admin/*' should not appear here in the production, of course.
-            // But in the earlier stages of your development, you may probably want to
-            // add a lot of actions here until you finally completed setting up rbac,
-            // otherwise you may not even take a first step.
+            'user/default/login',
+            'user/default/register',
+            'user/default/index',
+            'user/default/resend',
+            'user/default/forgot',
+            'user/default/reset',
+            'user/default/confirm',
+            'user/auth/login',
+            'user/auth/connect',
+            'user/default/login-callback',
+            'site/*',
+            'debug/*',
         ]
     ],
     'modules' => [
@@ -110,9 +114,14 @@ $config = [
             'class' => 'amnah\yii2\user\Module',
 	        'loginRedirect' => '/dashboard/main',
 	        'logoutRedirect'=>'/user/login',
+            'requireEmail' => false,
+            'requireUsername' => true,
             'controllerMap' => [
                 'admin' => [
                     'class' => 'app\modules\user\controllers\AdminController',
+                ],
+                'default' => [
+                    'class' => 'app\modules\user\controllers\DefaultController',
                 ]
             ],
 	    ],

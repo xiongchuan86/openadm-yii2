@@ -35,56 +35,24 @@ ThemeAsset::register($this);
         <link rel="shortcut icon" href="<?=Url::home(true)?>static/ico/favicon.png">
         <![CDATA[YII-BLOCK-HEAD]]>
     </head>
+    <body class="hold-transition skin-blue layout-top-nav">
+        <?php $this->beginBody() ?>
+            <?php if(Yii::$app->user->isGuest):?>
 
-<?php if(!Yii::$app->user->isGuest):?>
-    <body class="hold-transition skin-blue sidebar-mini">
-    <div class="wrapper">
-    <?php $this->beginBody() ?>
-    <?= $this->render('header.php') ?>
-    <?= $this->render('left.php') ?>
-    <?= $this->render('content.php',['content'=>$content]) ?>
-<?php endif;?>
-
-
-
-        <?php if(!Yii::$app->user->isGuest):?>
-            <footer class="main-footer">
-                <div class="pull-right hidden-xs">
-                    Powered by <strong><a href="http://openadm.com" target="_blank">Openadm.Com</a>.</strong> <b>Version</b> <?=\app\common\SystemConfig::getVersion()?>
+            <div class="wrapper">
+                <div class="content-wrapper" style="min-height: 221px;">
+                    <div class="container">
+                        <!-- Main content -->
+                        <?= $this->render('public-content.php',['content'=>$content]) ?>
+                        <!-- /.content -->
+                    </div>
+                    <!-- /.container -->
                 </div>
-                <strong>Copyright &copy; 2016-2017 <a href="http://openadm.com" target="_blank"><?=Yii::$app->name?></a>.</strong> All rights
-                reserved.
-            </footer>
-        <?php endif;?>
-
-    </div>
-    <!-- ./wrapper -->
-<?php if(!Yii::$app->user->isGuest):?>
-    <?php
-    //for notification
-    echo Wrapper::widget([
-        'layerClass' => 'lo\modules\noty\layers\Noty',
-        'layerOptions'=>[
-            // for every layer (by default)
-            'layerId' => 'noty-layer',
-            'customTitleDelimiter' => '|',
-            'overrideSystemConfirm' => true,
-            'showTitle' => true,
-        ],
-
-        // clientOptions
-        'options' => [
-            'dismissQueue' => true,
-            'layout' => 'topRight',
-            'timeout' => 1000,
-            'theme' => 'relax',
-        ],
-    ]);
-
-    ?>
-<?php endif;?>
-	<!-- end: JavaScript-->
-	<?php $this->endBody() ?>
-</body>
-</html>
+            <?php endif;?>
+            </div>
+        <!-- ./wrapper -->
+        <!-- end: JavaScript-->
+        <?php $this->endBody() ?>
+    </body>
+    </html>
 <?php $this->endPage() ?>

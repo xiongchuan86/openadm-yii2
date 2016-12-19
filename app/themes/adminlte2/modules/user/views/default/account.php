@@ -16,9 +16,13 @@ $module = $this->context->module;
 $this->title = Yii::t('user', 'Account');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-default-account">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title"><i class="fa fa-user"></i><span class="break"><?php echo Html::encode($this->title); ?></span></h3>
+        <div class="box-icon">
+        </div>
+    </div>
+    <div class="box-body pad table-responsive">
 
     <?php if ($flash = Yii::$app->session->getFlash("Account-success")): ?>
 
@@ -100,5 +104,5 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endforeach; ?>
         </div>
     </div>
-
+</div>
 </div>

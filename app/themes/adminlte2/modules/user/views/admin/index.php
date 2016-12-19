@@ -30,18 +30,47 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('user', 'Create {modelClass}', [
-          'modelClass' => '用户',
-        ]), ['create'], ['class' => 'btn btn-success btn-sm']) ?>
+        <?= Html::a(Yii::t('user', '添加用户'), ['create'], ['class' => 'btn btn-success btn-sm']) ?>
+        <?= Html::a('批量删除', "javascript:void(0);", ['class' => 'btn btn-default btn-sm gridview']) ?>
     </p>
+        <?php
+        $this->registerJs('
+$(".gridview").on("click", function () {
+    var keys = $("#grid").yiiGridView("getSelectedRows");
+    if(keys.length==0){
+        alert("请选择用户!");
+        return ;
+    }
+    $.ajax({
+        url: "/user/admin/deletes",
+        type: \'post\',
+        data: {ids:keys,_csrf:"'.Yii::$app->request->csrfToken.'"},
+        success: function (data) {
+            // do something
+            if(data["code"] == 200){
+                location.reload();
+            }else{
+                alert(data["msg"]);
+            }
+        }
+    });
+});
+');
 
+
+        ?>
     <?php \yii\widgets\Pjax::begin(); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'layout' => "{items}{summary}{pager}",
+        'options'=>['id'=>'grid'],
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'yii\grid\CheckboxColumn',//复选框
+                'multiple' => true,
+                'name' => 'uid'
+            ],
 
             [
                 'attribute' => 'id',

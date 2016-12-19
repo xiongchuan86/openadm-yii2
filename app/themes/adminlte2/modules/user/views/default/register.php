@@ -17,9 +17,13 @@ $module = $this->context->module;
 $this->title = Yii::t('user', 'Register');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-default-register">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="/">Open<b>Adm</b></a>
+    </div>
+    <div class="login-box-body">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+        <p class="login-box-msg"><?=Yii::t('user','Register')?></p>
 
     <?php if ($flash = Yii::$app->session->getFlash("Register-success")): ?>
 
@@ -31,47 +35,33 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php $form = ActiveForm::begin([
             'id' => 'register-form',
-            'options' => ['class' => 'form-horizontal'],
-            'fieldConfig' => [
-                'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
-                'labelOptions' => ['class' => 'col-lg-2 control-label'],
-            ],
             'enableAjaxValidation' => true,
         ]); ?>
 
         <?php if ($module->requireEmail): ?>
-            <?= $form->field($user, 'email') ?>
+            <?= $form->field($user, 'email',['template'=>"<div class=\"form-group has-feedback\">{input}<span class=\"glyphicon glyphicon-envelope form-control-feedback\"></span><div class=\"\">{error}</div></div>"])->textInput(['placeholder'=>'Email']) ?>
         <?php endif; ?>
 
         <?php if ($module->requireUsername): ?>
-            <?= $form->field($user, 'username') ?>
+            <?= $form->field($user, 'username',['template'=>"<div class=\"form-group has-feedback\">{input}<span class=\"glyphicon glyphicon-user form-control-feedback\"></span><div class=\"\">{error}</div></div>"])->textInput(['placeholder'=>'Email']) ?>
         <?php endif; ?>
 
-        <?= $form->field($user, 'newPassword')->passwordInput() ?>
+        <?= $form->field($user, 'newPassword',['template'=>"<div class=\"form-group has-feedback\">{input}<span class=\"glyphicon glyphicon-lock form-control-feedback\"></span><div class=\"\">{error}</div></div>"])->passwordInput(['placeholder'=>'Password']) ?>
 
         <?php /* uncomment if you want to add profile fields here
         <?= $form->field($profile, 'full_name') ?>
         */ ?>
 
         <div class="form-group">
-            <div class="col-lg-offset-2 col-lg-10">
-                <?= Html::submitButton(Yii::t('user', 'Register'), ['class' => 'btn btn-primary']) ?>
-
-                <br/><br/>
-                <?= Html::a(Yii::t('user', 'Login'), ["/user/login"]) ?>
-            </div>
+                <?= Html::submitButton(Yii::t('user', 'Register'), ['class' => 'btn btn-primary','style'=>'width:100%;']) ?>
+        </div>
+        <div class="form-group">
+            <?= Html::a(Yii::t('user', 'Login'), ["/user/login"],['class'=>'']) ?>
+        </div>
         </div>
 
         <?php ActiveForm::end(); ?>
-
-        <?php if (Yii::$app->get("authClientCollection", false)): ?>
-            <div class="col-lg-offset-2 col-lg-10">
-                <?= yii\authclient\widgets\AuthChoice::widget([
-                    'baseAuthUrl' => ['/user/auth/login']
-                ]) ?>
-            </div>
-        <?php endif; ?>
-
     <?php endif; ?>
 
+</div>
 </div>

@@ -12,8 +12,9 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('user', 'Resend');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-default-resend">
-
+<div class="box box-widget">
+    <div class="box-body">
+        <div class="col-md-6">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php if ($flash = Yii::$app->session->getFlash('Resend-success')): ?>
@@ -25,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php else: ?>
 
         <div class="row">
-            <div class="col-lg-5">
+            <div class="col-lg-12">
                 <?php $form = ActiveForm::begin(['id' => 'resend-form']); ?>
                     <?= $form->field($model, 'email') ?>
                     <div class="form-group">
@@ -36,5 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
     <?php endif; ?>
-
+            </div>
+    </div>
 </div>

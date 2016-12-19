@@ -147,6 +147,48 @@ class AdminController extends Controller
         $user->delete();
         //删除授权
         Yii::$app->authManager->revoke(Yii::$app->authManager->getRole($user->role->name), $user->id);
+        Yii::$app->session->setFlash("success","删除完成");
+        return $this->redirect(['index']);
+    }
+
+    private function deleteUid($id)
+    {
+        $user = $this->findModel($id);
+        if($user){
+            $profile = $user->profile;
+            UserToken::deleteAll(['user_id' => $user->id]);
+            UserAuth::deleteAll(['user_id' => $user->id]);
+            $profile->delete();
+            $user->delete();
+            //删除授权
+            Yii::$app->authManager->revoke(Yii::$app->authManager->getRole($user->role->name), $user->id);
+            return true;
+        }
+        return false;
+    }
+
+    public function actionDeletes()
+    {
+        $result= ['code'=>200];
+        $data = [];
+        $post = Yii::$app->request->post();
+        if($post && isset($post['ids']) && is_array($post['ids'])){
+            foreach ($post['ids'] as $id){
+                if($this->deleteUid($id)){
+                    $data[] = $id;
+                }
+            }
+            Yii::$app->session->setFlash("success","删除完成");
+            $result['data'] = $data;
+        }else{
+            Yii::$app->session->setFlash("warning","请选择要删除的用户!");
+            $result=['code'=>0,'msg'=>'请选择要删除的用户!'];
+        }
+
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $result;
+        }
         return $this->redirect(['index']);
     }
 
