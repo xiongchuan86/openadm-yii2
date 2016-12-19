@@ -28,12 +28,24 @@ return [
             ],
         ],
         'db' => $db,
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@app/views' => '@app/themes/adminlte2/views',
+                    '@vendor/yii2mod/yii2-rbac/views' => '@app/themes/adminlte2/modules/rbac/views',
+                    '@vendor/amnah/yii2-user/views' => '@app/themes/adminlte2/modules/user/views',
+                ],
+            ],
+        ],
     ],
     'modules' => [
 //	    'user' => [
 //	        'class' => 'app\modules\user\Module',
 //	    ],
 	    'gii' => 'yii\gii\Module',
+        'rbac' => [
+            'class' => 'yii2mod\rbac\ConsoleModule'
+        ]
 	],
 		
     'params' => $params,

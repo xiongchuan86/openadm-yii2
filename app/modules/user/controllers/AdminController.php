@@ -1,6 +1,6 @@
 <?php
 
-namespace app\common\components;
+namespace app\modules\user\controllers;
 
 use Yii;
 use amnah\yii2\user\models\User;

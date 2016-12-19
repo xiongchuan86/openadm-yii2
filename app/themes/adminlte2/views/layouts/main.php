@@ -48,9 +48,9 @@ ThemeAsset::register($this);
         <?php if(!Yii::$app->user->isGuest):?>
             <footer class="main-footer">
                 <div class="pull-right hidden-xs">
-                    <b>Version</b> 2.3.7
+                    Powered by <strong><a href="http://openadm.com" target="_blank">Openadm.Com</a>.</strong> <b>Version</b> <?=\app\common\SystemConfig::getVersion()?>
                 </div>
-                <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+                <strong>Copyright &copy; 2016-2017 <a href="http://openadm.com" target="_blank"><?=Yii::$app->name?></a>.</strong> All rights
                 reserved.
             </footer>
         <?php endif;?>

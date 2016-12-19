@@ -1,6 +1,6 @@
 <?php
 
-namespace app\common\components;
+namespace app\modules\rbac\controllers;
 
 use yii\rbac\Item;
 use yii2mod\rbac\base\ItemController;

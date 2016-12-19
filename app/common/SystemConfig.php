@@ -256,4 +256,13 @@ class SystemConfig
 			Yii::$app->db->createCommand($sql_2)->execute();
 		}
 	}
+
+    /**
+     * openadm的版本号
+     * @return string OpenAdm 框架版本号
+     */
+	static public function getVersion()
+    {
+        return "0.1";
+    }
 }

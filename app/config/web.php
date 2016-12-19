@@ -1,12 +1,12 @@
 <?php
 $params = require(__DIR__ . '/params.php');
 $config = [
-    'id' => 'yetcms',
+    'id' => 'openadm',
     'basePath' => APP_PATH,
     'vendorPath' => WEB_PATH . '/../vendor',
     'runtimePath' => '@app/../runtime',
     'bootstrap' => ['log'],
-    'name' => 'YetCMS',
+    'name' => 'OpenAdm',
     'language'=>'zh-CN',
     'on beforeRequest' =>['app\common\SystemEvent','beforeRequest'],
     'on beforeAction' => ['app\common\SystemEvent','beforeAction'],
@@ -62,10 +62,10 @@ $config = [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => ['guest', 'user'],
             'cache' => 'yii\caching\FileCache',
-            'ruleTable' => '{{%AuthRule}}', // Optional
-            'itemTable' => '{{%AuthItem}}',  // Optional
-            'itemChildTable' => '{{%AuthItemChild}}',  // Optional
-            'assignmentTable' => '{{%AuthAssignment}}',  // Optional
+            'ruleTable' => '{{%auth_rule}}', // Optional
+            'itemTable' => '{{%auth_item}}',  // Optional
+            'itemChildTable' => '{{%auth_item_child}}',  // Optional
+            'assignmentTable' => '{{%auth_assignment}}',  // Optional
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -115,7 +115,7 @@ $config = [
 	        'logoutRedirect'=>'/user/login',
             'controllerMap' => [
                 'admin' => [
-                    'class' => 'app\common\components\AdminController',
+                    'class' => 'app\modules\user\controllers\AdminController',
                 ]
             ],
 	    ],
@@ -129,7 +129,7 @@ $config = [
                     'class' => 'yii2mod\rbac\controllers\AssignmentController',
                 ],
                 'role' => [
-                    'class' => 'app\common\components\RoleController',
+                    'class' => 'app\modules\rbac\controllers\RoleController',
                 ]
             ],
         ],
