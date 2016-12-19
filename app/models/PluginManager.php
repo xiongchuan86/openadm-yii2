@@ -100,7 +100,7 @@ class PluginManager
 		if("setuped"==$type){
 			$fileArray = array_map('strtolower',array_keys($setupedplugins));
 		}else{
-			$pluginDir = APP_PATH."/plugins/";
+			$pluginDir = Yii::getAlias('@plugins');
 			$fileArray = array_slice(scandir($pluginDir,0),2);//过滤掉.|..目录
 //			var_dump($fileArray);exit;
 			//改写fileArray
@@ -154,7 +154,7 @@ class PluginManager
 	 */
 	static public function GetPluginPath($pluginid)
 	{
-		return APP_PATH."/plugins/".strtolower($pluginid)."/";
+		return Yii::getAlias('@plugins').DIRECTORY_SEPARATOR.strtolower($pluginid).DIRECTORY_SEPARATOR;
 	}
 	
 	/**

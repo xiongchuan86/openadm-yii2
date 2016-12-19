@@ -42,7 +42,6 @@ class m161219_025311_openadm_rbac_init extends Migration
 
     public function safeDown()
     {
-        echo "m161219_025311_openadm_role_init cannot be reverted.\n";
         $this->removeRole('Admin');
         $this->removeRole('User');
 
@@ -50,12 +49,12 @@ class m161219_025311_openadm_rbac_init extends Migration
         $this->removePermission('/dashboard/*');
         $this->removePermission('/debug/*');
         $this->removePermission('/gii/*');
+        $this->removePermission('/plugin/*');
         $this->removePermission('/plugin-manager/*');
         $this->removePermission('/rbac/*');
         $this->removePermission('/site/*');
         $this->removePermission('/user/*');
         $this->removePermission('/user/default/*');
 
-        return false;
     }
 }

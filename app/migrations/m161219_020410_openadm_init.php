@@ -50,19 +50,6 @@ class m161219_020410_openadm_init extends Migration
 
     public function safeDown()
     {
-        echo "m161219_020410_openadm_init cannot be reverted.\n";
         $this->dropTable('{{%system_config}}');
-        return false;
     }
-
-    /*
-    // Use safeUp/safeDown to run migration code within a transaction
-    public function safeUp()
-    {
-    }
-
-    public function safeDown()
-    {
-    }
-    */
 }

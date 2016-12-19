@@ -2,8 +2,10 @@
 
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
 
-$params = require(__DIR__ . '/params.php');
-$db = require(__DIR__ . '/db.php');
+$params = array_merge(
+    require(__DIR__ . '/params.php'),
+    require(__DIR__ . '/params-local.php')
+);
 
 return [
     'id' => 'basic-console',
@@ -27,24 +29,29 @@ return [
                 ],
             ],
         ],
-        'db' => $db,
-        'view' => [
-            'theme' => [
-                'pathMap' => [
-                    '@app/views' => '@app/themes/adminlte2/views',
-                    '@vendor/yii2mod/yii2-rbac/views' => '@app/themes/adminlte2/modules/rbac/views',
-                    '@vendor/amnah/yii2-user/views' => '@app/themes/adminlte2/modules/user/views',
-                ],
-            ],
-        ],
+//        'view' => [
+//            'theme' => [
+//                'pathMap' => [
+//                    '@app/views' => '@app/themes/adminlte2/views',
+//                    '@vendor/yii2mod/yii2-rbac/views' => '@app/themes/adminlte2/modules/rbac/views',
+//                    '@vendor/amnah/yii2-user/views' => '@app/themes/adminlte2/modules/user/views',
+//                ],
+//            ],
+//        ],
     ],
     'modules' => [
-//	    'user' => [
-//	        'class' => 'app\modules\user\Module',
-//	    ],
 	    'gii' => 'yii\gii\Module',
         'rbac' => [
-            'class' => 'yii2mod\rbac\ConsoleModule'
+            'class' => 'yii2mod\rbac\ConsoleModule',
+            'controllerMap'=>[
+                'migrate' => [
+                    'class'          => 'yii2mod\rbac\commands\MigrateController',
+                    'migrationTable' => '{{%migration}}',
+                    'migrationPath'  => '@app/migrations'
+                ]
+
+
+            ],
         ]
 	],
 		

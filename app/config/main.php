@@ -1,10 +1,13 @@
 <?php
-$params = require(__DIR__ . '/params.php');
+$params = array_merge(
+    require(__DIR__ . '/params.php'),
+    require(__DIR__ . '/params-local.php')
+);
 $config = [
     'id' => 'openadm',
-    'basePath' => APP_PATH,
-    'vendorPath' => WEB_PATH . '/../vendor',
-    'runtimePath' => '@app/../runtime',
+    'basePath' => '@app',
+    'vendorPath' => '@vendor',
+    'runtimePath' => '@runtime',
     'bootstrap' => ['log'],
     'name' => 'OpenAdm',
     'language'=>'zh-CN',
@@ -12,12 +15,7 @@ $config = [
     'on beforeAction' => ['app\common\SystemEvent','beforeAction'],
     
     'components' => [
-    	
-        'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '123',
-            'enableCsrfValidation' => false,
-        ],
+
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -76,7 +74,6 @@ $config = [
                 ],
             ],
         ],
-        'db' => require(__DIR__ . '/db.php'),
         'view' => [
             'theme' => [
                 'pathMap' => [
@@ -136,14 +133,5 @@ $config = [
     ],
     'params' => $params,
 ];
-
-if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = 'yii\debug\Module';
-
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = 'yii\gii\Module';
-}
 
 return $config;

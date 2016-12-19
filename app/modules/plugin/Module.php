@@ -47,10 +47,9 @@ class Module extends \yii\base\Module
 	
 	public function setPluginViewPath()
 	{
-		$path = APP_PATH.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$this->pluginid.DIRECTORY_SEPARATOR.'views';
+		$path = Yii::getAlias('@plugins').DIRECTORY_SEPARATOR.$this->pluginid.DIRECTORY_SEPARATOR.'views';
 		if(is_dir($path)){
 			$this->setViewPath($path);
-			Yii::setAlias("@pluginView",$path);
 		}
 			
 	}
