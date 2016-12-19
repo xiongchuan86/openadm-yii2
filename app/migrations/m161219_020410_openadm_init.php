@@ -36,14 +36,16 @@ class m161219_020410_openadm_init extends Migration
             [4,'ICONS', '系统设置', 0, 0, $ctime, 'USER', 1, 'fa-cogs'],
             [5,'ICONS', '控制面板', 0, 0, $ctime, 'USER', 1, 'fa-dashboard'],
             [6,'SUBMENU', '/plugin-manager/local', 0, 2, $ctime, 'USER', 1, '插件管理'],
-            [7,'THIRDMENU', '/plugin-manager/local/?tab=all', 0, 6, $ctime, 'USER', 1, '全部'],
-            [8,'THIRDMENU', '/plugin-manager/local/?tab=setuped', 1, 6, $ctime, 'USER', 1, '已安装'],
-            [9,'THIRDMENU', '/plugin-manager/local/?tab=new', 2, 6, $ctime, 'USER', 1, '未安装'],
+            [7,'THIRDMENU', '/plugin-manager/local/all', 0, 6, $ctime, 'USER', 1, '全部'],
+            [8,'THIRDMENU', '/plugin-manager/local/setuped', 1, 6, $ctime, 'USER', 1, '已安装'],
+            [9,'THIRDMENU', '/plugin-manager/local/new', 2, 6, $ctime, 'USER', 1, '未安装'],
             [10,'SUBMENU', '/user/admin', 0, 2, $ctime, 'USER', 1, '管理员列表'],
             [11,'SUBMENU', '/rbac/assignment', 0, 1, $ctime, 'USER', 1, '授权用户'],
             [12,'SUBMENU', '/rbac/role', 0, 1, $ctime, 'USER', 1, '角色列表'],
             [13,'ICONS', '权限管理', 0, 0, $ctime, 'USER', 1, 'fa-unlock-alt'],
             [14,'SUBMENU', '/rbac/route', 0, 1, $ctime, 'USER', 1, '路由列表'],
+            //第15条路由很重要,删除后不能正确访问插件管理功能
+            [15,'PLUGINMANAGER_ROUTE', 'plugin-manager/<a:\w+>/<tab:\w+>=>plugin-manager/<a>', 0, 0, $ctime, 'ROUTE', 1, '插件管理路由']
         ]);
 
     }

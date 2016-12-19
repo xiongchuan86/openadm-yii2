@@ -74,15 +74,17 @@ class SystemEvent
                     'MAINMENU' => $menu['id'],
                 );
             }
-			$submenu = SystemConfig::GetArrayValue("SUBMENU",$menu['id'],'USER');
+			$submenu = SystemConfig::Get("SUBMENU",$menu['id'],'USER');
 			if(!empty($submenu)){
-				foreach($submenu as $url=>$label){
-					if(!self::CheckAccessMenu($url))unset($submenu[$url]);
+				foreach($submenu as $key=>$val){
+				    $url   = $val['cfg_value'];
+                    $label = $val['cfg_comment'];
+					if(!self::CheckAccessMenu($url))unset($submenu[$key]);
                     //判断当前子菜单是否为active
                     if(is_int(strpos("/".Yii::$app->controller->route,$url))){
                         Yii::$app->params['CURRENTMENU'] = array(
                             'MAINMENU' => $menu['id'],
-                            'SUBMENU'  => $url
+                            'SUBMENU'  => $val['id']
                         );
                     }
 				}

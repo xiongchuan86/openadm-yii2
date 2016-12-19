@@ -1,7 +1,5 @@
 <?php
 
-Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
-
 $params = array_merge(
     require(__DIR__ . '/params.php'),
     require(__DIR__ . '/params-local.php')
@@ -20,7 +18,6 @@ return [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
-        
         'log' => [
             'targets' => [
                 [
@@ -29,15 +26,6 @@ return [
                 ],
             ],
         ],
-//        'view' => [
-//            'theme' => [
-//                'pathMap' => [
-//                    '@app/views' => '@app/themes/adminlte2/views',
-//                    '@vendor/yii2mod/yii2-rbac/views' => '@app/themes/adminlte2/modules/rbac/views',
-//                    '@vendor/amnah/yii2-user/views' => '@app/themes/adminlte2/modules/user/views',
-//                ],
-//            ],
-//        ],
     ],
     'modules' => [
 	    'gii' => 'yii\gii\Module',

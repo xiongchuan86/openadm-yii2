@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use Yii;
 use app\common\Controller;
 use app\common\SystemConfig;
 use app\models\PluginManager;
@@ -14,11 +15,10 @@ class PluginManagerController extends Controller
 		$this->redirect("local");
 	}
 	
-	public function actionLocal($tab = "all",$page=1)
+	public function actionLocal($pid,$tab = "all",$page=1)
 	{
 		$tab = in_array($tab,array('all','setuped','new')) ? $tab : 'all';
-		$pid = 145;//插件管理的id(s_config的主键)
-		$tabs = SystemConfig::GetArrayValue("THIRDMENU",$pid,"USER");
+		$tabs = SystemConfig::Get("THIRDMENU",$pid,"USER");
 		//获取插件
 		$pageSize = 20;
 		$result = PluginManager::GetPlugins($tab,$page,$pageSize);

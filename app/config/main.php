@@ -39,7 +39,7 @@ $config = [
 		       'showScriptName' => false,
 		       'enableStrictParsing' => false,
 		       'rules'=>[
-		       ],
+               ],
 		   ],
 		
         'mailer' => [

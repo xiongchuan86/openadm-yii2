@@ -1,0 +1,4 @@
+.navbar-nav>.user-menu>.dropdown-menu{
+    width: auto;
+    min-width: 100px;
+}

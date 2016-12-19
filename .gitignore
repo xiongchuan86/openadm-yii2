@@ -30,7 +30,7 @@ phpunit.phar
 /phpunit.xml
 
 #runtime
-/app/runtime
+/runtime/*
 
 #assets
-/static/assets/
+/web/static/assets/*

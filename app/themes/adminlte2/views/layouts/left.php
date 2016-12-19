@@ -10,7 +10,6 @@ use yii\helpers\Url;
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <?php if(isset(Yii::$app->params['MAINMENU'])  && Yii::$app->params['MAINMENU'])foreach(Yii::$app->params['MAINMENU'] as $menu):
-                $cfg_pid = Yii::$app->params['SUBMENU']
                 ?>
                 <li class="treeview <?php if(isset(Yii::$app->params['CURRENTMENU']['MAINMENU']) && Yii::$app->params['CURRENTMENU']['MAINMENU']==$menu['id']):?> active<?php endif;?>">
                     <a  <?php if(isset(Yii::$app->params['SUBMENU'][$menu['id']])):?>class="dropmenu"<?php endif;?> href="<?php echo Url::to($menu['cfg_value']);?>">
@@ -18,10 +17,10 @@ use yii\helpers\Url;
                         <span class="hidden-sm text"> <?php echo $menu['cfg_comment'];?></span> <?php if(isset(Yii::$app->params['SUBMENU'][$menu['id']])):?><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span><?php endif;?></a>
                     <?php if(isset(Yii::$app->params['SUBMENU'][$menu['id']])):?>
                         <ul class="treeview-menu">
-                            <?php foreach(Yii::$app->params['SUBMENU'][$menu['id']] as $k1=>$v1):
-                                //var_dump($k1,$v1,Yii::$app->controller->route,strpos("/".Yii::$app->controller->route,$k1));
+                            <?php foreach(Yii::$app->params['SUBMENU'][$menu['id']] as $key=>$val):
+                                $url   = $val['cfg_value'];
                                 ?>
-                                <li <?php if(isset(Yii::$app->params['CURRENTMENU']['SUBMENU']) && Yii::$app->params['CURRENTMENU']['SUBMENU'] == $k1):?>class="active"<?php endif;?>><a class="submenu" href="<?php echo Url::to($k1);?>"><i class="fa fa-chevron-right"></i><span class="hidden-sm text"> <?php echo $v1;?></span></a></li>
+                                <li <?php if(isset(Yii::$app->params['CURRENTMENU']['SUBMENU']) && Yii::$app->params['CURRENTMENU']['SUBMENU'] == $val['id']):?>class="active"<?php endif;?>><a class="submenu" href="<?php echo Url::to([$url,'pid'=>$val['id']]);?>"><i class="fa fa-chevron-right"></i><span class="hidden-sm text"> <?php echo $val['cfg_comment'];?></span></a></li>
                             <?php endforeach;?>
                         </ul>
                     <?php endif;?>

@@ -14,12 +14,12 @@ td{padding:0;}
 <div class="nav-tabs-custom">
 <?php 
 $items = array();
-if($tab)foreach($tabs as $url=>$label){
+if($tab)foreach($tabs as $val){
 	$items[]=array(
-		'label' => $label,
+		'label' => $val['cfg_comment'],
 		'linkOptions' => ['style'=>'color:#000;'],
-		'active' => strpos($url, $tab)>0 ? true : false,
-		'url' => Url::to($url)
+		'active' => strpos($val['cfg_value'], $tab)>0 ? true : false,
+		'url' => Url::to([$val['cfg_value'],'pid'=>$val['cfg_pid']])
 	);
 }
 echo Nav::widget(array(
