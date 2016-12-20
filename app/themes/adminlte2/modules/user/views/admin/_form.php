@@ -34,6 +34,7 @@ $role = $module->model("Role");
 
     <?= $form->field($user, 'status')->dropDownList($user::statusDropdown()); ?>
 
+    <?php if(!$user->id == $this->context->superadmin_uid):?>
     <?php // use checkbox for banned_at ?>
     <?php // convert `banned_at` to int so that the checkbox gets set properly ?>
     <?php $user->banned_at = $user->banned_at ? 1 : 0 ?>
@@ -42,6 +43,7 @@ $role = $module->model("Role");
     <?= Html::error($user, 'banned_at'); ?>
 
     <?= $form->field($user, 'banned_reason'); ?>
+    <?php endif;?>
 
     <div class="form-group">
         <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

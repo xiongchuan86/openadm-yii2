@@ -119,6 +119,8 @@ $config = [
             'controllerMap' => [
                 'admin' => [
                     'class' => 'app\modules\user\controllers\AdminController',
+                    'protected_uids' => [1],
+                    'superadmin_uid' => 1
                 ],
                 'default' => [
                     'class' => 'app\modules\user\controllers\DefaultController',

@@ -76,7 +76,7 @@ ThemeAsset::register($this);
         'options' => [
             'dismissQueue' => true,
             'layout' => 'topRight',
-            'timeout' => 1000,
+            'timeout' => 1500,
             'theme' => 'relax',
         ],
     ]);

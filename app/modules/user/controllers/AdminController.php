@@ -25,6 +25,10 @@ class AdminController extends Controller
      */
     public $module;
 
+    public $protected_uids = [];
+
+    public $superadmin_uid = 0;
+
     public function init()
     {
         parent::init();
@@ -138,6 +142,10 @@ class AdminController extends Controller
      */
     public function actionDelete($id)
     {
+        if(in_array($id,$this->protected_uids)){
+            Yii::$app->session->setFlash("warning","受保护的账号,不允许删除!");
+            return $this->redirect(['index']);
+        }
         // delete profile and userTokens first to handle foreign key constraint
         $user = $this->findModel($id);
         $profile = $user->profile;
@@ -153,6 +161,9 @@ class AdminController extends Controller
 
     private function deleteUid($id)
     {
+        if(in_array($id,$this->protected_uids)){
+            return false;
+        }
         $user = $this->findModel($id);
         if($user){
             $profile = $user->profile;
@@ -173,15 +184,25 @@ class AdminController extends Controller
         $data = [];
         $post = Yii::$app->request->post();
         if($post && isset($post['ids']) && is_array($post['ids'])){
+            $protected_uids_num = 0;
             foreach ($post['ids'] as $id){
-                if($this->deleteUid($id)){
-                    $data[] = $id;
+                if(in_array($id,$this->protected_uids)){
+                    $protected_uids_num++;
+                }else{
+                    if($this->deleteUid($id)){
+                        $data[] = $id;
+                    }
                 }
             }
-            Yii::$app->session->setFlash("success","删除完成");
             $result['data'] = $data;
+            $result['msg']  = '删除完成!';
+            if($protected_uids_num>0 && count($post['ids'])==$protected_uids_num){
+                $result=['code'=>0,'msg'=>'受保护的账号,不允许删除!'];
+            }else if($protected_uids_num>0 && $protected_uids_num<count($post['ids'])){
+                $result=['code'=>200,'msg'=>'删除完成,其中受保护的账号,不允许删除!'];
+            }
+
         }else{
-            Yii::$app->session->setFlash("warning","请选择要删除的用户!");
             $result=['code'=>0,'msg'=>'请选择要删除的用户!'];
         }
 

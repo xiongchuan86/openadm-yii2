@@ -8,9 +8,9 @@ use yii\helpers\Url;
         <!-- Logo -->
         <a href="/dashboard" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>A</b>MN</span>
+            <span class="logo-mini"><b>ADM</b></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b><?= Html::encode(Yii::$app->name) ?></b></span>
+            <span class="logo-lg">Open<b>ADM</b></span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->

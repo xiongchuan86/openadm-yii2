@@ -48,9 +48,10 @@ $(".gridview").on("click", function () {
         success: function (data) {
             // do something
             if(data["code"] == 200){
-                location.reload();
+                noty({text: data.msg,type:\'success\'});
+			    setTimeout(function(){location.reload();},1000);
             }else{
-                alert(data["msg"]);
+                noty({text: data.msg,type:\'error\',timeout:1000});
             }
         }
     });
