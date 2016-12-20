@@ -19,9 +19,9 @@ echo Wrapper::widget([
 ]);
 //set noty default options
 $this->registerJs("
-    $.noty.defaults = {
+$.noty.defaults = {
   layout: 'top',
-  theme: 'metroui', // or relax
+  theme: 'relax', // or relax
   type: 'alert', // success, error, warning, information, notification
   text: '', // can be HTML or STRING
 

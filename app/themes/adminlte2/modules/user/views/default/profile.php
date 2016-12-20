@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use amnah\yii2\user\helpers\Timezone;
-
+use lo\modules\noty\Wrapper;
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
@@ -21,14 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="box-body pad table-responsive">
-
-    <?php if ($flash = Yii::$app->session->getFlash("Profile-success")): ?>
-
-        <div class="alert alert-success">
-            <p><?= $flash ?></p>
-        </div>
-
-    <?php endif; ?>
 
     <?php $form = ActiveForm::begin([
         'id' => 'profile-form',
