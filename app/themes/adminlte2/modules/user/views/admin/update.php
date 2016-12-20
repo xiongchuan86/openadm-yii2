@@ -8,7 +8,7 @@ use yii\helpers\Html;
  * @var amnah\yii2\user\models\Profile $profile
  */
 
-$this->title = Yii::t('user', 'Update {modelClass}: ', [
+$this->title = Yii::t('user', 'Update User: ', [
   'modelClass' => 'User',
 ]) . ' ' . $user->id ;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Users'), 'url' => ['index']];

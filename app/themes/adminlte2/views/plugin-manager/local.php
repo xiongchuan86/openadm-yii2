@@ -96,7 +96,6 @@ echo GridView::widget([
         array('attribute'=>'version', 'header'=>'版本','options'=>array('style'=>'width:5%')),
         array('attribute'=>'description', 'header'=>'描述','format' => 'raw','options'=>array('style'=>'width:45%')),
         array('attribute'=>'_action_','header'=>'操作','format' => 'raw','options'=>array('style'=>'width:15%')),
-
     ),
 ]);
 ?>
@@ -108,22 +107,33 @@ echo GridView::widget([
 function plugin_action(o,action)
 {
 	if('delete'==action){
-		var f = confirm("确定要删除吗？");
-		if(!f)return false;
-	}
-	if('unsetup'==action){
-		var f = confirm("确定要卸载吗？");
-		if(!f)return false;
-	}
-	var tr = $(o).parent().parent();
-	var id = tr.find("td:first").text();
-	$.post('/plugin-manager/ajax',{pluginid:id,action:action,'_csrf':'<?=Yii::$app->request->csrfToken?>'},function(json){
-		if(1==json.status){
-			noty({text: json.msg,type:'success'});
-			setTimeout(function(){location.reload();},1000);
-		}else{
-			noty({text: json.msg,type:'error'});
-		}
-	},'json');
+        yii.confirm("确定要删除吗？",function () {
+            doAction(o,action);
+        },function () {
+            return;
+        });
+	}else if('unsetup'==action){
+        yii.confirm("确定要卸载吗？",function () {
+            doAction(o,action);
+        },function () {
+            return;
+        });
+	}else{
+        doAction(o,action);
+    }
+
+}
+
+function doAction(o,action){
+    var tr = $(o).parent().parent();
+    var id = tr.find("td:first").text();
+    $.post('/plugin-manager/ajax',{pluginid:id,action:action,'_csrf':'<?=Yii::$app->request->csrfToken?>'},function(json){
+        if(1==json.status){
+            noty({text: json.msg,type:'success'});
+            setTimeout(function(){location.href=location.href;},1000);
+        }else{
+            noty({text: json.msg,type:'error'});
+        }
+    },'json');
 }
 </script>

@@ -2,7 +2,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Alert;
-use app\modules\noty\Wrapper;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\themes\adminlte2\ThemeAsset;
@@ -46,7 +45,6 @@ ThemeAsset::register($this);
 <?php endif;?>
 
 
-
         <?php if(!Yii::$app->user->isGuest):?>
             <footer class="main-footer">
                 <div class="pull-right hidden-xs">
@@ -60,28 +58,7 @@ ThemeAsset::register($this);
     </div>
     <!-- ./wrapper -->
 <?php if(!Yii::$app->user->isGuest):?>
-    <?php
-    //for notification
-    echo Wrapper::widget([
-        'layerClass' => 'lo\modules\noty\layers\Noty',
-        'layerOptions'=>[
-            // for every layer (by default)
-            'layerId' => 'noty-layer',
-            'customTitleDelimiter' => '|',
-            'overrideSystemConfirm' => true,
-            'showTitle' => true,
-        ],
-
-        // clientOptions
-        'options' => [
-            'dismissQueue' => true,
-            'layout' => 'topRight',
-            'timeout' => 1500,
-            'theme' => 'relax',
-        ],
-    ]);
-
-    ?>
+    <?= $this->render('noty.default.php') ?>
 <?php endif;?>
 	<!-- end: JavaScript-->
 	<?php $this->endBody() ?>

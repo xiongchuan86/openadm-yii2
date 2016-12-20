@@ -11,6 +11,7 @@ $config = [
     'bootstrap' => ['log'],
     'name' => 'OpenAdm',
     'language'=>'zh-CN',
+    'sourceLanguage' => 'en-US',
     'on beforeRequest' =>['app\common\SystemEvent','beforeRequest'],
     'on beforeAction' => ['app\common\SystemEvent','beforeAction'],
     
@@ -21,9 +22,21 @@ $config = [
         ],
         'i18n' => [
 		    'translations' => [
-		        '*' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'sourceLanguage' => 'en-US',
+                    'basePath' => '@app/messages',
+                ],
+		        'user' => [
 		            'class' => 'yii\i18n\PhpMessageSource',
+                    'sourceLanguage' => 'en-US',
+                    'basePath' => '@app/messages',
 		        ],
+                'noty' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'sourceLanguage' => 'en-US',
+                    'basePath' => '@app/messages',
+                ],
 		    ],
 		],
         'assetManager' => [

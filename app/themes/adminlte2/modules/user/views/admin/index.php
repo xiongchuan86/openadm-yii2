@@ -31,31 +31,34 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('user', '添加用户'), ['create'], ['class' => 'btn btn-success btn-sm']) ?>
-        <?= Html::a('批量删除', "javascript:void(0);", ['class' => 'btn btn-default btn-sm gridview']) ?>
+        <?= Html::a(Yii::t('user', 'Create User'), ['create'], ['class' => 'btn btn-success btn-sm']) ?>
+        <?= Html::a(Yii::t('user','Batch Delete'), "javascript:void(0);", ['class' => 'btn btn-default btn-sm gridview']) ?>
     </p>
         <?php
         $this->registerJs('
 $(".gridview").on("click", function () {
     var keys = $("#grid").yiiGridView("getSelectedRows");
     if(keys.length==0){
-        alert("请选择用户!");
+        noty({text: "请至少选择一个用户!",type:\'warning\'});
         return ;
     }
-    $.ajax({
-        url: "/user/admin/deletes",
-        type: \'post\',
-        data: {ids:keys,_csrf:"'.Yii::$app->request->csrfToken.'"},
-        success: function (data) {
-            // do something
-            if(data["code"] == 200){
-                noty({text: data.msg,type:\'success\'});
-			    setTimeout(function(){location.reload();},1000);
-            }else{
-                noty({text: data.msg,type:\'error\',timeout:1000});
+    yii.confirm("确定要删除?",function(){
+        $.ajax({
+            url: "/user/admin/deletes",
+            type: \'post\',
+            data: {ids:keys,_csrf:"'.Yii::$app->request->csrfToken.'"},
+            success: function (data) {
+                // do something
+                if(data["code"] == 200){
+                    noty({text: data.msg,type:\'success\'});
+                    setTimeout(function(){location.href=location.href;},1000);
+                }else{
+                    noty({text: data.msg,type:\'error\',timeout:1000});
+                }
             }
-        }
+        });
     });
+    
 });
 ');
 
