@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii2mod\editable\EditableColumn;
+use app\common\EditableColumn;
 
 /**
  * @var yii\web\View $this
@@ -14,6 +14,7 @@ use yii2mod\editable\EditableColumn;
  */
 
 $module = $this->context->module;
+$controller = $this->context;
 $user = $module->model("User");
 $role = $module->model("Role");
 $this->title = Yii::t('user', 'Users');
@@ -77,12 +78,18 @@ $(".gridview").on("click", function () {
                 'attribute' => 'id',
                 'filterOptions'=>['style'=>'width:50px']
             ],
-            'username',
+            [
+                'attribute' => 'username',
+                'value' => function($model)use($controller){
+                    return $model->username.($model->id == $controller->superadmin_uid ? "(超级管理员)" :"");
+                }
+            ],
             [
                 'class' => EditableColumn::className(),
                 'url' => ['change-role'],
                 'type' => 'select',
-                'editableOptions' => function ($model) use($role){
+                'editableOptions' => function ($model) use($role,$controller){
+                    if($model->id == $controller->superadmin_uid)return false;
                     return [
                         'source' => $role::dropdown(),
                         'value' => $model->role_id,
@@ -100,7 +107,8 @@ $(".gridview").on("click", function () {
                 'class' => EditableColumn::className(),
                 'url' => ['change-status'],
                 'type' => 'select',
-                'editableOptions' => function ($model) use($user){
+                'editableOptions' => function ($model) use($user,$controller){
+                    if($model->id == $controller->superadmin_uid)return false;
                     $source = $user::statusDropdown();
                     krsort($source);//如果不倒序排列,source序列化会变成数组而不是对象
                     return [
