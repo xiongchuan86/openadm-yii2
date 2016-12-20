@@ -1,6 +1,6 @@
 # yii console command
-#/yii
-
+yii
+composer.lock
 # phpstorm project files
 .idea
 
@@ -34,3 +34,4 @@ phpunit.phar
 
 #assets
 /web/static/assets/*
+/storage/*
