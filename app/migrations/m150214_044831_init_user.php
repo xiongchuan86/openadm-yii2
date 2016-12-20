@@ -7,6 +7,7 @@ class m150214_044831_init_user extends Migration
 {
     public function safeUp()
     {
+        date_default_timezone_set('Asia/Shanghai');
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
@@ -94,16 +95,16 @@ class m150214_044831_init_user extends Migration
                 'admin',
                 '$2y$13$Ry8EHO0bSoIt2/8TvHEeiOmZmy6TYd0tjMztO8tsJku1ltlGCBVXe', // admin
                 1, // User::STATUS_ACTIVE
-                gmdate('Y-m-d H:i:s'),
+                date('Y-m-d H:i:s'),
                 $security->generateRandomString(),
                 $security->generateRandomString(),
             ],
         ]);
 
         // insert profile data
-        $columns = ['user_id', 'full_name', 'created_at'];
+        $columns = ['user_id', 'full_name', 'created_at','timezone'];
         $this->batchInsert('{{%profile}}', $columns, [
-            [1, 'the one', gmdate('Y-m-d H:i:s')],
+            [1, 'admin', date('Y-m-d H:i:s'),'Asia/Shanghai'],
         ]);
     }
 
