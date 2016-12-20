@@ -1,8 +1,8 @@
 {
-    "name": "YetCMS",
-    "description": "YetCMS是一个基于Yii2的快速开发框架，集成了用户和插件系统，可以非常方便的开发新的功能。",
-    "keywords": ["yii2", "framework", "yetcms"],
-    "homepage": "http://www.yetcms.com/",
+    "name": "OpenADM",
+    "description": "OpenAdm是一个基于Yii2的后台开源骨架，集成了用户和插件系统,使用主题功能,默认使用AdminLTE2的模板的主题,可以非常方便的开发新的功能。",
+    "keywords": ["yii2", "framework", "openadm","openadmin","admin","adminlte"],
+    "homepage": "http://www.openadm.com/",
     "type": "project",
     "license": "BSD-3-Clause",
     "minimum-stability": "dev",
@@ -40,13 +40,8 @@
       "yii\\composer\\Installer::postCreateProject": {
         "setPermission": [
           {
-            "app/runtime": "0777",
-            "web/static/assets": "0777",
-            "yii": "0755"
+            "init": "0755"
           }
-        ],
-        "generateCookieValidationKey": [
-          "app/config/web.php"
         ]
       },
       "asset-installer-paths": {
