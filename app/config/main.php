@@ -41,21 +41,7 @@ $config = [
 		       'rules'=>[
                ],
 		   ],
-		
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            'messageConfig' => [
-            	'from'  => '41404756@qq.com',
-            ],
-	        'transport' => [
-	              'class' => 'Swift_SmtpTransport',
-	              'host' => 'smtp.qq.com',
-	              'username' => '',
-	              'password' => '',
-	              //'port' => '465',
-	              //'encryption' => 'tls',
-	        ],
-        ],
+
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => ['guest', 'user'],
@@ -120,7 +106,7 @@ $config = [
                 'admin' => [
                     'class' => 'app\modules\user\controllers\AdminController',
                     'protected_uids' => [1],
-                    'superadmin_uid' => 1
+                    'superadmin_uid' => 1,//超级管理员
                 ],
                 'default' => [
                     'class' => 'app\modules\user\controllers\DefaultController',
