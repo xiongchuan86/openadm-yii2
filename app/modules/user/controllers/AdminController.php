@@ -32,7 +32,7 @@ class AdminController extends Controller
     public function init()
     {
         parent::init();
-
+        $this->protected_uids[] = $this->superadmin_uid;//把superadmin 默认加入受保护的列表
     }
 
     /**
