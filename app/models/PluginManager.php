@@ -9,6 +9,7 @@ use yii;
 use app\common\SystemConfig;
 use yii\helpers\FileHelper;
 use yii\base\ErrorException;
+use yii\helpers\Json;
 class PluginManager
 {
 	const STATUS_SUCCESS = 1;
@@ -22,7 +23,11 @@ class PluginManager
 	
 	static private $_plugins = array();
 	static private $_setupedplugins = array();
-	static private $_valid_menu_cfgnames = array('MAINMENU','SUBMENU','THIRDMENU');
+	static private $_valid_menu_cfgnames = [
+	    SystemConfig::TOPMENU_KEY,
+        SystemConfig::LEFTMENU_KEY,
+        SystemConfig::INNERMENU_KEY,
+    ];
 	
 	/**
 	 * 获取已经安装的插件
@@ -236,6 +241,54 @@ class PluginManager
 			}
 		}
 	}
+
+    /**
+     * 实际注入方法
+     * @param $pluginId
+     * @param $cfg_name
+     * @param array $menus
+     */
+	static public function _PluginInjectMenu($pluginId,$cfg_name,array $menus)
+    {
+        foreach ($menus as $menu){
+            $params = array(
+                'cfg_value'   => isset($menu['cfg_value']) ? $menu['cfg_value'] : '',
+                'cfg_comment' => isset($menu['cfg_comment']) ? $menu['cfg_comment'] : '',
+                'cfg_pid'     => isset($menu['cfg_pid']) ? $menu['cfg_pid'] : 0,
+                'cfg_order'   => isset($menu['cfg_order']) ? $menu['cfg_order'] : 0
+            );
+            if(empty($params['cfg_value']) || empty($params['cfg_comment']))continue;
+            //检查cfg_value是否为数组,并且有url,icon(可选)
+            if(is_array($params['cfg_value']) && isset($params['cfg_value']['url'])){
+                $params['cfg_value'] = Json::encode($params['cfg_value']);
+            }else{
+                continue;//不满条件,就继续foreach
+            }
+            //写入system_config表
+            $lastPuginConfigId = SystemConfig::Set($cfg_name,$params);
+
+            //对菜单项做记录
+            if($lastPuginConfigId>0){
+                $pluginCfgName = strtoupper("plugin_{$pluginId}_{$cfg_name}");
+                $pluginParams  = array(
+                    'cfg_value' => $lastPuginConfigId,
+                    'cfg_comment' => $params['cfg_comment'].":".$cfg_name,
+                );
+                $lastid = SystemConfig::Set($pluginCfgName,$pluginParams);
+            }
+
+            $key = '';
+            if($cfg_name == SystemConfig::TOPMENU_KEY){
+                $key = SystemConfig::LEFTMENU_KEY;
+            }else if($cfg_name == SystemConfig::LEFTMENU_KEY){
+                $key = SystemConfig::INNERMENU_KEY;
+            }
+            if($lastPuginConfigId && isset($menu[$key]) && !empty($menu[$key])){
+                self::_PluginInjectMenu($pluginId,$key,$menu[$key]);
+            }
+        }
+
+    }
 	
 	/**
 	 * 插件菜单注入
@@ -243,64 +296,11 @@ class PluginManager
 	static public function PluginInjectMenu(array $conf)
 	{
 		$pluginId = $conf['id'];
-		$lastPuginId = 0;
-		if(isset($conf['menus']) && is_array($conf['menus']) && !empty($conf['menus']))foreach ($conf['menus'] as $cfg_name => $menu) {
+		if(isset($conf['menus']) && is_array($conf['menus']) && !empty($conf['menus']))foreach ($conf['menus'] as $cfg_name => $menus) {
 			if(!self::CheckMenuCfgName($cfg_name)) continue;
-			$params = array(
-				'cfg_value'   => isset($menu['cfg_value']) ? $menu['cfg_value'] : '',
-				'cfg_comment' => isset($menu['cfg_comment']) ? $menu['cfg_comment'] : '',
-				'cfg_pid'     => isset($menu['cfg_pid']) ? $menu['cfg_pid'] : 0,
-				'cfg_order'   => isset($menu['cfg_order']) ? $menu['cfg_order'] : 0
-			);
-			
-			if(empty($params['cfg_value']) || empty($params['cfg_comment']))continue;
 
-			$lastPuginId = SystemConfig::Set($cfg_name,$params);
-			//if cfg_name == MAINMENU,需要设置 icon
-			if('MAINMENU' == $cfg_name){
-				$icon = isset($menu['icon']) ? $menu['icon'] : '';
-				if($icon){
-					$iconid = SystemConfig::Set("ICONS",array('cfg_value'=>$menu['cfg_comment'],'cfg_comment'=>$icon));
-					$pluginCfgName = strtoupper("plugin_{$pluginId}_ICON");
-					$pluginParams  = array(
-						'cfg_value' => $iconid,
-						'cfg_comment' => $params['cfg_comment'].":ICON",
-					);
-					$lastid = SystemConfig::Set($pluginCfgName,$pluginParams);
-				}
-			}
-			//对菜单项做记录
-			if($lastPuginId>0){
-				$pluginCfgName = strtoupper("plugin_{$pluginId}_{$cfg_name}");
-				$pluginParams  = array(
-					'cfg_value' => $lastPuginId,
-					'cfg_comment' => $params['cfg_comment'].":".$cfg_name,
-				);
-				$lastid = SystemConfig::Set($pluginCfgName,$pluginParams);
-			}
-			//递归迭代写入子菜单,支持三级菜单
-			if($lastPuginId && isset($menu['SUBMENU']) && !empty($menu['SUBMENU'])){
-				if(is_array($menu['SUBMENU']))foreach($menu['SUBMENU'] as &$submenu){
-					$submenu['cfg_pid'] = $lastPuginId;
-					$submenuconf = array(
-						'id' => $pluginId,
-						'menus'=>array('SUBMENU'=>$submenu),
-					);
-					$lastSubmenuId = self::PluginInjectMenu($submenuconf);
-					if($lastSubmenuId && isset($submenu['THIRDMENU']) && !empty($submenu['THIRDMENU'])){
-						if(is_array($submenu['THIRDMENU']))foreach($submenu['THIRDMENU'] as &$thirdmenu){
-							$thirdmenu['cfg_pid'] = $lastSubmenuId;
-							$thirdmenuconf = array(
-								'id' => $pluginId,
-								'menus'=>array('THIRDMENU'=>$thirdmenu),
-							);
-							$lastThirdmenuId = self::PluginInjectMenu($thirdmenuconf);
-						}
-					}
-				}
-			}
+			self::_PluginInjectMenu($pluginId,$cfg_name,$menus);
 		}
-		return $lastPuginId;
 	}
 	
 	/**
@@ -357,15 +357,7 @@ class PluginManager
 	static public function PluginDeleteMenus($pluginid)
 	{
 		//移除菜单
-		$pluginmenus = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_MAINMENU"),null,"USER");
-		if(!empty($pluginmenus))foreach($pluginmenus as $row){
-			$menuid = $row['cfg_value'];
-			SystemConfig::Remove($menuid);//移除菜单
-			SystemConfig::Remove($row['id']);//移除自身
-		}
-		
-		//移除菜单ICON
-		$pluginmenus = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_ICON"),null,"USER");
+		$pluginmenus = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_".SystemConfig::TOPMENU_KEY),null,"USER");
 		if(!empty($pluginmenus))foreach($pluginmenus as $row){
 			$menuid = $row['cfg_value'];
 			SystemConfig::Remove($menuid);//移除菜单
@@ -373,7 +365,7 @@ class PluginManager
 		}
 		
 		//移除子菜单
-		$pluginmenus = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_SUBMENU"),null,"USER");
+		$pluginmenus = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_".SystemConfig::LEFTMENU_KEY),null,"USER");
 		if(!empty($pluginmenus))foreach($pluginmenus as $row){
 			$menuid = $row['cfg_value'];
 			SystemConfig::Remove($menuid);//移除菜单
@@ -381,7 +373,7 @@ class PluginManager
 		}
 		
 		//移除三级菜单
-		$pluginmenus = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_THIRDMENU"),null,"USER");
+		$pluginmenus = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_".SystemConfig::INNERMENU_KEY),null,"USER");
 		if(!empty($pluginmenus))foreach($pluginmenus as $row){
 			$menuid = $row['cfg_value'];
 			SystemConfig::Remove($menuid);//移除菜单
