@@ -7,6 +7,7 @@ use app\common\SystemEvent;
 
 class DashboardController extends Controller
 {
+    public $defaultAction = 'main';
 	public function init()
 	{
 		parent::init();

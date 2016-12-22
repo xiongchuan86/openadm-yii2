@@ -9,20 +9,21 @@ use app\common\SystemEvent;
 
 class PluginManagerController extends Controller
 {
+    public $defaultAction = 'local';
+
 	//plugin list
 	public function actionIndex()
 	{
 		$this->redirect("local");
 	}
 	
-	public function actionLocal($pid,$tab = "all",$page=1)
+	public function actionLocal($tab = "all",$page=1)
 	{
 		$tab = in_array($tab,array('all','setuped','new')) ? $tab : 'all';
-		$tabs = SystemConfig::Get("THIRDMENU",$pid,"USER");
 		//获取插件
 		$pageSize = 20;
 		$result = PluginManager::GetPlugins($tab,$page,$pageSize);
-		return $this->render("local",array('tabs'=>$tabs,'tab'=>$tab,'result'=>$result));
+		return $this->render("local",array('tab'=>$tab,'result'=>$result));
 	}
 	
 	public function actionShop()

@@ -14,7 +14,7 @@ $config = [
     'sourceLanguage' => 'en-US',
     'on beforeRequest' =>['app\common\SystemEvent','beforeRequest'],
     'on beforeAction' => ['app\common\SystemEvent','beforeAction'],
-    
+    'defaultRoute' => 'dashboard/main',
     'components' => [
 
         'cache' => [
@@ -57,7 +57,6 @@ $config = [
 
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
-            'defaultRoles' => ['guest', 'user'],
             'cache' => 'yii\caching\FileCache',
             'ruleTable' => '{{%auth_rule}}', // Optional
             'itemTable' => '{{%auth_item}}',  // Optional

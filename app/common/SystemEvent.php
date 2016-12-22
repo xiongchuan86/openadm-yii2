@@ -3,10 +3,15 @@ namespace app\common;
 use yii;
 use app\models\PluginManager;
 use yii\web\Request;
+use yii\helpers\Json;
+use yii\base\InvalidParamException;
 
 class SystemEvent
 {
-	const PLUGIN_MODULE_NAME = "plugin";
+	const PLUGIN_MODULE_NAME    = "plugin";
+    const SYSTEM_TOPMENUID_KEY  = "tmid";
+    const SYSTEM_LEFTMENUID_KEY = "lmid";
+    const SYSTEM_INNERMENUID_KEY = "imid";
 	
 	static private $requestedPlugin = false;
 
@@ -58,46 +63,130 @@ class SystemEvent
 			self::$requestedPlugin = PluginManager::GetPluginConfig(strtolower(Yii::$app->controller->id),false,null,false);
 		}
 	}
+
+    /**
+     * @return null|Array 菜单
+     */
+	static public function GetMenus()
+    {
+        static $_menus = null;
+        if($_menus == null){
+            $_menus[SystemConfig::TOPMENU_KEY]   = SystemConfig::Get(SystemConfig::TOPMENU_KEY,'',SystemConfig::CONFIG_TYPE_USER);
+            $_menus[SystemConfig::LEFTMENU_KEY]  = SystemConfig::Get(SystemConfig::LEFTMENU_KEY,'',SystemConfig::CONFIG_TYPE_USER);
+            $_menus[SystemConfig::INNERMENU_KEY] = SystemConfig::Get(SystemConfig::INNERMENU_KEY,'',SystemConfig::CONFIG_TYPE_USER);
+        }
+        return $_menus;
+    }
+
+    /**
+     * 获取菜单项,并且通过权限过滤
+     * @param $key system_config的cfg_key
+     * @param $pid system_config的id
+     */
+    static public function GetCanAccessMenu($key,$pid)
+    {
+        $menus = SystemConfig::Get($key,$pid,SystemConfig::CONFIG_TYPE_USER);
+        if(is_array($menus) && !empty($menus)){
+            foreach ($menus as $k=>$menu){
+                try{
+                    $value = Json::decode($menu['cfg_value'],true);
+                    if(isset($value['url'])){//必须要有url字段
+                        if(!self::CheckAccessMenu($value['url']))unset($menus[$k]);
+                        $menus[$k]['value'] = $value;
+                    }
+                }catch (InvalidParamException $e){
+                    continue;
+                }
+
+            }
+        }
+        return $menus;
+    }
 	
 	//获取Admin菜单
 	static public function GetAdminMenu(){
 	    if(self::$hasGetMenu)return;
-		//获取主菜单
-		Yii::$app->params['MAINMENU']   = SystemConfig::Get("MAINMENU",null,'USER');
-		//获取子菜单
-		$submenus    = array();
-		foreach(Yii::$app->params['MAINMENU'] as $i=>$menu){
-			if(!self::CheckAccessMenu($menu['cfg_value']))unset(Yii::$app->params['MAINMENU'][$i]);
-            //判断当前主菜单是否为active
-            if(is_int(strpos("/".Yii::$app->controller->route,$menu['cfg_value']))){
-                Yii::$app->params['CURRENTMENU'] = array(
-                    'MAINMENU' => $menu['id'],
-                );
+        $top_menu_id  = Yii::$app->request->get(self::SYSTEM_TOPMENUID_KEY,'');
+        $left_menu_id = Yii::$app->request->get(self::SYSTEM_LEFTMENUID_KEY,'');
+        $inner_menu_id = Yii::$app->request->get(self::SYSTEM_INNERMENUID_KEY,'');
+        //默认获取全部的顶部菜单
+        $top_menus  = self::GetCanAccessMenu(SystemConfig::TOPMENU_KEY,'');
+        if( $top_menus && is_array($top_menus) && !empty($top_menus)){
+            if(!$top_menu_id){
+                //默认使用第一个top menu的id
+                $top_menu_id = $top_menus[0]['id'];
+                $top_menus[0]['active'] = true;
             }
-			$submenu = SystemConfig::Get("SUBMENU",$menu['id'],'USER');
-			if(!empty($submenu)){
-				foreach($submenu as $key=>$val){
-				    $url   = $val['cfg_value'];
-                    $label = $val['cfg_comment'];
-					if(!self::CheckAccessMenu($url))unset($submenu[$key]);
-                    //判断当前子菜单是否为active
-                    if(is_int(strpos("/".Yii::$app->controller->route,$url))){
-                        Yii::$app->params['CURRENTMENU'] = array(
-                            'MAINMENU' => $menu['id'],
-                            'SUBMENU'  => $val['id']
-                        );
-                    }
-				}
-				if(!empty($submenu))
-					$submenus[$menu['id']] = $submenu;
-				if(!isset($submenus[$menu['id']]) || empty($submenus[$menu['id']]))
-					unset(Yii::$app->params['MAINMENU'][$i]);
+            //在view里面通过js设置top menu的active
+        }else{
+            $top_menu_id = '';//top menu不存在则强制 top menu id为空
+        }
+        //按条件获取left menu
+        $left_menus  = self::GetCanAccessMenu(SystemConfig::LEFTMENU_KEY,$top_menu_id);
+        if( $left_menus && is_array($left_menus) && !empty($left_menus)){
+            //把top menu id的top menu标记为active
+            foreach ($left_menus as $k=>$menu){
+                //使用left_menu_id查询当前的menu
+                if($menu['id'] == $left_menu_id){
+                    $left_menus[$k]['active'] = true;
+                    break;//找到后就跳出
+                }
+                //使用当前的url查询
+                if(is_int(strpos("/".Yii::$app->controller->route,$menu['value']['url']))){
+                    $left_menus[$k]['active'] = true;
+                    $left_menu_id = $left_menus[$k]['id'];
+                    break;//找到后就跳出
+                }
+            }
+        }else{
+            $left_menu_id = '';//left menu不存在则强制 top menu id为空
+        }
+        //获取内页的inner menu
+        $inner_menus = self::GetCanAccessMenu(SystemConfig::INNERMENU_KEY,'');
+        if( $inner_menus && is_array($inner_menus) && !empty($inner_menus)){
 
-			}
-		}	
-		Yii::$app->params['SUBMENU'] = $submenus;	
-		//获取ICONS
-		Yii::$app->params['ICONS']      = SystemConfig::GetArrayValue("ICONS",null,'USER');
+            //把inner menu id的inner menu标记为active
+            foreach ($inner_menus as $k=>$menu){
+                //使用当前的url查询
+                if(is_int(strpos("/".Yii::$app->request->pathInfo,$menu['value']['url']))){
+                    $inner_menus[$k]['active'] = true;
+                    $inner_menu_id = $inner_menus[$k]['id'];
+                    $left_menu_id  = $inner_menus[$k]['cfg_pid'];
+                    //重新刷新left menu的active id
+                    foreach($left_menus as $_k=>$_v){
+                        if($_v['id'] == $left_menu_id){
+                            $left_menus[$_k]['active'] = true;
+                            $top_menu_id = $_v['cfg_pid'];//从left menu获取top menu id
+                        }else{
+                            unset($left_menus[$_k]['active']);
+                        }
+                    }
+                    //----
+                    break;//找到后就跳出
+                }
+            }
+        }
+
+        foreach ($inner_menus as $_k=>$_v){
+            if($_v['cfg_pid'] != $left_menu_id){
+                unset($inner_menus[$_k]);
+            }
+        }
+        //重新设置top menu的active id
+        if($top_menu_id>0 && !empty($top_menus)){
+            foreach ($top_menus as $_k=>$_v){
+                if($_v['cfg_pid'] != $top_menu_id){
+                    $top_menus[$_k]['active'] = true;
+                }else{
+                    unset($top_menus[$_k]['active']);
+                }
+            }
+        }
+
+        Yii::$app->params[SystemConfig::TOPMENU_KEY]   = $top_menus;
+        Yii::$app->params[SystemConfig::LEFTMENU_KEY]  = $left_menus;
+        Yii::$app->params[SystemConfig::INNERMENU_KEY] = $inner_menus;
+
         self::$hasGetMenu = true;
 	}
 	

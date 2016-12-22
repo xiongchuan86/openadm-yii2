@@ -37,7 +37,6 @@ ThemeAsset::register($this);
     </head>
     <body class="hold-transition skin-blue layout-top-nav">
         <?php $this->beginBody() ?>
-            <?php if(Yii::$app->user->isGuest):?>
 
             <div class="wrapper">
                 <div class="content-wrapper" style="min-height: 221px;">
@@ -48,7 +47,6 @@ ThemeAsset::register($this);
                     </div>
                     <!-- /.container -->
                 </div>
-            <?php endif;?>
             </div>
         <!-- ./wrapper -->
         <!-- end: JavaScript-->

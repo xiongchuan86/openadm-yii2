@@ -254,7 +254,7 @@ class PluginManager
 			);
 			
 			if(empty($params['cfg_value']) || empty($params['cfg_comment']))continue;
-			
+
 			$lastPuginId = SystemConfig::Set($cfg_name,$params);
 			//if cfg_name == MAINMENU,需要设置 icon
 			if('MAINMENU' == $cfg_name){

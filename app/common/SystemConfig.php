@@ -11,6 +11,13 @@ class SystemConfig
 {
 	static private $_tableName = "%system_config";
 	static private $_config = array();
+
+    const TOPMENU_KEY          = "TOPMENU";
+    const LEFTMENU_KEY         = "LEFTMENU";
+    const INNERMENU_KEY        = "INNERMENU";
+    const CONFIG_TYPE_USER     = "USER";
+    const CONFIG_TYPE_SYSTEM   = "SYSTEM";
+    const CONFIG_TYPE_ROUTE    = "ROUTE";
 	
 	/**
 	 * 返回 array(value=>comment)类型数据

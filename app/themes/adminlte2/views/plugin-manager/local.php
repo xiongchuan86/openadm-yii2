@@ -12,20 +12,7 @@ td{padding:0;}
 .pagination{margin:5px 0;}
 </style>
 <div class="nav-tabs-custom">
-<?php 
-$items = array();
-if($tab)foreach($tabs as $val){
-	$items[]=array(
-		'label' => $val['cfg_comment'],
-		'linkOptions' => ['style'=>'color:#000;'],
-		'active' => strpos($val['cfg_value'], $tab)>0 ? true : false,
-		'url' => Url::to([$val['cfg_value'],'pid'=>$val['cfg_pid']])
-	);
-}
-echo Nav::widget(array(
-	'options' => ['class' =>'nav-tabs'],
-    'items'=>$items
-)); ?>
+<?php echo $this->render('../common/tabs.php');?>
 <div class="tab-content">
 <?php
 $data = array(); 

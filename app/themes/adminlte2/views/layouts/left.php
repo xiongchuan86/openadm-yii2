@@ -1,32 +1,62 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use meysampg\treeview\Treeview;
+use app\common\SystemConfig;
+
+function formatItem($v){
+    $item=[];
+    if($v && is_array($v)){
+        $item['url']  = isset($v['value']['url']) ? $v['value']['url'] : '#';
+        $item['icon']  = isset($v['value']['icon']) ? $v['value']['icon'] : 'fa  fa-angle-right';
+        $item['label']= $v['cfg_comment'];
+        if(isset($v['active']))$item['active'] = true;
+    }
+    return $item;
+}
+//左侧菜单
+$sidenav = '';
+//生成sidenav需要的items
+if(Yii::$app->params[SystemConfig::LEFTMENU_KEY] && is_array(Yii::$app->params[SystemConfig::LEFTMENU_KEY])){
+    $items = [];
+    foreach (Yii::$app->params[SystemConfig::LEFTMENU_KEY] as $k=>$v){
+        if($v['cfg_pid'] == 0){
+            $items[$v['id']] = formatItem($v);
+        }else{
+            continue;
+        }
+    }
+    foreach (Yii::$app->params[SystemConfig::LEFTMENU_KEY] as $k=>$v){
+        if($v['cfg_pid']>0){
+            if(isset($items[$v['cfg_pid']])){
+                if(!isset($items[$v['cfg_pid']]['items'])){
+                    $items[$v['cfg_pid']]['items']   = [];
+                    $items[$v['cfg_pid']]['items'][$v['id']] = formatItem($v);
+                }else{
+                    $items[$v['cfg_pid']]['items'][$v['id']] = formatItem($v);
+                }
+            }else{
+                $items[$v['id']] = formatItem($v); //cfg_pid 不正确的情况
+            }
+        }
+    }
+
+    $sidenav = Treeview::widget([
+        'clientOptions' => false,
+        'encodeLabels' => false,
+        'dropDownCaret'=>'<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>',
+        'options' => ['class'=>'sidebar-menu'],
+        'items' => $items,
+    ]);
+}
+
 ?>
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-
         <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu">
-            <?php if(isset(Yii::$app->params['MAINMENU'])  && Yii::$app->params['MAINMENU'])foreach(Yii::$app->params['MAINMENU'] as $menu):
-                ?>
-                <li class="treeview <?php if(isset(Yii::$app->params['CURRENTMENU']['MAINMENU']) && Yii::$app->params['CURRENTMENU']['MAINMENU']==$menu['id']):?> active<?php endif;?>">
-                    <a  <?php if(isset(Yii::$app->params['SUBMENU'][$menu['id']])):?>class="dropmenu"<?php endif;?> href="<?php echo Url::to($menu['cfg_value']);?>">
-                        <i class="fa <?php echo isset(Yii::$app->params['ICONS'][$menu['cfg_comment']]) ? Yii::$app->params['ICONS'][$menu['cfg_comment']] : 'fa-ellipsis-h';?>"></i>
-                        <span class="hidden-sm text"> <?php echo $menu['cfg_comment'];?></span> <?php if(isset(Yii::$app->params['SUBMENU'][$menu['id']])):?><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span><?php endif;?></a>
-                    <?php if(isset(Yii::$app->params['SUBMENU'][$menu['id']])):?>
-                        <ul class="treeview-menu">
-                            <?php foreach(Yii::$app->params['SUBMENU'][$menu['id']] as $key=>$val):
-                                $url   = $val['cfg_value'];
-                                ?>
-                                <li <?php if(isset(Yii::$app->params['CURRENTMENU']['SUBMENU']) && Yii::$app->params['CURRENTMENU']['SUBMENU'] == $val['id']):?>class="active"<?php endif;?>><a class="submenu" href="<?php echo Url::to([$url,'pid'=>$val['id']]);?>"><i class="fa fa-chevron-right"></i><span class="hidden-sm text"> <?php echo $val['cfg_comment'];?></span></a></li>
-                            <?php endforeach;?>
-                        </ul>
-                    <?php endif;?>
-                </li>
-            <?php endforeach;?>
-        </ul>
+        <?=$sidenav?>
     </section>
     <!-- /.sidebar -->
 </aside>
