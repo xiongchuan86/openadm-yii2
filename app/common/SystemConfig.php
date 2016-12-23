@@ -179,27 +179,26 @@ class SystemConfig
 	 */
 	static public function Update($id,array $value)
 	{
-		$cfg_name = isset($value['cfg_name']) ? $value['cfg_name'] : '';
-
-		if(empty($cfg_name)) return false;
-		if(empty($id) || $id<= 0)return false;
-		$sql = "UPDATE {{".self::$_tableName."}} SET 
-				cfg_name    = :cfg_name,
-				cfg_value   = :cfg_value,
-				cfg_pid     = :cfg_pid,
-				cfg_order   = :cfg_order,
-				cfg_comment = :cfg_comment
-				WHERE   id  = :id
-				LIMIT 1
-				";
-		$cmd = Yii::$app->db->createCommand($sql);
-		$cmd->bindvalue(":cfg_name",$cfg_name);
-		$cmd->bindvalue(":cfg_value",isset($value['cfg_value']) ? $value['cfg_value'] : '');
-		$cmd->bindvalue(":cfg_pid",isset($value['cfg_pid']) ? intval($value['cfg_pid']) : 0);
-		$cmd->bindvalue(":cfg_order",isset($value['cfg_order']) ? intval($value['cfg_order']) : 0);
-		$cmd->bindvalue(":cfg_comment",isset($value['cfg_comment']) ? $value['cfg_comment'] : '');
-		$cmd->bindvalue(":id",$id);
-		return $cmd->execute();
+        if($id && $id>0){
+            $defaultFields = ['cfg_name','cfg_value','cfg_pid','cfg_order','cfg_comment'];
+            $useFields     = [];
+            foreach ($value as $key=>$val){
+                if(in_array($key,$defaultFields)){
+                    $useFields[$key] = $key."=:".$key;
+                }
+            }
+            if(count($useFields)>0){
+                $sql = "UPDATE {{".self::$_tableName."}} SET ". join(",",$useFields) ." WHERE   id  = :id LIMIT 1";
+                //echo $sql . "\n";
+                $cmd = Yii::$app->db->createCommand($sql);
+                foreach ($useFields as $key=>$v){
+                    $cmd->bindvalue(":".$key,isset($value[$key]) ? $value[$key] : '');
+                }
+                $cmd->bindvalue(":id",$id);
+                return $cmd->execute();
+            }
+        }
+		return false;
 	}
 	/*
 	 * 通过id 修改显示状态
@@ -233,35 +232,6 @@ class SystemConfig
 		$cmd = Yii::$app->db->createCommand($sql);
 		$cmd->bindvalue(":id",$id);
 		return $cmd->execute();
-	}
-	
-	/**
-	 * 重新排序
-	 * @param $cfg_name string 配置名
-	 * @param $id int 主键 
-	 * @param $new_order int 所期望的新序号
-	 * @param $old_order int 老的序号
-	 */
-	static public function setNewOrder($cfg_name,$id,$new_order,$old_order=''){
-		$item = SystemConfig::GetById($id);
-		$old_order = $item['cfg_order'];
-		if($new_order==$old_order){
-			return false;
-		}else{
-			if($new_order<$old_order){
-				//向上 序号变小
-				$sql_1="update {{".self::$_tableName."}} set cfg_order=case when cfg_order>=$new_order and cfg_order<$old_order then cfg_order+1 else cfg_order end where cfg_name='$cfg_name';";
-			}else{
-				//向下  序号变大
-				$sql_1="update {{".self::$_tableName."}} set cfg_order=case when cfg_order>=$new_order  then cfg_order+1 when cfg_order>$old_order and $old_order>0 then cfg_order-1 else cfg_order end where cfg_name='$cfg_name';";
-			}
-			//var_dump($sql_1);
-			Yii::$app->db->createCommand($sql_1)->execute();
-			//防止order相同的同时被修改成期望值
-			$sql_2="update {{".self::$_tableName."}} set cfg_order=$new_order where id=$id";
-			//var_dump($sql_2);
-			Yii::$app->db->createCommand($sql_2)->execute();
-		}
 	}
 
     /**

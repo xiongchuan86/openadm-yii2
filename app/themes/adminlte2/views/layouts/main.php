@@ -5,7 +5,9 @@ use yii\bootstrap\Alert;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\themes\adminlte2\ThemeAsset;
+use nirvana\showloading\ShowLoadingAsset;
 ThemeAsset::register($this);
+ShowLoadingAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 

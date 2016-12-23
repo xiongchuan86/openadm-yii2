@@ -18,7 +18,8 @@
       "bower-asset/noty": "^2.3",
       "bower-asset/jquery-growl": "^1.3",
       "yii2mod/yii2-editable": "*",
-        "kartik-v/yii2-widgets": "*"
+        "kartik-v/yii2-widgets": "*",
+        "nirvana-msu/yii2-showloading": "^1.0@dev"
     },
     "require-dev": {
       "yiisoft/yii2-debug": "~2.0.0",
@@ -31,8 +32,8 @@
     },
     "autoload": {
       "psr-4": {
-        "xiongchuan\\tree\\": "/Users/xiongchuan/git/github/yii2-sortable-list",
-        "meysampg\\treeview\\": "/Users/xiongchuan/git/github/yii2-treeview"
+        "meysampg\\treeview\\": "/Users/xiongchuan/git/github/yii2-treeview",
+        "xiongchuan\\tree\\": "/Users/xiongchuan/git/github/yii2-sortable-tree"
       }
     },
     "config": {

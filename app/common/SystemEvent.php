@@ -92,7 +92,9 @@ class SystemEvent
                     $value = Json::decode($menu['cfg_value'],true);
                     if(isset($value['url'])){//必须要有url字段
                         if(!self::CheckAccessMenu($value['url']))unset($menus[$k]);
-                        $menus[$k]['value'] = $value;
+                        else{
+                            $menus[$k]['value'] = $value;
+                        }
                     }
                 }catch (InvalidParamException $e){
                     continue;
@@ -111,16 +113,7 @@ class SystemEvent
         $inner_menu_id = Yii::$app->request->get(self::SYSTEM_INNERMENUID_KEY,'');
         //默认获取全部的顶部菜单
         $top_menus  = self::GetCanAccessMenu(SystemConfig::TOPMENU_KEY,'');
-        if( $top_menus && is_array($top_menus) && !empty($top_menus)){
-            if(!$top_menu_id){
-                //默认使用第一个top menu的id
-                $top_menu_id = $top_menus[0]['id'];
-                $top_menus[0]['active'] = true;
-            }
-            //在view里面通过js设置top menu的active
-        }else{
-            $top_menu_id = '';//top menu不存在则强制 top menu id为空
-        }
+
         //按条件获取left menu
         $left_menus  = self::GetCanAccessMenu(SystemConfig::LEFTMENU_KEY,$top_menu_id);
         if( $left_menus && is_array($left_menus) && !empty($left_menus)){
@@ -167,7 +160,7 @@ class SystemEvent
             }
         }
 
-        foreach ($inner_menus as $_k=>$_v){
+        if($inner_menus && !empty($inner_menus))foreach ($inner_menus as $_k=>$_v){
             if($_v['cfg_pid'] != $left_menu_id){
                 unset($inner_menus[$_k]);
             }

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5d33ebca64ae92d970d11afb6505aff8",
-    "content-hash": "ac6247a3f8f3779ee7d4a552e66ca83f",
+    "hash": "d3704ce7b03a3aaa45a837c791c6bec8",
+    "content-hash": "39d8bc38cad9d5bfa8f6b88cb8af773b",
     "packages": [
         {
             "name": "2amigos/yii2-arrayquery-component",
@@ -265,16 +265,16 @@
         },
         {
             "name": "bower-asset/jquery.inputmask",
-            "version": "3.3.3",
+            "version": "3.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobinHerbots/Inputmask.git",
-                "reference": "b246bfaa185deaabd7fa78fb38c541234bd3c172"
+                "reference": "8a882bc471ba4077c4f8ecbe3d9d61c7558f3ef2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/Inputmask/zipball/b246bfaa185deaabd7fa78fb38c541234bd3c172",
-                "reference": "b246bfaa185deaabd7fa78fb38c541234bd3c172",
+                "url": "https://api.github.com/repos/RobinHerbots/Inputmask/zipball/8a882bc471ba4077c4f8ecbe3d9d61c7558f3ef2",
+                "reference": "8a882bc471ba4077c4f8ecbe3d9d61c7558f3ef2",
                 "shasum": ""
             },
             "require": {
@@ -283,7 +283,14 @@
             "type": "bower-asset-library",
             "extra": {
                 "bower-asset-main": [
-                    "./dist/inputmask/inputmask.js"
+                    "./dist/inputmask/inputmask.dependencyLib",
+                    "./dist/inputmask/inputmask",
+                    "./dist/inputmask/inputmask.extensions",
+                    "./dist/inputmask/inputmask.date.extensions",
+                    "./dist/inputmask/inputmask.numeric.extensions",
+                    "./dist/inputmask/inputmask.phone.extensions",
+                    "./dist/inputmask/inputmask.regex.extensions",
+                    "./dist/inputmask/jquery.inputmask"
                 ],
                 "bower-asset-ignore": [
                     "**/*",
@@ -1752,6 +1759,59 @@
                 "yii2"
             ],
             "time": "2016-12-19 09:32:51"
+        },
+        {
+            "name": "nirvana-msu/yii2-showloading",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nirvana-msu/yii2-showloading.git",
+                "reference": "23a3b97ec6323b88fbfbf881270cee01b2534e25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/nirvana-msu/yii2-showloading/23a3b97ec6323b88fbfbf881270cee01b2534e25.zip",
+                "reference": "23a3b97ec6323b88fbfbf881270cee01b2534e25",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "nirvana\\showloading\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Stepanov",
+                    "email": "student_vmk@mail.ru"
+                },
+                {
+                    "name": "Jim Keller",
+                    "homepage": "http://www.contextllc.com"
+                }
+            ],
+            "description": "Yii2 extension for showLoading jQuery plugin",
+            "keywords": [
+                "ajax",
+                "jquery",
+                "plugin",
+                "showLoading",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-01-11 18:55:14"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4707,7 +4767,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "nirvana-msu/yii2-showloading": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
