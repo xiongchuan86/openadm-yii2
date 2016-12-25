@@ -40,7 +40,7 @@ class SystemConfig
 		$sql = "SELECT * FROM {{".self::$_tableName."}} WHERE id=:id";
 		$cmd = Yii::$app->db->createCommand($sql);
 		$cmd->bindvalue(":id",$id);
-		$row = $cmd->queryRow();
+		$row = $cmd->queryOne();
 		return $row;
 	}
 	

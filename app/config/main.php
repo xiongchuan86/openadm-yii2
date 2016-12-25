@@ -139,6 +139,9 @@ $config = [
                 ]
             ],
         ],
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+        ]
     ],
     'params' => $params,
 ];

@@ -8,7 +8,7 @@ function formatItem($v){
     $item=[];
     if($v && is_array($v)){
         $item['url']  = isset($v['value']['url']) ? $v['value']['url'] : '#';
-        $item['icon']  = isset($v['value']['icon']) ? $v['value']['icon'] : 'fa  fa-angle-right';
+        $item['icon']  = isset($v['value']['icon']) && !empty($v['value']['icon'])? $v['value']['icon'] : 'fa  fa-angle-right';
         $item['label']= $v['cfg_comment'];
         if(isset($v['active']))$item['active'] = true;
     }
