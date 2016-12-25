@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5a161fcccb1f0a51f208fd5519218eba",
-    "content-hash": "da769dde9e26f752aa81627bda33f31a",
+    "hash": "fa4a1f2aea949f6e25d938e53e44e976",
+    "content-hash": "818b82f8ea0157602942897af7a66576",
     "packages": [
         {
             "name": "2amigos/yii2-arrayquery-component",
@@ -107,6 +107,59 @@
                 "yii2"
             ],
             "time": "2016-12-08 00:46:08"
+        },
+        {
+            "name": "beaten-sect0r/yii2-db-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Beaten-Sect0r/yii2-db-manager.git",
+                "reference": "c4853c6a2f578d1823bec7390f61f9f7f49c6552"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/Beaten-Sect0r/yii2-db-manager/c4853c6a2f578d1823bec7390f61f9f7f49c6552.zip",
+                "reference": "c4853c6a2f578d1823bec7390f61f9f7f49c6552",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/process": "2.8.*|3.0.*",
+                "yiisoft/yii2": "~2.0.6",
+                "yiisoft/yii2-bootstrap": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "bootstrap": "bs\\dbManager\\Bootstrap"
+            },
+            "autoload": {
+                "psr-4": {
+                    "bs\\dbManager\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Volkov",
+                    "email": "beatensect0r@gmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Insolita",
+                    "email": "donnainsolita@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The db dump manager module for Yii2",
+            "keywords": [
+                "backup",
+                "db manager",
+                "dump",
+                "yii2"
+            ],
+            "time": "2016-12-11 11:08:51"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -370,6 +423,22 @@
             ]
         },
         {
+            "name": "bower-asset/jquery.terminal",
+            "version": "0.8.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jcubic/jquery.terminal.git",
+                "reference": "8f5407975498807076a76b83424d295091cf9600"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jcubic/jquery.terminal/zipball/8f5407975498807076a76b83424d295091cf9600",
+                "reference": "8f5407975498807076a76b83424d295091cf9600",
+                "shasum": ""
+            },
+            "type": "bower-asset-library"
+        },
+        {
             "name": "bower-asset/noty",
             "version": "v2.3.11",
             "source": {
@@ -545,6 +614,44 @@
                 "markdown-extra"
             ],
             "time": "2016-12-11 13:37:11"
+        },
+        {
+            "name": "e282486518/yii2-console-migration",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/e282486518/yii2-console-migration.git",
+                "reference": "5eab26b9c6d723ad1992cbc1bc3c8146aeb8080f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/e282486518/yii2-console-migration/5eab26b9c6d723ad1992cbc1bc3c8146aeb8080f.zip",
+                "reference": "5eab26b9c6d723ad1992cbc1bc3c8146aeb8080f",
+                "shasum": ""
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "e282486518\\migration\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "ccdream",
+                    "email": "phphome@qq.com"
+                }
+            ],
+            "description": "yii2命令行中使用migration备份和还原数据库",
+            "keywords": [
+                "console",
+                "migration",
+                "yii2"
+            ],
+            "time": "2016-12-01 12:04:39"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -2076,6 +2183,134 @@
             "time": "2015-01-11 18:55:14"
         },
         {
+            "name": "open-ecommerce/yii2-backuprestore",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/open-ecommerce/yii2-backuprestore.git",
+                "reference": "1ea6e80ba161af3d68a8b8d0eb725d034fb22e5d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/open-ecommerce/yii2-backuprestore/1ea6e80ba161af3d68a8b8d0eb725d034fb22e5d.zip",
+                "reference": "1ea6e80ba161af3d68a8b8d0eb725d034fb22e5d",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "oe\\modules\\backuprestore\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "open-ecommerce.org",
+                    "email": "info@open-ecommerce.org"
+                }
+            ],
+            "description": "Database Backup and Restore functionality",
+            "keywords": [
+                "backup",
+                "database",
+                "restore",
+                "yii2"
+            ],
+            "time": "2015-04-07 17:03:01"
+        },
+        {
+            "name": "samdark/yii2-webshell",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/samdark/yii2-webshell.git",
+                "reference": "b55c1d3ae1fb70138e52b2820b831e7c2d4c3116"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/samdark/yii2-webshell/b55c1d3ae1fb70138e52b2820b831e7c2d4c3116.zip",
+                "reference": "b55c1d3ae1fb70138e52b2820b831e7c2d4c3116",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery.terminal": "~0.8.8",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "samdark\\webshell\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Makarov",
+                    "email": "sam@rmcreative.ru"
+                }
+            ],
+            "description": "A web shell that allows to run yii console commands and create your own commands.",
+            "keywords": [
+                "console",
+                "extension",
+                "shell",
+                "webshell",
+                "yii2"
+            ],
+            "time": "2015-08-26 09:27:42"
+        },
+        {
+            "name": "spanjeta/yii2-backup",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spanjeta/yii2-backup.git",
+                "reference": "0d84b8eacf3269578f855f5a68fcb8075beda71c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/spanjeta/yii2-backup/0d84b8eacf3269578f855f5a68fcb8075beda71c.zip",
+                "reference": "0d84b8eacf3269578f855f5a68fcb8075beda71c",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "spanjeta\\modules\\backup\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Shiv Charan Panjeta",
+                    "email": "shivcharan.panjeta@gmail.com"
+                }
+            ],
+            "description": "Database Backup and Restore functionality",
+            "keywords": [
+                "backup",
+                "database",
+                "restore",
+                "yii2"
+            ],
+            "time": "2016-10-03 06:37:44"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "5.x-dev",
             "source": {
@@ -2127,6 +2362,55 @@
                 "mailer"
             ],
             "time": "2016-12-20 05:27:43"
+        },
+        {
+            "name": "symfony/process",
+            "version": "3.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "768debc5996f599c4372b322d9061dba2a4bf505"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/symfony/process/768debc5996f599c4372b322d9061dba2a4bf505.zip",
+                "reference": "768debc5996f599c4372b322d9061dba2a4bf505",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-07-28 11:13:34"
         },
         {
             "name": "yii2mod/yii2-editable",
@@ -5031,7 +5315,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "nirvana-msu/yii2-showloading": 20,
-        "kartik-v/yii2-builder": 20
+        "kartik-v/yii2-builder": 20,
+        "open-ecommerce/yii2-backuprestore": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

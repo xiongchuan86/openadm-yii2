@@ -12,6 +12,7 @@ $config = [
     'name' => 'OpenAdm',
     'language'=>'zh-CN',
     'sourceLanguage' => 'en-US',
+    'TimeZone' => 'PRC',
     'on beforeRequest' =>['app\common\SystemEvent','beforeRequest'],
     'on beforeAction' => ['app\common\SystemEvent','beforeAction'],
     'defaultRoute' => 'dashboard/main',
