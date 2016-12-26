@@ -21,7 +21,10 @@
         "kartik-v/yii2-widgets": "*",
         "nirvana-msu/yii2-showloading": "^1.0@dev",
         "kartik-v/yii2-builder": "@dev",
-        "kit-tools/yii2-webui-popover": "*"
+        "kit-tools/yii2-webui-popover": "*",
+        "symfony/process": "*",
+      "xiongchuan/yii2-adminlte-treeview":"*",
+      "xiongchuan/yii2-sortable-tree" :"*"
     },
     "require-dev": {
       "yiisoft/yii2-debug": "~2.0.0",
@@ -34,8 +37,7 @@
     },
     "autoload": {
       "psr-4": {
-        "meysampg\\treeview\\": "/Users/xiongchuan/git/github/yii2-treeview",
-        "xiongchuan\\tree\\": "/Users/xiongchuan/git/github/yii2-sortable-tree"
+
       }
     },
     "config": {

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ca24dc64cec1571ece6ac7f0f8ea4cc4",
-    "content-hash": "5ce3b760e82f678e6846cc9292a484d6",
+    "hash": "e4877c8cb7cfa1a571a0201d72eab7c4",
+    "content-hash": "2f4980c32bf49219087b7c7e503bc8b0",
     "packages": [
         {
             "name": "2amigos/yii2-arrayquery-component",
@@ -290,6 +290,45 @@
                     "index*"
                 ]
             }
+        },
+        {
+            "name": "bower-asset/jquery-sortable-lists",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/camohub/jquery-sortable-lists.git",
+                "reference": "4cd96744f06540b391176cdf4697c289cf3572ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/camohub/jquery-sortable-lists/zipball/4cd96744f06540b391176cdf4697c289cf3572ed",
+                "reference": "4cd96744f06540b391176cdf4697c289cf3572ed",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1,<3.0.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "jquery-sortable-lists.js",
+                "bower-asset-ignore": [
+                    "javascripts",
+                    ".idea",
+                    "package.json"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "jQuery plugin to sorting html lists also the tree structures",
+            "keywords": [
+                "jquery",
+                "jquery-plugin",
+                "lists",
+                "ordering",
+                "tree"
+            ],
+            "time": "2016-02-10 02:55:29"
         },
         {
             "name": "bower-asset/jquery-ui",
@@ -640,12 +679,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "ad0ddced480efdd38051d02b1ef28a2749bcc48a"
+                "reference": "755bab1ca8e3b3c6ff3f9bfcda7efa65ee352dae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/kartik-v/bootstrap-fileinput/ad0ddced480efdd38051d02b1ef28a2749bcc48a.zip",
-                "reference": "ad0ddced480efdd38051d02b1ef28a2749bcc48a",
+                "url": "https://packagist.phpcomposer.com/files/kartik-v/bootstrap-fileinput/755bab1ca8e3b3c6ff3f9bfcda7efa65ee352dae.zip",
+                "reference": "755bab1ca8e3b3c6ff3f9bfcda7efa65ee352dae",
                 "shasum": ""
             },
             "type": "library",
@@ -685,7 +724,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2016-12-17 16:49:33"
+            "time": "2016-12-25 18:57:44"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -2225,6 +2264,142 @@
             "time": "2016-12-20 05:27:43"
         },
         {
+            "name": "symfony/process",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "42e663e27061184886d5e9566959e73964748d31"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/symfony/process/42e663e27061184886d5e9566959e73964748d31.zip",
+                "reference": "42e663e27061184886d5e9566959e73964748d31",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-12-19 16:19:32"
+        },
+        {
+            "name": "xiongchuan/yii2-adminlte-treeview",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xiongchuan86/yii2-adminlte-treeview.git",
+                "reference": "30385c9bc621e90379ec62063ab4a4130d5487c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/xiongchuan86/yii2-adminlte-treeview/30385c9bc621e90379ec62063ab4a4130d5487c9.zip",
+                "reference": "30385c9bc621e90379ec62063ab4a4130d5487c9",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2-bootstrap": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "xiongchuan\\treeview\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "chuan xiong",
+                    "email": "xiongchuan86@gmail.com"
+                }
+            ],
+            "description": "A Bootstrap Treeview Generator for AdminLte Sidebar",
+            "keywords": [
+                "AdminLTE",
+                "extension",
+                "generator",
+                "sidebar",
+                "treeview",
+                "yii2"
+            ],
+            "time": "2016-12-26 10:43:58"
+        },
+        {
+            "name": "xiongchuan/yii2-sortable-tree",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xiongchuan86/yii2-sortable-tree.git",
+                "reference": "0369d723ed80b8aed42ec73b41c592c6d282b99b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/xiongchuan86/yii2-sortable-tree/0369d723ed80b8aed42ec73b41c592c6d282b99b.zip",
+                "reference": "0369d723ed80b8aed42ec73b41c592c6d282b99b",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery-sortable-lists": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "xiongchuan\\tree\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "chuan xiong",
+                    "email": "xiongchuan86@gmail.com"
+                }
+            ],
+            "description": "The Tree widget based on Jquery-sortable-list,drag and drop to sort the tree.",
+            "keywords": [
+                "drap and drop",
+                "extension",
+                "sortable",
+                "tree",
+                "yii2"
+            ],
+            "time": "2016-12-26 11:38:20"
+        },
+        {
             "name": "yii2mod/yii2-editable",
             "version": "dev-master",
             "source": {
@@ -2571,12 +2746,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-httpclient.git",
-                "reference": "c54d71a59b4071797da877e3fc2d4403d35dc03c"
+                "reference": "4b6570c0a681e624e50b7ea6857ad65186f3b73b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-httpclient/c54d71a59b4071797da877e3fc2d4403d35dc03c.zip",
-                "reference": "c54d71a59b4071797da877e3fc2d4403d35dc03c",
+                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-httpclient/4b6570c0a681e624e50b7ea6857ad65186f3b73b.zip",
+                "reference": "4b6570c0a681e624e50b7ea6857ad65186f3b73b",
                 "shasum": ""
             },
             "require": {
@@ -2610,7 +2785,7 @@
                 "httpclient",
                 "yii2"
             ],
-            "time": "2016-12-21 11:41:46"
+            "time": "2016-12-23 15:26:35"
         },
         {
             "name": "yiisoft/yii2-jui",
@@ -2715,59 +2890,6 @@
     ],
     "packages-dev": [
         {
-            "name": "beaten-sect0r/yii2-db-manager",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Beaten-Sect0r/yii2-db-manager.git",
-                "reference": "c4853c6a2f578d1823bec7390f61f9f7f49c6552"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/Beaten-Sect0r/yii2-db-manager/c4853c6a2f578d1823bec7390f61f9f7f49c6552.zip",
-                "reference": "c4853c6a2f578d1823bec7390f61f9f7f49c6552",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/process": "2.8.*|3.0.*",
-                "yiisoft/yii2": "~2.0.6",
-                "yiisoft/yii2-bootstrap": "*"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "bootstrap": "bs\\dbManager\\Bootstrap"
-            },
-            "autoload": {
-                "psr-4": {
-                    "bs\\dbManager\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander Volkov",
-                    "email": "beatensect0r@gmail.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Insolita",
-                    "email": "donnainsolita@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "The db dump manager module for Yii2",
-            "keywords": [
-                "backup",
-                "db manager",
-                "dump",
-                "yii2"
-            ],
-            "time": "2016-12-11 11:08:51"
-        },
-        {
             "name": "behat/gherkin",
             "version": "dev-master",
             "source": {
@@ -2825,22 +2947,6 @@
                 "parser"
             ],
             "time": "2016-10-30 11:50:56"
-        },
-        {
-            "name": "bower-asset/jquery.terminal",
-            "version": "0.8.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jcubic/jquery.terminal.git",
-                "reference": "8f5407975498807076a76b83424d295091cf9600"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jcubic/jquery.terminal/zipball/8f5407975498807076a76b83424d295091cf9600",
-                "reference": "8f5407975498807076a76b83424d295091cf9600",
-                "shasum": ""
-            },
-            "type": "bower-asset-library"
         },
         {
             "name": "bower-asset/typeahead.js",
@@ -3087,44 +3193,6 @@
             "time": "2016-03-31 10:24:22"
         },
         {
-            "name": "e282486518/yii2-console-migration",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/e282486518/yii2-console-migration.git",
-                "reference": "5eab26b9c6d723ad1992cbc1bc3c8146aeb8080f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/e282486518/yii2-console-migration/5eab26b9c6d723ad1992cbc1bc3c8146aeb8080f.zip",
-                "reference": "5eab26b9c6d723ad1992cbc1bc3c8146aeb8080f",
-                "shasum": ""
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "e282486518\\migration\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "ccdream",
-                    "email": "phphome@qq.com"
-                }
-            ],
-            "description": "yii2命令行中使用migration备份和还原数据库",
-            "keywords": [
-                "console",
-                "migration",
-                "yii2"
-            ],
-            "time": "2016-12-01 12:04:39"
-        },
-        {
             "name": "fzaninotto/faker",
             "version": "dev-master",
             "source": {
@@ -3280,48 +3348,6 @@
                 "object graph"
             ],
             "time": "2016-10-31 17:19:45"
-        },
-        {
-            "name": "open-ecommerce/yii2-backuprestore",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/open-ecommerce/yii2-backuprestore.git",
-                "reference": "1ea6e80ba161af3d68a8b8d0eb725d034fb22e5d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/open-ecommerce/yii2-backuprestore/1ea6e80ba161af3d68a8b8d0eb725d034fb22e5d.zip",
-                "reference": "1ea6e80ba161af3d68a8b8d0eb725d034fb22e5d",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "oe\\modules\\backuprestore\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "open-ecommerce.org",
-                    "email": "info@open-ecommerce.org"
-                }
-            ],
-            "description": "Database Backup and Restore functionality",
-            "keywords": [
-                "backup",
-                "database",
-                "restore",
-                "yii2"
-            ],
-            "time": "2015-04-07 17:03:01"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -4053,50 +4079,6 @@
             "time": "2016-10-10 12:19:37"
         },
         {
-            "name": "samdark/yii2-webshell",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/samdark/yii2-webshell.git",
-                "reference": "b55c1d3ae1fb70138e52b2820b831e7c2d4c3116"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/samdark/yii2-webshell/b55c1d3ae1fb70138e52b2820b831e7c2d4c3116.zip",
-                "reference": "b55c1d3ae1fb70138e52b2820b831e7c2d4c3116",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/jquery.terminal": "~0.8.8",
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "samdark\\webshell\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander Makarov",
-                    "email": "sam@rmcreative.ru"
-                }
-            ],
-            "description": "A web shell that allows to run yii console commands and create your own commands.",
-            "keywords": [
-                "console",
-                "extension",
-                "shell",
-                "webshell",
-                "yii2"
-            ],
-            "time": "2015-08-26 09:27:42"
-        },
-        {
             "name": "sebastian/code-unit-reverse-lookup",
             "version": "dev-master",
             "source": {
@@ -4610,48 +4592,6 @@
             "time": "2016-10-03 07:35:21"
         },
         {
-            "name": "spanjeta/yii2-backup",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spanjeta/yii2-backup.git",
-                "reference": "0d84b8eacf3269578f855f5a68fcb8075beda71c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/spanjeta/yii2-backup/0d84b8eacf3269578f855f5a68fcb8075beda71c.zip",
-                "reference": "0d84b8eacf3269578f855f5a68fcb8075beda71c",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "spanjeta\\modules\\backup\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Shiv Charan Panjeta",
-                    "email": "shivcharan.panjeta@gmail.com"
-                }
-            ],
-            "description": "Database Backup and Restore functionality",
-            "keywords": [
-                "backup",
-                "database",
-                "restore",
-                "yii2"
-            ],
-            "time": "2016-10-03 06:37:44"
-        },
-        {
             "name": "symfony/browser-kit",
             "version": "dev-master",
             "source": {
@@ -4714,12 +4654,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "c7a20754419dd6bf34d016b2a5bc103b032f3b11"
+                "reference": "7b57f3cf2c712f14f54b8f5ff3b4e35bc64f6acf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/symfony/console/c7a20754419dd6bf34d016b2a5bc103b032f3b11.zip",
-                "reference": "c7a20754419dd6bf34d016b2a5bc103b032f3b11",
+                "url": "https://packagist.phpcomposer.com/files/symfony/console/7b57f3cf2c712f14f54b8f5ff3b4e35bc64f6acf.zip",
+                "reference": "7b57f3cf2c712f14f54b8f5ff3b4e35bc64f6acf",
                 "shasum": ""
             },
             "require": {
@@ -4769,7 +4709,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2016-12-19 16:13:57"
+            "time": "2016-12-23 17:11:40"
         },
         {
             "name": "symfony/css-selector",
@@ -5104,55 +5044,6 @@
                 "shim"
             ],
             "time": "2016-11-14 01:06:16"
-        },
-        {
-            "name": "symfony/process",
-            "version": "3.0.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/process.git",
-                "reference": "768debc5996f599c4372b322d9061dba2a4bf505"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/symfony/process/768debc5996f599c4372b322d9061dba2a4bf505.zip",
-                "reference": "768debc5996f599c4372b322d9061dba2a4bf505",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.9"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Process\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Process Component",
-            "homepage": "https://symfony.com",
-            "time": "2016-07-28 11:13:34"
         },
         {
             "name": "symfony/yaml",

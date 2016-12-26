@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use meysampg\treeview\Treeview;
+use xiongchuan\treeview\Treeview;
 use app\common\SystemConfig;
 
 function formatItem($v){
