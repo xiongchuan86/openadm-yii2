@@ -247,7 +247,28 @@ class PluginManager
 	}
 
     /**
-     * 安装过程中,记录_pluings[pluginId] = ['config_ids'=[]]
+     * 把config注入到system_config
+     * @param array $conf
+     */
+	static public function PluginInjectConfig(array $conf)
+    {
+        if(isset($conf['config']) && !empty($conf['config']) && is_array($conf['config'])){
+            foreach ($conf['config'] as $config){
+                if(isset($config['cfg_name']) && !empty($config['cfg_name'])){
+                    $params = [
+                        'cfg_name'  => $config['cfg_name'],
+                        'cfg_value' => isset($config['cfg_value']) ? $config['cfg_value'] : '',
+                        'cfg_comment' => isset($config['cfg_comment']) ? $config['cfg_comment'] : '',
+                    ];
+                    $lastid = SystemConfig::Set($config['cfg_name'],$params);
+                    self::RecordPluginConfigId($conf['id'],$lastid);
+                }
+            }
+        }
+    }
+
+    /**
+     * 安装过程中,记录_pluings[pluginId] = ['config_ids'=>[]]
      * @param $pluginId plugin id
      * @param $configId system_config id
      */
@@ -420,6 +441,8 @@ class PluginManager
 				self::PluginInjectMenu($config);
 				//注入route
 				self::PluginInjectRoute($config);
+                //注入config
+                self::PluginInjectConfig($config);
 				//导入数据表
 				self::PluginExecSQL($config);
 				//完成最后操作
