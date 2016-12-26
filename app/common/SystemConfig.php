@@ -108,11 +108,15 @@ class SystemConfig
 	 * @comment add a item to controll a group data
 	 */
 	static public function GetDataWidthPage($name,$pid,$type,$page=1,$pageSize=50,$status=FALSE){
-		$where = " cfg_name=:name ";
+        $where = "";
+	    if($name){
+            $where .= " AND cfg_name=:name ";
+        }
+
 		if($status!==FALSE){
 			$where .= " AND cfg_status=".$status;
 		}
-		$pid   = intval($pid);
+
 		if($pid && $pid>0){
 			$where .= " AND cfg_pid=:pid ";
 		}
@@ -124,7 +128,7 @@ class SystemConfig
 		$limit = " ";
 		if($page<=0) $page = 1;
 		if($pageSize<=0) $pageSize = 50;
-		$sql = "SELECT count(*) cnt FROM {{".self::$_tableName."}} WHERE {$where}";
+		$sql = "SELECT count(*) cnt FROM {{".self::$_tableName."}} WHERE 1 {$where}";
 		$cmd = Yii::$app->db->createCommand($sql);
 		$cmd->bindvalue(":name",$name);
 		if($pid && $pid>0) $cmd->bindValue(":pid",$pid);

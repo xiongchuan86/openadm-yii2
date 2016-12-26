@@ -20,7 +20,8 @@
       "yii2mod/yii2-editable": "*",
         "kartik-v/yii2-widgets": "*",
         "nirvana-msu/yii2-showloading": "^1.0@dev",
-        "kartik-v/yii2-builder": "@dev"
+        "kartik-v/yii2-builder": "@dev",
+        "kit-tools/yii2-webui-popover": "*"
     },
     "require-dev": {
       "yiisoft/yii2-debug": "~2.0.0",
