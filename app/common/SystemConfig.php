@@ -18,6 +18,7 @@ class SystemConfig
     const CONFIG_TYPE_USER     = "USER";
     const CONFIG_TYPE_SYSTEM   = "SYSTEM";
     const CONFIG_TYPE_ROUTE    = "ROUTE";
+    const CONFIG_TYPE_PLUGIN   = "PLUGIN";
 	
 	/**
 	 * 返回 array(value=>comment)类型数据

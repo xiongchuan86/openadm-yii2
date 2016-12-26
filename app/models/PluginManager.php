@@ -10,6 +10,7 @@ use app\common\SystemConfig;
 use yii\helpers\FileHelper;
 use yii\base\ErrorException;
 use yii\helpers\Json;
+use yii\base\InvalidParamException;
 class PluginManager
 {
 	const STATUS_SUCCESS = 1;
@@ -20,6 +21,8 @@ class PluginManager
 	const PLUGIN_TYPE_ADMIN = "ADMIN";
 	const PLUGIN_TYPE_API   = "API";
 	const PLUGIN_TYPE_HOME  = "HOME";
+
+    const PLUGIN_CONFIG_ID_RECORD_KEY = "PLUGIN_CONFIG_IDS";
 	
 	static private $_plugins = array();
 	static private $_setupedplugins = array();
@@ -35,27 +38,27 @@ class PluginManager
 	static public function GetSetupedPlugins()
 	{
 		if(empty(self::$_setupedplugins)){
-			$cfg_name = "PLUGIN_ID";
-			self::$_setupedplugins = SystemConfig::GetArrayValue($cfg_name,null,"USER");
+			$plugins = SystemConfig::Get('',null,SystemConfig::CONFIG_TYPE_PLUGIN);
+            foreach ($plugins as $plugin){
+                try{
+                    self::$_setupedplugins[$plugin['cfg_name']] = Json::decode($plugin['cfg_value'],true);
+                }catch (InvalidParamException $e){
+                    self::$_setupedplugins[$plugin['cfg_name']] = $plugin['cfg_value'];
+                }
+            }
 		}
 		return self::$_setupedplugins;
 	}
 	
 	static public function PluginSetupedCompleted($pluginid,array $config)
 	{
-		$cfg_name = strtoupper("PLUGIN_ID");
+        $cfg_value = Json::encode(array_merge($config,[self::PLUGIN_CONFIG_ID_RECORD_KEY=>self::$_plugins[$pluginid][self::PLUGIN_CONFIG_ID_RECORD_KEY]]));
 		$params = array(
-			'cfg_value'   => $pluginid,
-			'cfg_comment' => $config['name']
+			'cfg_value'   => $cfg_value,
+			'cfg_comment' => $config['name'],
+            'cfg_type'    =>SystemConfig::CONFIG_TYPE_PLUGIN
 		);
-		SystemConfig::Set($cfg_name,$params);
-		//写入版本
-		$cfg_name = strtoupper("PLUGIN_{$pluginid}_VERSION");
-		$params = array(
-			'cfg_value'   => $config['version'],
-			'cfg_comment' => $config['name']."版本号"
-		);
-		SystemConfig::Set($cfg_name,$params);
+		SystemConfig::Set($pluginid,$params);
 		return true;
 	}
 	
@@ -237,10 +240,29 @@ class PluginManager
 					'cfg_type'    => 'ROUTE'
 				];
 				$cfg_name = strtoupper("plugin_{$conf['id']}_route");
-				SystemConfig::Set($cfg_name,$params);
+                $lastid = SystemConfig::Set($cfg_name,$params);
+                self::RecordPluginConfigId($conf['id'],$lastid);
 			}
 		}
 	}
+
+    /**
+     * 安装过程中,记录_pluings[pluginId] = ['config_ids'=[]]
+     * @param $pluginId plugin id
+     * @param $configId system_config id
+     */
+	static public function RecordPluginConfigId($pluginId,$configId)
+    {
+        if( $configId>0){
+            if(!isset(self::$_plugins[$pluginId])){
+                self::$_plugins[$pluginId] = [];
+            }
+            if(!isset(self::$_plugins[$pluginId][self::PLUGIN_CONFIG_ID_RECORD_KEY])){
+                self::$_plugins[$pluginId][self::PLUGIN_CONFIG_ID_RECORD_KEY] = [];
+            }
+             array_push(self::$_plugins[$pluginId][self::PLUGIN_CONFIG_ID_RECORD_KEY],$configId);
+        }
+    }
 
     /**
      * 实际注入方法
@@ -266,16 +288,7 @@ class PluginManager
             }
             //写入system_config表
             $lastPuginConfigId = SystemConfig::Set($cfg_name,$params);
-
-            //对菜单项做记录
-            if($lastPuginConfigId>0){
-                $pluginCfgName = strtoupper("plugin_{$pluginId}_{$cfg_name}");
-                $pluginParams  = array(
-                    'cfg_value' => $lastPuginConfigId,
-                    'cfg_comment' => $params['cfg_comment'].":".$cfg_name,
-                );
-                $lastid = SystemConfig::Set($pluginCfgName,$pluginParams);
-            }
+            self::RecordPluginConfigId($pluginId,$lastPuginConfigId);
 
             $key = '';
             if($cfg_name == SystemConfig::TOPMENU_KEY){
@@ -352,62 +365,25 @@ class PluginManager
 	}
 	
 	/**
-	 * 删除菜单
-	 */
-	static public function PluginDeleteMenus($pluginid)
-	{
-		//移除菜单
-		$pluginmenus = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_".SystemConfig::TOPMENU_KEY),null,"USER");
-		if(!empty($pluginmenus))foreach($pluginmenus as $row){
-			$menuid = $row['cfg_value'];
-			SystemConfig::Remove($menuid);//移除菜单
-			SystemConfig::Remove($row['id']);//移除自身
-		}
-		
-		//移除子菜单
-		$pluginmenus = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_".SystemConfig::LEFTMENU_KEY),null,"USER");
-		if(!empty($pluginmenus))foreach($pluginmenus as $row){
-			$menuid = $row['cfg_value'];
-			SystemConfig::Remove($menuid);//移除菜单
-			SystemConfig::Remove($row['id']);//移除自身
-		}
-		
-		//移除三级菜单
-		$pluginmenus = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_".SystemConfig::INNERMENU_KEY),null,"USER");
-		if(!empty($pluginmenus))foreach($pluginmenus as $row){
-			$menuid = $row['cfg_value'];
-			SystemConfig::Remove($menuid);//移除菜单
-			SystemConfig::Remove($row['id']);//移除自身
-		}
-	}
-	
-	/**
 	 * 移除插件在system_config里面的配置
 	 * @param $pluginid string
 	 */
 	static public function PluginDeleteDBConfig($pluginid)
 	{
-		//删除菜单
-		self::PluginDeleteMenus($pluginid);
-		
-		$pluginids = SystemConfig::Get("PLUGIN_ID",null,"USER");
-		if(!empty($pluginids))foreach($pluginids as $row){
-			if($pluginid == $row['cfg_value']){
-				SystemConfig::Remove($row['id']);
-				break;
-			}
-		}
-		//route
-		$pluginroutes = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_ROUTE"),null,"ROUTE");
-		if(!empty($pluginroutes))foreach($pluginroutes as $row){
-			SystemConfig::Remove($row['id']);
-		}
-		
-		//版本号
-		$pluginversions = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_VERSION"),null,"USER");
-		if(!empty($pluginversions))foreach($pluginversions as $row){
-			SystemConfig::Remove($row['id']);
-		}
+	    $plugins = SystemConfig::Get($pluginid,null,SystemConfig::CONFIG_TYPE_PLUGIN);
+        if($plugins && is_array($plugins))foreach ($plugins as $plugin){
+            try{
+                $value = Json::decode($plugin['cfg_value']);
+                $config_ids = isset($value[self::PLUGIN_CONFIG_ID_RECORD_KEY]) ? $value[self::PLUGIN_CONFIG_ID_RECORD_KEY] : [];
+                if(is_array($config_ids) && !empty($config_ids))foreach ($config_ids as $id){
+                    SystemConfig::Remove($id);
+                }
+            }catch (InvalidParamException $e){
+
+            }
+            //删除自己
+            SystemConfig::Remove($plugin['id']);
+        }
 		return false;
 	}
 	
@@ -483,7 +459,6 @@ class PluginManager
 	static public function delete($pluginid)
 	{
 		try{
-			//delete /plugin/src/{$pluginid}
 			$pluginDir = self::GetPluginPath($pluginid);
 			FileHelper::removeDirectory($pluginDir);
 			return ['status'=>self::STATUS_SUCCESS,'msg'=>'删除成功'];
@@ -560,14 +535,5 @@ class PluginManager
 			$data['msg'] = '更新失败，配置文件有误！';
 		}
 		return $data;
-	}
-	
-	/**
-	 * 导入插件
-	 */
-	static public function import($fileRule)
-	{
-		$rule = "plugin.src.".$fileRule;
-		Yii::import($rule);
 	}
 }
