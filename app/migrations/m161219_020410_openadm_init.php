@@ -17,7 +17,7 @@ class m161219_020410_openadm_init extends Migration
             'cfg_order' => $this->integer(11)->defaultValue(0)->comment('排序'),
             'cfg_pid' => $this->integer(11)->defaultValue(0)->comment('父ID'),
             'ctime' => $this->integer(11)->defaultValue(0)->comment('创建时间'),
-            'cfg_type' => "set('SYSTEM','USER','ROUTE') NOT NULL DEFAULT 'USER' COMMENT 'SYSTEM:系统配置,USER:用户配置,ROUTE:路由'",
+            'cfg_type' => "set('SYSTEM','USER','ROUTE','PLUGIN') NOT NULL DEFAULT 'USER' COMMENT 'SYSTEM:系统配置,USER:用户配置,ROUTE:路由,PLUGIN:插件'",
             'cfg_status' => "tinyint(4) NOT NULL DEFAULT '1' COMMENT '1显示 0 不显示'",
             'cfg_comment' => $this->string(255)->comment('配置说明'),
         ], $tableOptions);
