@@ -24,7 +24,7 @@ class SystemConfig
 	 * 返回 array(value=>comment)类型数据
 	 * @return array
 	 */
-	static public function GetArrayValue($name,$pid=0,$type='SYSTEM')
+	static public function GetArrayValue($name,$pid=0,$type='USER')
 	{
 		$array = array();
 		$config = self::Get($name,$pid,$type);
@@ -49,7 +49,7 @@ class SystemConfig
 	 * 获取配置的数据
 	 * @return array
 	 */
-	static public function Get($name='',$pid=0,$type='SYSTEM')
+	static public function Get($name='',$pid=0,$type='USER')
 	{
 		$cacheKey = $name.'-'.$pid.'-'.$type;
 		
@@ -59,6 +59,16 @@ class SystemConfig
 		}
 		return self::$_config[$cacheKey];
 	}
+
+    /**
+     * 获取配置的数据,取第一个
+     * @return array
+     */
+    static public function GetOne($name='',$pid=0,$type='USER')
+    {
+        $configs = self::Get($name,$pid,$type);
+        return is_array($configs) && count($configs)>0 ? $configs[0] : false ;
+    }
 	
 	/**
 	 * @param $name string 配置项的KEY
