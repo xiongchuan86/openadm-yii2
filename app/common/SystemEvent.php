@@ -8,66 +8,66 @@ use yii\base\InvalidParamException;
 
 class SystemEvent
 {
-	const PLUGIN_MODULE_NAME    = "plugin";
+    const PLUGIN_MODULE_NAME    = "plugin";
     const SYSTEM_TOPMENUID_KEY  = "tmid";
     const SYSTEM_LEFTMENUID_KEY = "lmid";
     const SYSTEM_INNERMENUID_KEY = "imid";
-	
-	static private $requestedPlugin = false;
+
+    static private $requestedPlugin = false;
 
     static private $hasGetMenu         = false;
-	
-	static public function beforeRequest()
-	{
-		self::AddUrlRules();
-	}
-	
-	static public function AddUrlRules()
-	{
-		$routes = SystemConfig::Get("",null,'ROUTE');
-		if($routes){
-			$rules = [];
-			foreach($routes as $route){
-				$tmp = explode("=>", $route['cfg_value']);
-				if(2 == count($tmp))
-					$rules[$tmp[0]] = $tmp[1];
-			}
-			if($rules)Yii::$app->urlManager->addRules($rules);
-		}
-	}
-	
-	static public function beforeAction()
-	{
-		self::GetRequestedPlugin();
-		if( self::$requestedPlugin){
-			$plugin_type = isset(self::$requestedPlugin['config']['type']) ? self::$requestedPlugin['config']['type'] : '';
-			if($plugin_type == PluginManager::PLUGIN_TYPE_ADMIN) self::GetAdminMenu();
-		}else{
-			if(in_array(Yii::$app->controller->module->id,['rbac']))self::GetAdminMenu();
-		}
-		self::Authenticate();
-		self::GetAdminMenu();
-	}
-	
-	static public function Authenticate()
-	{
-		//
-	}
-	
-	//读取当前请求的插件信息
-	static public function GetRequestedPlugin()
-	{
-		if(self::PLUGIN_MODULE_NAME == strtolower(Yii::$app->controller->module->id))
-		{
-			//读取插件信息
-			self::$requestedPlugin = PluginManager::GetPluginConfig(strtolower(Yii::$app->controller->id),false,null,false);
-		}
-	}
+
+    static public function beforeRequest()
+    {
+        self::AddUrlRules();
+    }
+
+    static public function AddUrlRules()
+    {
+        $routes = SystemConfig::Get("",null,'ROUTE');
+        if($routes){
+            $rules = [];
+            foreach($routes as $route){
+                $tmp = explode("=>", $route['cfg_value']);
+                if(2 == count($tmp))
+                    $rules[$tmp[0]] = $tmp[1];
+            }
+            if($rules)Yii::$app->urlManager->addRules($rules);
+        }
+    }
+
+    static public function beforeAction()
+    {
+        self::GetRequestedPlugin();
+        if( self::$requestedPlugin){
+            $plugin_type = isset(self::$requestedPlugin['config']['type']) ? self::$requestedPlugin['config']['type'] : '';
+            if($plugin_type == PluginManager::PLUGIN_TYPE_ADMIN) self::GetAdminMenu();
+        }else{
+            if(in_array(Yii::$app->controller->module->id,['rbac']))self::GetAdminMenu();
+        }
+        self::Authenticate();
+        self::GetAdminMenu();
+    }
+
+    static public function Authenticate()
+    {
+        //
+    }
+
+    //读取当前请求的插件信息
+    static public function GetRequestedPlugin()
+    {
+        if(self::PLUGIN_MODULE_NAME == strtolower(Yii::$app->controller->module->id))
+        {
+            //读取插件信息
+            self::$requestedPlugin = PluginManager::GetPluginConfig(strtolower(Yii::$app->controller->id),false,null,false);
+        }
+    }
 
     /**
      * @return null|Array 菜单
      */
-	static public function GetMenus()
+    static public function GetMenus()
     {
         static $_menus = null;
         if($_menus == null){
@@ -104,10 +104,10 @@ class SystemEvent
         }
         return $menus;
     }
-	
-	//获取Admin菜单
-	static public function GetAdminMenu(){
-	    if(self::$hasGetMenu)return;
+
+    //获取Admin菜单
+    static public function GetAdminMenu(){
+        if(self::$hasGetMenu)return;
         $top_menu_id  = Yii::$app->request->get(self::SYSTEM_TOPMENUID_KEY,'');
         $left_menu_id = Yii::$app->request->get(self::SYSTEM_LEFTMENUID_KEY,'');
         $inner_menu_id = Yii::$app->request->get(self::SYSTEM_INNERMENUID_KEY,'');
@@ -181,58 +181,83 @@ class SystemEvent
         Yii::$app->params[SystemConfig::INNERMENU_KEY] = $inner_menus;
 
         self::$hasGetMenu = true;
-	}
-	
-	/**
-	 * 通过url获取route,通过rule解析得到
-	 */
-	static public function GetRouteFromUrl($url)
-	{
-		$action = $controller = $module = null;
-		if(Yii::$app->urlManager->rules)foreach(Yii::$app->urlManager->rules as $rule){
-			$request = new Request;
-			$request->pathinfo = $url;
-			$request->hostinfo = "http://127.0.0.1";
-			list($route,$params) = $rule->parseRequest(Yii::$app->urlManager,$request);
-			if($route){
-				list($id,$route) = explode("/",trim($route,"/"),2);
-				if(isset(Yii::$app->modules[$id]) || array_search($id,Yii::$app->modules)){
-					$module     = $id;
-					$array      = explode("/", trim($route,"/"),3);
-					$controller = !empty($array[0]) ? $array[0] : null;
-					$action     = !empty($array[1]) ? $array[1] : null;
-				}else{
-					$controller = $id;
-					$action     = explode("/", trim($route,"/"),2)[0];
-				}
-			}else{
-				$array = explode("/", trim($url,"/"));
-				$module     = !empty($array[0]) ? $array[0] : null;
-				$controller = !empty($array[1]) ? $array[1] : null;
-				$action     = !empty($array[2]) ? $array[2] : null;
-			}
-		}
-		return ['action'=>$action,'controller'=>$controller,'module'=>$module];
-	}
-	
-	/**
-	 * 判断菜单的权限
-	 */
-	static public function CheckAccessMenu($url)
-	{
-		if($url == "#")return true;
-		$request = self::GetRouteFromUrl($url);
-		$m = empty($request['module']) ? "" : $request['module'] ;
-		$c = empty($request['controller']) ? "" : $request['controller'] ;
-		$a = empty($request['action']) ? "" : $request['action'];
+    }
+
+    /**
+     * 通过url获取route,通过rule解析得到
+     */
+    static public function GetRouteFromUrl($url)
+    {
+        $action = $controller = $module = $plugin = null;
+        if(Yii::$app->urlManager->rules)foreach(Yii::$app->urlManager->rules as $rule){
+            $request = new Request;
+            $request->pathinfo = $url;
+            $request->hostinfo = "http://127.0.0.1";
+            list($route,$params) = $rule->parseRequest(Yii::$app->urlManager,$request);
+            if($route){
+                list($id,$route) = explode("/",trim($route,"/"),2);
+                if(isset(Yii::$app->modules[$id]) || array_search($id,Yii::$app->modules)){
+                    $module     = $id;
+                    if($module == 'plugin'){
+                        $array      = explode("/", trim($route,"/"),3);
+                        $plugin     = !empty($array[0]) ? $array[0] : null;
+                        $controller = !empty($array[1]) ? $array[1] : null;
+                        $action     = !empty($array[2]) ? $array[2] : null;
+                    }else{
+                        $array      = explode("/", trim($route,"/"),3);
+                        $controller = !empty($array[0]) ? $array[0] : null;
+                        $action     = !empty($array[1]) ? $array[1] : null;
+                    }
+                }else{
+                    $controller = $id;
+                    $action     = explode("/", trim($route,"/"),2)[0];
+                }
+            }else{
+                $array = explode("/", trim($url,"/"));
+                $module     = !empty($array[0]) ? $array[0] : null;
+                $plugin     = !empty($array[1]) ? $array[1] : null;
+                $controller = !empty($array[2]) ? $array[2] : null;
+                $action     = !empty($array[3]) ? $array[3] : null;
+                if($module == 'plugin'){
+                    if($action == null){
+                        //plugin/menu/menuController的情况
+                        $action     = $controller;
+                        $controller = $plugin;
+                    }
+                }
+            }
+        }
+        return ['action'=>$action,'controller'=>$controller,'module'=>$module,'plugin'=>$plugin];
+    }
+
+    /**
+     * 判断菜单的权限
+     */
+    static public function CheckAccessMenu($url)
+    {
+        if($url == "#")return true;
+        $request = self::GetRouteFromUrl($url);
+        $m = empty($request['module']) ? "" : $request['module'] ;
+        $p = empty($request['plugin']) ? "" : $request['plugin'] ;
+        $c = empty($request['controller']) ? "" : $request['controller'] ;
+        $a = empty($request['action']) ? "" : $request['action'];
         $user = Yii::$app->getUser();
-		$route = "/{$m}/{$c}/{$a}";
-		if($user->can(str_replace("//", "/",$route)))return true;//check action
-		$route = "/{$m}/{$c}/*";
-		if($user->can(str_replace("//", "/",$route)))return true;//check controller
-		$route = "/{$m}/*";
-		if($user->can(str_replace("//", "/",$route)))return true;//check module
-		return false;
-	}
-	
+        if($p){
+            $route = "/{$m}/{$p}/{$c}/{$a}";
+            if($user->can(str_replace("//", "/",$route)))return true;//check action
+            $route = "/{$m}/{$p}/{$c}/*";
+            if($user->can(str_replace("//", "/",$route)))return true;//check controller
+            $route = "/{$m}/{$p}/*";
+            if($user->can(str_replace("//", "/",$route)))return true;//check plugin
+        }else{
+            $route = "/{$m}/{$c}/{$a}";
+            if($user->can(str_replace("//", "/",$route)))return true;//check action
+            $route = "/{$m}/{$c}/*";
+            if($user->can(str_replace("//", "/",$route)))return true;//check controller
+        }
+        $route = "/{$m}/*";
+        if($user->can(str_replace("//", "/",$route)))return true;//check module
+        return false;
+    }
+
 }
