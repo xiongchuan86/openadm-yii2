@@ -5,28 +5,34 @@
  */
 namespace app\modules\plugin;
 use yii;
+use yii\base\InvalidRouteException;
+use yii\web\NotFoundHttpException;
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = '';
+    // public $controllerNamespace = '';
 
-	public $pluginid = "";
-	
-	public $realRoute = "";
-	
+    public $pluginid = "";
+
+    public $realRoute = "";
+
+    public $controllerNamespace = 'app\plugins';
+
     public function init()
     {
         parent::init();
-		$route = Yii::$app->requestedRoute;
-		$array = explode("/",trim($route,"/"));
-		$pluginid = isset($array[1]) ? explode(":", $array[1]) : $array[1];
-		$namespace = join("\\",$pluginid);
-	    $this->controllerNamespace = 'app\plugins\\' . strtolower($namespace) ;
-		$this->pluginid = $pluginid[0];
-		if(count($pluginid)>1){
-			unset($array[0]);
-			unset($array[1]);
-			$this->realRoute = join("/",$array);
-		}
+        $route = Yii::$app->requestedRoute;
+        $array = explode("/",trim($route,"/"));
+        if($array['0'] == $this->id){
+            $pluginid = isset($array[1]) ? explode(":", $array[1]) : $array[1];
+            $namespace = join("\\",$pluginid);
+            $this->controllerNamespace = 'app\plugins\\' . strtolower($namespace) ;
+            $this->pluginid = $pluginid[0];
+            if(count($pluginid)>1){
+                unset($array[0]);
+                unset($array[1]);
+                $this->realRoute = join("/",$array);
+            }
+        }
     }
 
     //重写module的controller加载方式
@@ -41,23 +47,23 @@ class Module extends \yii\base\Module
         }
         return $controller;
     }
-	
-	public function beforeAction($action)
-	{
-		$this->setPluginViewPath();
-	    if (!parent::beforeAction($action)) {
-	        return false;
-	    }
-	
-	    return true; // or false to not run the action
-	}
-	
-	public function setPluginViewPath()
-	{
-		$path = Yii::getAlias('@plugins').DIRECTORY_SEPARATOR.$this->pluginid.DIRECTORY_SEPARATOR.'views';
-		if(is_dir($path)){
-			$this->setViewPath($path);
-		}
-			
-	}
+
+    public function beforeAction($action)
+    {
+        $this->setPluginViewPath();
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        return true; // or false to not run the action
+    }
+
+    public function setPluginViewPath()
+    {
+        $path = Yii::getAlias('@plugins').DIRECTORY_SEPARATOR.$this->pluginid.DIRECTORY_SEPARATOR.'views';
+        if(is_dir($path)){
+            $this->setViewPath($path);
+        }
+
+    }
 }

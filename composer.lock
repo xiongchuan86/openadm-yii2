@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e4877c8cb7cfa1a571a0201d72eab7c4",
-    "content-hash": "2f4980c32bf49219087b7c7e503bc8b0",
+    "hash": "b3abb30e8b4d3e1e9431cd9298d76f76",
+    "content-hash": "f6225b3e45181c7a501c5c8d285e71d2",
     "packages": [
         {
             "name": "2amigos/yii2-arrayquery-component",
@@ -107,6 +107,45 @@
                 "yii2"
             ],
             "time": "2016-12-08 00:46:08"
+        },
+        {
+            "name": "bootstrap-select/bootstrap-select",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silviomoreto/bootstrap-select.git",
+                "reference": "bd42554ef2c08ca0325bef908919711312e882bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/silviomoreto/bootstrap-select/bd42554ef2c08ca0325bef908919711312e882bc.zip",
+                "reference": "bd42554ef2c08ca0325bef908919711312e882bc",
+                "shasum": ""
+            },
+            "suggest": {
+                "components/jquery": ">=1.8",
+                "twbs/bootstrap": "~3.0.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Silvio Moreto",
+                    "homepage": "https://github.com/silviomoreto"
+                }
+            ],
+            "description": "Bootstrap-select is a jQuery plugin that utilizes Bootstrap's dropdown.js to style and bring additional functionality to standard select elements.",
+            "homepage": "http://silviomoreto.github.io/bootstrap-select",
+            "keywords": [
+                "bootstrap",
+                "form",
+                "replacement",
+                "select"
+            ],
+            "time": "2016-12-09 17:59:29"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -570,6 +609,50 @@
             ]
         },
         {
+            "name": "cakebake/yii2-bootstrap-select",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cakebake/yii2-bootstrap-select.git",
+                "reference": "aa8d1058f89ee5206256fa6fd39405c92d3a833b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/cakebake/yii2-bootstrap-select/aa8d1058f89ee5206256fa6fd39405c92d3a833b.zip",
+                "reference": "aa8d1058f89ee5206256fa6fd39405c92d3a833b",
+                "shasum": ""
+            },
+            "require": {
+                "bootstrap-select/bootstrap-select": "*",
+                "yiisoft/yii2-bootstrap": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "cakebake\\bootstrap\\select\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-v3"
+            ],
+            "authors": [
+                {
+                    "name": "cakebake (Jens A.)",
+                    "email": "cakebake.dev@gmail.com"
+                }
+            ],
+            "description": "A yii2 wrapper package for the custom select for @twitter bootstrap using button dropdown http://silviomoreto.github.io/bootstrap-select/3/",
+            "keywords": [
+                "bootstrap",
+                "button",
+                "select",
+                "yii",
+                "yii2"
+            ],
+            "time": "2016-04-07 21:23:02"
+        },
+        {
             "name": "cebe/markdown",
             "version": "dev-master",
             "source": {
@@ -672,6 +755,54 @@
                 "html"
             ],
             "time": "2016-07-16 12:58:58"
+        },
+        {
+            "name": "fortawesome/font-awesome",
+            "version": "v4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "e03973dedea7773e2395fed3fb1fb2188dacaa6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/FortAwesome/Font-Awesome/e03973dedea7773e2395fed3fb1fb2188dacaa6f.zip",
+                "reference": "e03973dedea7773e2395fed3fb1fb2188dacaa6f",
+                "shasum": ""
+            },
+            "require-dev": {
+                "jekyll": "1.0.2",
+                "lessc": "1.4.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OFL-1.1",
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dave Gandy",
+                    "email": "dave@fontawesome.io",
+                    "homepage": "http://twitter.com/davegandy",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The iconic font and CSS framework",
+            "homepage": "http://fontawesome.io/",
+            "keywords": [
+                "FontAwesome",
+                "awesome",
+                "bootstrap",
+                "font",
+                "icon"
+            ],
+            "time": "2014-05-14 20:09:18"
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
@@ -2209,6 +2340,95 @@
                 "yii2"
             ],
             "time": "2015-01-11 18:55:14"
+        },
+        {
+            "name": "rmrevin/yii2-fontawesome",
+            "version": "2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rmrevin/yii2-fontawesome.git",
+                "reference": "e27cba4ccc6c91f1cc5ff6abe6adf87b86eee792"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/rmrevin/yii2-fontawesome/e27cba4ccc6c91f1cc5ff6abe6adf87b86eee792.zip",
+                "reference": "e27cba4ccc6c91f1cc5ff6abe6adf87b86eee792",
+                "shasum": ""
+            },
+            "require": {
+                "fortawesome/font-awesome": "4.1.*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "rmrevin\\yii\\fontawesome\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Revin",
+                    "email": "xgismox@gmail.com",
+                    "homepage": "http://rmrevin.ru/"
+                }
+            ],
+            "description": "Font Awesome Asset Bundle for Yii2",
+            "keywords": [
+                "asset",
+                "awesome",
+                "bundle",
+                "font",
+                "yii"
+            ],
+            "time": "2014-08-05 09:09:24"
+        },
+        {
+            "name": "sgdot/yii2-admin-module",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sgdot/yii2-admin-module.git",
+                "reference": "40536ae883c28a154d97a0256330fbea9e8b9e34"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/sgdot/yii2-admin-module/40536ae883c28a154d97a0256330fbea9e8b9e34.zip",
+                "reference": "40536ae883c28a154d97a0256330fbea9e8b9e34",
+                "shasum": ""
+            },
+            "require": {
+                "cakebake/yii2-bootstrap-select": "*",
+                "rmrevin/yii2-fontawesome": "2.2.1",
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-bootstrap": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "asdfstudio\\admin\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Kilin",
+                    "email": "pavel@asdf404.net"
+                },
+                {
+                    "name": "Sergei Gulin",
+                    "email": "gulin.sergei+github@ya.ru"
+                }
+            ],
+            "description": "Admin module for Yii2 framework",
+            "homepage": "http://asdf-studio.net/docs/yii2-admin-module",
+            "time": "2016-10-12 07:59:35"
         },
         {
             "name": "swiftmailer/swiftmailer",

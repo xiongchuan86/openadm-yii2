@@ -24,7 +24,8 @@
         "kit-tools/yii2-webui-popover": "*",
         "symfony/process": "*",
       "xiongchuan/yii2-adminlte-treeview":"*",
-      "xiongchuan/yii2-sortable-tree" :"*"
+      "xiongchuan/yii2-sortable-tree" :"*",
+        "sgdot/yii2-admin-module": "*"
     },
     "require-dev": {
       "yiisoft/yii2-debug": "~2.0.0",
