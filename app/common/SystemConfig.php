@@ -14,6 +14,7 @@ class SystemConfig
 
     const TOPMENU_KEY          = "TOPMENU";
     const LEFTMENU_KEY         = "LEFTMENU";
+    const LEFTMENU_SUB_KEY     = "LEFTMSUBENU";
     const INNERMENU_KEY        = "INNERMENU";
     const CONFIG_TYPE_USER     = "USER";
     const CONFIG_TYPE_SYSTEM   = "SYSTEM";
