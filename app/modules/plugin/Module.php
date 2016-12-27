@@ -28,12 +28,19 @@ class Module extends \yii\base\Module
 			$this->realRoute = join("/",$array);
 		}
     }
-	
-	//重写module的controller加载方式
-	public function createController($route)
-	{
-		return parent::createController($this->realRoute ? $this->realRoute : $route);
-	}
+
+    //重写module的controller加载方式
+    public function createController($route)
+    {
+        $controller = parent::createController($this->realRoute ? $this->realRoute : $route);
+        if(!$controller){
+            //默认采用 $this->controllerNamespace 下增加 controllres
+            $this->controllerNamespace = $this->controllerNamespace . '\\controllers' ;
+            $route = str_replace($this->pluginid."/",'',$route);
+            $controller = parent::createController($this->realRoute ? $this->realRoute : $route);
+        }
+        return $controller;
+    }
 	
 	public function beforeAction($action)
 	{
