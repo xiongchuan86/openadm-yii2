@@ -35,6 +35,7 @@ return [
             'runtime',
             'web/static/assets',
             'storage',
+            'storage/backup',
         ],
         'setExecutable' => [
             'yii',
@@ -49,6 +50,7 @@ return [
             'runtime',
             'web/static/assets',
             'storage',
+            'storage/backup',
         ],
         'setExecutable' => [
             'yii',

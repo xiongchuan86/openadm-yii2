@@ -38,6 +38,17 @@ class Module extends \yii\base\Module
     //重写module的controller加载方式
     public function createController($route)
     {
+        if(!$this->realRoute){
+            $array = explode("/",$route);
+            //兼容 plugins/menu/MenuController.php的情况
+            if(count($array)>=3 && $array[0] == $array[1]){
+                $file = Yii::getAlias('@plugins')."/{$array[0]}/".ucfirst($array[0])."Controller.php";
+                if(is_file($file)){
+                    array_shift($array);
+                    $route = join("/",$array);
+                }
+            }
+        }
         $controller = parent::createController($this->realRoute ? $this->realRoute : $route);
         if(!$controller){
             //默认采用 $this->controllerNamespace 下增加 controllres
