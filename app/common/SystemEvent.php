@@ -218,6 +218,12 @@ class SystemEvent
                 $plugin     = !empty($array[1]) ? $array[1] : null;
                 $controller = !empty($array[2]) ? $array[2] : null;
                 $action     = !empty($array[3]) ? $array[3] : null;
+
+                //fixed 中间冒号的方式进入文件夹
+                $plugin = str_replace(":","/",$plugin);
+                if(strpos($plugin,"/") === false ){
+                    $plugin .= "/controllers";
+                }
                 if($module == 'plugin'){
                     if($action == null){
                         //plugin/menu/menuController的情况
