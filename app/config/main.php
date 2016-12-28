@@ -137,7 +137,10 @@ $config = [
                 ],
                 'role' => [
                     'class' => 'app\modules\rbac\controllers\RoleController',
-                ]
+                ],
+                'route' => [
+                    'class' => 'app\modules\rbac\controllers\RouteController',
+                ],
             ],
         ],
         'gridview' =>  [

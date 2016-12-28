@@ -221,9 +221,6 @@ class SystemEvent
 
                 //fixed 中间冒号的方式进入文件夹
                 $plugin = str_replace(":","/",$plugin);
-                if(strpos($plugin,"/") === false ){
-                    $plugin .= "/controllers";
-                }
                 if($module == 'plugin'){
                     if($action == null){
                         //plugin/menu/menuController的情况
