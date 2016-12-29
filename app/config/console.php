@@ -7,10 +7,16 @@ $params = array_merge(
 
 return [
     'id' => 'basic-console',
-    'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'gii'],
+    'basePath' => '@app',
+    'vendorPath' => '@vendor',
+    'runtimePath' => '@runtime',
     'controllerNamespace' => 'app\commands',
-   
+    'controllerMap' => [
+        'migrate' => [
+            'class' => 'app\commands\MigrateController'
+        ]
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -29,18 +35,6 @@ return [
     ],
     'modules' => [
 	    'gii' => 'yii\gii\Module',
-        'rbac' => [
-            'class' => 'yii2mod\rbac\ConsoleModule',
-            'controllerMap'=>[
-                'migrate' => [
-                    'class'          => 'yii2mod\rbac\commands\MigrateController',
-                    'migrationTable' => '{{%migration}}',
-                    'migrationPath'  => '@app/migrations'
-                ]
-
-
-            ],
-        ]
 	],
 		
     'params' => $params,

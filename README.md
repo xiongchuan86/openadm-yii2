@@ -8,7 +8,7 @@ OpenAdm
 2. composer install
 3. 创建数据库openadm,如果不使用默认的数据库名,修改environments/dev/app/config/db.php
 3. ./init #安装
-4. ./yii rbac/migrate #数据库初始化
+4. ./yii migrate #数据库初始化
 5. 域名admin.yii2.openadm.com指向web目录
 6. http://admin.yii2.openadm.com
 7. 默认的管理员用户名和密码，admin,admin
