@@ -85,6 +85,21 @@ $config = [
         'user' => [
             'class' => 'amnah\yii2\user\components\User',
         ],
+        //文件系统
+        'fs' => [
+            'class' => 'creocoder\flysystem\LocalFilesystem',
+            'path' => '@webroot/uploads',
+        ],
+        //云文件系统
+        'cloudFs' => [
+            'class' => 'creocoder\flysystem\LocalFilesystem',
+            'path' => '@webroot/uploads',
+        ],
+        'fileStorage'=>[
+            'class' => 'trntv\filekit\Storage',
+            'baseUrl' => '@web/uploads',
+            'filesystemComponent' => 'fs',
+        ],
 
     ],
     //globally whole applications
@@ -145,7 +160,8 @@ $config = [
         ],
         'gridview' =>  [
             'class' => '\kartik\grid\Module'
-        ]
+        ],
+
     ],
     'params' => $params,
 ];

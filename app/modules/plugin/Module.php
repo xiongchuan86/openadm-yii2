@@ -53,7 +53,8 @@ class Module extends \yii\base\Module
         if(!$controller){
             //默认采用 $this->controllerNamespace 下增加 controllres
             $this->controllerNamespace = $this->controllerNamespace . '\\controllers' ;
-            $route = str_replace($this->pluginid."/",'',$route);
+            $route = str_replace($this->pluginid."/",'',$route,$i);
+            $route = $i==2 ? $this->pluginid."/".$route : $route;//menu/menu/index,menu/menu/都会被替换为空,重新加上menu/
             $controller = parent::createController($this->realRoute ? $this->realRoute : $route);
         }
         return $controller;

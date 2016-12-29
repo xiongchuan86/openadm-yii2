@@ -35,3 +35,6 @@ phpunit.phar
 #assets
 /web/static/assets/*
 /storage/backup/*
+
+/web/uploads/*
+/app/runtime/*
