@@ -32,6 +32,38 @@ class PluginManager
         SystemConfig::INNERMENU_KEY,
     ];
 
+    static public $isShowMsg = 0;
+
+    static public function setShowMsg($value)
+    {
+        self::$isShowMsg = $value;
+    }
+
+    static public function showMsg($msg,$rn=1,$type='info')
+    {
+        if(!self::$isShowMsg){
+            return;
+        }
+        $color='';
+        switch ($type){
+            case 'info':
+                $color='';
+                break;
+            case 'success':
+                $color = 'green';
+                break;
+            case 'error':
+                $color = 'red';
+                break;
+            default:
+                break;
+
+        }
+        echo "<span style=\"color:{$color}\">$msg</span>".($rn == 1 ? '<br />' : '');
+        //flush();
+        //ob_flush();
+    }
+
     /**
      * 获取已经安装的插件
      */
@@ -192,11 +224,18 @@ class PluginManager
         $unsetuped = array();
         if(is_array($config)){
             $dependencies = isset($config['dependencies']) ? $config['dependencies'] : '';
-            $array = explode(",", $dependencies);
+            $array = $dependencies ? explode(",", $dependencies) : '';
             if(!empty($array)){
+                self::showMsg('');
                 foreach($array as $pluginid){
-                    if(0 == self::IsSetuped($pluginid)){
-                        $unsetuped[] = $pluginid;
+                    if($pluginid){
+                        self::showMsg('|___检测依赖插件:'.$pluginid.'是否安装...',0);
+                        if(0 == self::IsSetuped($pluginid)){
+                            $unsetuped[] = $pluginid;
+                            self::showMsg('未安装',1,'error');
+                        }else{
+                            self::showMsg('已安装',1,'success');
+                        }
                     }
                 }
             }
@@ -404,16 +443,6 @@ class PluginManager
         return false;
     }
 
-    static public function download()
-    {
-
-    }
-
-    static public function unzip()
-    {
-
-    }
-
 
     /**
      * 安装插件
@@ -421,32 +450,52 @@ class PluginManager
      */
     static public function setup($pluginid)
     {
+        self::showMsg("开始安装插件...");
         $data = array("status"=>self::STATUS_ERROR,'msg'=>'未知错误');
         //检查是否已经安装
         if( 0 == self::IsSetuped($pluginid)){
-            $configRaw = self::GetPluginConfig($pluginid,false);
+            self::showMsg("获取插件配置...",0);
+            $configRaw = self::GetPluginConfig($pluginid,false,null,false);//关闭这里的插件检测
             $config = $configRaw['config'];
+            self::showMsg("完成",1,'success');
+            self::showMsg("检测插件依赖...",0);
+            self::CheckDependency($config);//在这里检测插件依赖
             if(isset($config['needed']) && !empty($config['needed'])){
+                self::showMsg("");
+                self::showMsg("请先安装缺失的依赖插件:{$config['needed']}，再安装此插件！",1,'error');
                 $data['status'] = self::STATUS_ERROR;
                 $data['error_no'] = self::ERROR_NEEDED;
                 $data['msg']      = "请先安装缺失的依赖插件，再安装此插件！";
                 return $data;
             }
+            self::showMsg("完成",1,'success');
             if($config){
+                self::showMsg("开始注册菜单...",0);
                 //注入菜单
                 self::PluginInjectMenu($config);
+                self::showMsg("完成",1,'success');
+                self::showMsg("开始注册路由...",0);
                 //注入route
                 self::PluginInjectRoute($config);
+                self::showMsg("完成",1,'success');
+                self::showMsg("开始注册系统配置...",0);
                 //注入config
                 self::PluginInjectConfig($config);
+                self::showMsg("完成",1,'success');
+                self::showMsg("开始执行数据库Migration...",0);
                 //导入数据表
                 self::PluginExecSQL($config);
+                self::showMsg("完成",1,'success');
+                self::showMsg("保存插件信息到数据库...",0);
                 //完成最后操作
                 self::PluginSetupedCompleted($pluginid,$config);
+                self::showMsg("完成",1,'success');
                 $data['status'] = self::STATUS_SUCCESS;
                 $data['msg'] = "安装成功";
+                self::showMsg("插件安装完成",1,'success');
                 return $data;
             }else{
+                self::showMsg("插件配置文件解析错误,请重新下载后解压到插件目录！",1,'error');
                 //需要去插件商城下载
                 $data['status'] = self::STATUS_ERROR;
                 $data['error_no'] = self::ERROR_NOTATLOCAL;
@@ -454,6 +503,7 @@ class PluginManager
                 return $data;
             }
         }else{
+            self::showMsg("插件已经安装!",1,'success');
             $data = array("status"=>self::STATUS_ERROR,'msg'=>'已经安装了');
         }
         return $data;
@@ -465,8 +515,12 @@ class PluginManager
      */
     static public function unsetup($pluginid)
     {
+        self::showMsg('开始卸载插件...');
+        self::showMsg('删除数据库配置...',0);
         self::PluginDeleteDBConfig($pluginid);
+        self::showMsg('完成',1,'success');
         self::PluginDeleteStaticVar($pluginid);
+        self::showMsg('卸载完成!',1,'success');
         $data = array("status"=>self::STATUS_SUCCESS,'msg'=>'卸载完成');
         return $data;
     }
@@ -477,11 +531,15 @@ class PluginManager
      */
     static public function delete($pluginid)
     {
+        self::showMsg('开始删除插件...');
         try{
             $pluginDir = self::GetPluginPath($pluginid);
             FileHelper::removeDirectory($pluginDir);
+            self::showMsg('删除完成',1,'success');
             return ['status'=>self::STATUS_SUCCESS,'msg'=>'删除成功'];
         }catch(ErrorException $e){
+            self::showMsg('删除失败(没有权限)，请手动删除插件相关文件和目录！',1,'error');
+            self::showMsg($e->getMessage(),1,'error');
             return ['status' => self::STATUS_ERROR,'msg' => "删除失败(没有权限)，请手动删除插件相关文件和目录！"];
         }
     }

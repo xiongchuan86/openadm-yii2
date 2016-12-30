@@ -4,6 +4,7 @@ use yii\bootstrap\Nav;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
 use yii\bootstrap\Button;
+use yii\bootstrap\Modal;
 $this->params['breadcrumbs'][] = '插件管理';
 ?>
 <style>
@@ -33,15 +34,15 @@ if(is_array($result) && isset($result['data'])){
 			//增加操作类型
 			$btn_setup = Button::widget(array(
 			    'label'=>'安装',
-			    'options'=>array('class' => 'btn-xs btn-success','style'=>'margin-right:10px;','onclick'=>'plugin_action(this,"setup")'),
+			    'options'=>array('class' => 'setup btn-xs btn-success','style'=>'margin-right:10px;','data-toggle' => 'modal'),
 			),true);
 			$btn_unsetup = Button::widget(array(
 			    'label'=>'卸载',
-			    'options'=>array('class' => 'btn-xs btn-danger','style'=>'margin-right:10px;','onclick'=>'plugin_action(this,"unsetup")'),
+			    'options'=>array('class' => 'unsetup btn-xs btn-danger','style'=>'margin-right:10px;','data-toggle' => 'modal'),
 			),true);
 			$btn_delete = Button::widget(array(
 			    'label'=>'删除',
-			    'options'=>array('class' => 'btn-xs btn-default','style'=>'','onclick'=>'plugin_action(this,"delete")'),
+			    'options'=>array('class' => 'delete btn-xs btn-default','style'=>'','data-toggle' => 'modal'),
 			),true);
 			$v['config']['_action_'] = '';
 			if($v['setup']){
@@ -64,6 +65,7 @@ $gridDataProvider = new ArrayDataProvider([
         'pageSize' => 20,
     ],
 ]);
+//,'onclick'=>'plugin_action(this,"setup")'
 //$gridDataProvider->setTotalItemCount(isset($result['total']) ? $result['total'] :0);
 //$gridDataProvider->getPagination()->pageSize = isset($result['pageSize']) ? $result['pageSize'] :0;
 echo GridView::widget([
@@ -105,15 +107,43 @@ function plugin_action(o,action)
 }
 
 function doAction(o,action){
+    $('#install-modal').modal('show');
     var tr = $(o).parent().parent();
     var id = tr.find("td:first").text();
     $.post('/plugin-manager/ajax',{pluginid:id,action:action,'_csrf':'<?=Yii::$app->request->csrfToken?>'},function(json){
-        if(1==json.status){
-            noty({text: json.msg,type:'success'});
-            setTimeout(function(){location.href=location.href;},1000);
-        }else{
-            noty({text: json.msg,type:'error'});
-        }
-    },'json');
+        $('.modal-body').css('height','300px');
+        $('.modal-body').css('overflow-y','scroll');
+        $('.modal-body').html(json);
+//        if(1==json.status){
+//            noty({text: json.msg,type:'success'});
+//            setTimeout(function(){location.href=location.href;},1000);
+//        }else{
+//            noty({text: json.msg,type:'error'});
+//        }
+    });
 }
 </script>
+<?php
+$js = <<<JS
+    $(document).on('click', '.setup', function () {
+        plugin_action(this,'setup');
+    });
+    
+    $(document).on('click', '.unsetup', function () {
+        plugin_action(this,'unsetup');
+    });
+    $(document).on('click', '.delete', function () {
+        plugin_action(this,'delete');
+    });
+    $('#install-modal').on('hidden.bs.modal', function (e) {
+        location.href=location.href;
+    })
+JS;
+$this->registerJs($js);
+Modal::begin([
+'id' => 'install-modal',
+'header' => '<div class="modal-title">安装插件: <b>菜单管理</b></div>',
+'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">关闭</a>',
+]);
+Modal::end();
+?>
