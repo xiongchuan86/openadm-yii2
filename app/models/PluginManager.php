@@ -75,7 +75,6 @@ class PluginManager
         $dir = $dir ? $dir : self::GetPluginPath($pluginid);
         $config = array(
             'setup'  => self::IsSetuped($pluginid),
-            'update' => self::hasUpdate($pluginid),
             'config' => false
         );
         $pluginconfigfile = $dir ."/config.php";
@@ -134,7 +133,6 @@ class PluginManager
                 if(!self::ParsePluginConfig($pluginid))continue;
                 self::$_plugins[$pluginid] = array(
                     'setup'  => self::IsSetuped($pluginid),
-                    'update' => self::hasUpdate($pluginid),
                     'config' => false
                 );
                 $pluginconfigfile = self::GetPluginPath($pluginid)."/config.php";
@@ -184,15 +182,6 @@ class PluginManager
             self::GetSetupedPlugins();
         }
         return isset(self::$_setupedplugins[$pluginid]) ? 1 : 0;
-    }
-
-    /**
-     * 检查更新:本地检查
-     */
-    static public function hasUpdate($pluginid)
-    {
-        $updateDir = self::GetPluginPath($pluginid)."/update";
-        return is_dir($updateDir) ? 1 : 0;
     }
 
     /**
@@ -497,73 +486,4 @@ class PluginManager
         }
     }
 
-    /**
-     * 更新插件
-     */
-    static public function update($pluginid)
-    {
-        $data = array(
-            'status' => self::STATUS_ERROR,
-            'msg'    => '未知错误'
-        );
-        $updateDir = self::GetPluginPath($pluginid)."/update/";
-        $configRaw = self::GetPluginConfig($pluginid,false,$updateDir);
-        $config = $configRaw['config'];
-        if($config){
-            //更新config
-            $oldVersionRows = SystemConfig::Get(strtoupper("PLUGIN_{$pluginid}_VERSION"),null,"USER");
-            $oldVersionRow = array_shift($oldVersionRows);
-            $oldVersion = !empty($oldVersionRow) ? floatval($oldVersionRow['cfg_value']) : 0;
-            $newVersion = floatval($config['version']);
-            if($newVersion > $oldVersion){
-                try{
-                    //更新配置文件
-                    $conffile = $updateDir."config.php";
-                    $destconffile = self::GetPluginPath($pluginid)."/config.php";
-                    if(is_file($conffile)){
-                        copy($conffile,$destconffile);
-                    }
-                    //更新lib和views
-                    $libDir = $updateDir."lib";
-                    $viewsDir = $updateDir."views";
-                    if(is_dir($viewsDir)){
-                        FileHelper::copyDirectory($viewsDir,self::GetPluginPath($pluginid)."/views");
-                    }
-                    if(is_dir($libDir)){
-                        FileHelper::copyDirectory($libDir,self::GetPluginPath($pluginid)."/lib");
-                    }
-                }catch(ErrorException $e){
-                    return ['status' => self::STATUS_ERROR,'msg' => "更新失败，没有权限移动升级文件，请修正权限"];
-                }
-                $data['status'] = self::STATUS_SUCCESS;
-                $data['msg']    = "更新完成!";
-                if(!$config['onlyupdatefiles']){
-                    //卸载 只删除数据库中菜单的配置
-                    self::unsetup($pluginid);
-                    //更新配置
-                    $_data = self::setup($pluginid);
-                    if(!$_data['status']){
-                        $data['msg'] .= ' '.$_data['msg'];
-                    }
-                }else{
-                    //更新数据库的插件版本号
-                    if($oldVersionRow){
-                        $id = isset($oldVersionRow['id']) ? $oldVersionRow['id'] : 0;
-                        if($id>0){
-                            $params = $oldVersionRow;
-                            $params['cfg_value'] = $newVersion;
-                            SystemConfig::Update($id,$params);
-                        }
-                    }
-                }
-                //删除升级目录
-                FileHelper::removeDirectory($updateDir);
-            }else{
-                $data['msg'] = '更新失败，版本号低于当前版本，禁止更新操作！';
-            }
-        }else{
-            $data['msg'] = '更新失败，配置文件有误！';
-        }
-        return $data;
-    }
 }

@@ -43,16 +43,9 @@ if(is_array($result) && isset($result['data'])){
 			    'label'=>'删除',
 			    'options'=>array('class' => 'btn-xs btn-default','style'=>'','onclick'=>'plugin_action(this,"delete")'),
 			),true);
-			$btn_update = Button::widget(array(
-			    'label'=>'更新',
-			    'options'=>array('class' => 'btn-xs btn-info','style'=>'margin-right:10px;','onclick'=>'plugin_action(this,"update")'),
-			),true);
 			$v['config']['_action_'] = '';
 			if($v['setup']){
 				$v['config']['_action_'] = $btn_unsetup;
-				if($v['update']){
-					$v['config']['_action_'] .= $btn_update;
-				}
 			}else{
 				$v['config']['_action_'] = $btn_setup.$btn_delete;
 			}
