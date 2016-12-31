@@ -125,7 +125,7 @@ class SystemEvent
                     break;//找到后就跳出
                 }
                 //使用当前的url查询
-                if(is_int(strpos("/".Yii::$app->controller->route,$menu['value']['url']))){
+                if(is_int(strpos("/".Yii::$app->request->pathInfo,$menu['value']['url']))){
                     $left_menus[$k]['active'] = true;
                     $left_menu_id = $left_menus[$k]['id'];
                     break;//找到后就跳出
