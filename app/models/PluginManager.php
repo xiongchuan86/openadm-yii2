@@ -99,6 +99,7 @@ class PluginManager
 
         $str = str_replace(["'","\n"],["\"",""],$str);
         echo "<script>top.onmessage('$str','$boxId');</script>";
+        ob_flush();
         flush();
     }
 

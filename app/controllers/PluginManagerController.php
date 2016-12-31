@@ -41,7 +41,6 @@ class PluginManagerController extends Controller
             $action   = Yii::$app->request->post('action','');
             $pluginid = Yii::$app->request->post('pluginid','');
             if($pluginid && $action && in_array($action,['setup','unsetup','delete'])){
-                ob_end_flush();
                 PluginManager::setShowMsg(1);
                 $result = PluginManager::$action($pluginid);
                 PluginManager::setShowMsg(0);
