@@ -34,30 +34,19 @@ class PluginManagerController extends Controller
 		$this->render("shop",array('url'=>$url));
 	}
 
-	public function actionTest()
-    {
-        for ($i=0;$i<=10;$i++)
-            $this->showMsg("xxxx==".$i);
-    }
-
-
-	//ajax
+	//iframe for long request
 	public function actionAjax()
 	{
-		$result = array(
-			'status'=>0,
-			'msg'=>'缺少参数'
-		);
-        if(Yii::$app->request->isAjax && Yii::$app->request->isPost){
+        if(Yii::$app->request->isPost){
             $action   = Yii::$app->request->post('action','');
             $pluginid = Yii::$app->request->post('pluginid','');
             if($pluginid && $action && in_array($action,['setup','unsetup','delete'])){
+                ob_end_flush();
                 PluginManager::setShowMsg(1);
                 $result = PluginManager::$action($pluginid);
                 PluginManager::setShowMsg(0);
             }
         }
-		//echo json_encode($result);
 	}
 
 

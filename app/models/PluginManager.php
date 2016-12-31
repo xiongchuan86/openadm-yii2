@@ -11,12 +11,15 @@ use yii\helpers\FileHelper;
 use yii\base\ErrorException;
 use yii\helpers\Json;
 use yii\base\InvalidParamException;
+use yii\helpers\Html;
+
 class PluginManager
 {
     const STATUS_SUCCESS = 1;
     const STATUS_ERROR   = 0;
     const ERROR_NEEDED   = 110;
     const ERROR_NOTATLOCAL = 120;
+    const ERROR_MIGRATE = 130;
 
     const PLUGIN_TYPE_ADMIN = "ADMIN";
     const PLUGIN_TYPE_API   = "API";
@@ -32,6 +35,11 @@ class PluginManager
         SystemConfig::INNERMENU_KEY,
     ];
 
+    const YII_COMMAND   = '@root/yii';
+    const MIGRATE_UP    = 'up';
+    const MIGRATE_DOWN  = 'down';
+    const MIGRATION_DEFAULT_DIRNAME = 'migrations';
+
     static public $isShowMsg = 0;
 
     static public function setShowMsg($value)
@@ -39,7 +47,31 @@ class PluginManager
         self::$isShowMsg = $value;
     }
 
-    static public function showMsg($msg,$rn=1,$type='info')
+    /**
+     * 此处的输出方式 要配合 iframe输出
+     *
+     * 具体使用参看:@app/themes/adminlte2/views/plugin-manager/local.php
+     *
+     * <code>
+    window.onmessage = function (msg,boxId) {
+        var box = [];
+        if(boxId != ''){
+            box = $('#'+boxId);
+        }
+        if(box.length>0){
+            box.append(msg);
+        }else{
+            $('.modal-body').append(msg);
+        }
+    }
+     * </code>
+     *
+     * @param $msg
+     * @param int $rn
+     * @param string $type
+     * @param string $boxId
+     */
+    static public function showMsg($msg,$rn=1,$type='info',$boxId='')
     {
         if(!self::$isShowMsg){
             return;
@@ -59,9 +91,15 @@ class PluginManager
                 break;
 
         }
-        echo "<span style=\"color:{$color}\">$msg</span>".($rn == 1 ? '<br />' : '');
-        //flush();
-        //ob_flush();
+        if($color){
+            $str = "<span style=\"color:{$color}\">$msg</span>".($rn == 1 ? '<br />' : '');
+        }else{
+            $str = "$msg".($rn == 1 ? '<br />' : '');
+        }
+
+        $str = str_replace(["'","\n"],["\"",""],$str);
+        echo "<script>top.onmessage('$str','$boxId');</script>";
+        flush();
     }
 
     /**
@@ -360,6 +398,68 @@ class PluginManager
     }
 
     /**
+     * 注入Plugin的数据库操作
+     * @param $pluginid pluginid
+     * @param $type up/down up=创建,down=回退
+     */
+    static public function PluginInjectMigration($pluginid,$type)
+    {
+        $configRaw = self::GetPluginConfig($pluginid,true,null,false);
+        $conf      = $configRaw['config'];
+        if(!$conf){
+            //plugin 目录异常
+            self::showMsg("");
+            self::showMsg("获取插件配置失败,请检查插件是否正常!",1,'error');
+            return false;
+        }
+        if(isset($conf['migrationDirName']) && !empty($conf['migrationDirName'])){
+            $migrationDirName = $conf['migrationDirName'];
+        }else{
+            $migrationDirName = self::MIGRATION_DEFAULT_DIRNAME;
+        }
+        //检查是否需要migrate操作,原则是看是否有migrations目录
+        $migrationPath = Yii::getAlias('@plugins/'.$pluginid.'/'.$migrationDirName);
+        if(is_dir($migrationPath)){
+            self::showMsg("需要",1,'success');
+            self::showMsg("开始执行Migrate操作...");
+            $yii = Yii::getAlias(self::YII_COMMAND);
+            //--interactive=0 非交互式命令行
+            $params = "--migrationPath=$migrationPath --interactive=0";
+            $action = "migrate/";
+            switch ($type){
+                case self::MIGRATE_UP:
+                    $action .= self::MIGRATE_UP;
+                    break;
+                case self::MIGRATE_DOWN:
+                    $action .= self::MIGRATE_DOWN;
+                    break;
+                default:
+                    break;
+            }
+            $cmds = [
+                $yii,
+                $action,
+                $params
+            ];
+            $cmd = join(" ",$cmds);
+            self::showMsg("<p id='cmd_box' style='background-color: #2c763e;color:#f5db88'>",0);
+            //执行
+            $handler = popen($cmd, 'r');
+
+            while (!feof($handler)) {
+                $output = fgets($handler,1024);
+                self::showMsg($output,1,'','cmd_box');
+            }
+            pclose($handler);
+
+            self::showMsg("</p>",0);
+        }else{
+            self::showMsg("不需要",1,'success');
+        }
+        return true;
+    }
+
+    /**
      * 插件菜单注入
      */
     static public function PluginInjectMenu(array $conf)
@@ -370,14 +470,6 @@ class PluginManager
 
             self::_PluginInjectMenu($pluginId,$cfg_name,0,$menus);
         }
-    }
-
-    /**
-     * 创建数据库表
-     */
-    static public function PluginExecSQL(array $conf)
-    {
-        return true;
     }
 
     static public function SetupLocalPlugin($pluginName)
@@ -468,8 +560,17 @@ class PluginManager
                 $data['msg']      = "请先安装缺失的依赖插件，再安装此插件！";
                 return $data;
             }
-            self::showMsg("完成",1,'success');
+            self::showMsg("检测完成",1,'success');
             if($config){
+                self::showMsg("检测是否需要执行Migrate...",0);
+                //导入数据表
+                $rn = self::PluginInjectMigration($pluginid,self::MIGRATE_UP);
+                if(!$rn){
+                    $data['status'] = self::STATUS_ERROR;
+                    $data['error_no'] = self::ERROR_MIGRATE;
+                    $data['msg']      = "插件Migrate失败,请检查插件Migration配置!";
+                    return $data;
+                }
                 self::showMsg("开始注册菜单...",0);
                 //注入菜单
                 self::PluginInjectMenu($config);
@@ -481,10 +582,6 @@ class PluginManager
                 self::showMsg("开始注册系统配置...",0);
                 //注入config
                 self::PluginInjectConfig($config);
-                self::showMsg("完成",1,'success');
-                self::showMsg("开始执行数据库Migration...",0);
-                //导入数据表
-                self::PluginExecSQL($config);
                 self::showMsg("完成",1,'success');
                 self::showMsg("保存插件信息到数据库...",0);
                 //完成最后操作
@@ -516,6 +613,14 @@ class PluginManager
     static public function unsetup($pluginid)
     {
         self::showMsg('开始卸载插件...');
+        self::showMsg('检测是否需要执行Migrate...',0);
+        $rn = self::PluginInjectMigration($pluginid,self::MIGRATE_DOWN);
+        if(!$rn){
+            $data['status'] = self::STATUS_ERROR;
+            $data['error_no'] = self::ERROR_MIGRATE;
+            $data['msg']      = "插件Migrate失败,请检查插件Migration配置!";
+            return $data;
+        }
         self::showMsg('删除数据库配置...',0);
         self::PluginDeleteDBConfig($pluginid);
         self::showMsg('完成',1,'success');

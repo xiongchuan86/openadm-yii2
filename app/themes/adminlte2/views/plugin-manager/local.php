@@ -108,19 +108,43 @@ function plugin_action(o,action)
 
 function doAction(o,action){
     $('#install-modal').modal('show');
+    $('.modal-body').css('height','400px');
+    $('.modal-body').css('overflow-y','scroll');
     var tr = $(o).parent().parent();
     var id = tr.find("td:first").text();
-    $.post('/plugin-manager/ajax',{pluginid:id,action:action,'_csrf':'<?=Yii::$app->request->csrfToken?>'},function(json){
-        $('.modal-body').css('height','300px');
-        $('.modal-body').css('overflow-y','scroll');
-        $('.modal-body').html(json);
-//        if(1==json.status){
-//            noty({text: json.msg,type:'success'});
-//            setTimeout(function(){location.href=location.href;},1000);
-//        }else{
-//            noty({text: json.msg,type:'error'});
-//        }
-    });
+
+    //使用iframe
+    submitForm('/plugin-manager/ajax',{pluginid:id,action:action,'_csrf':'<?=Yii::$app->request->csrfToken?>'});
+}
+
+window.onmessage = function (msg,boxId) {
+    var box = [];
+    if(boxId != ''){
+        box = $('#'+boxId);
+    }
+    if(box.length>0){
+        box.append(msg);
+    }else{
+        $('.modal-body').append(msg);
+    }
+}
+
+function submitForm(url,data)
+{
+    // 创建Form
+    var form = $('<form></form>');
+    // 设置属性
+    form.attr('action', url);
+    form.attr('method', 'post');
+    // form的target属性决定form在哪个页面提交
+    form.attr('target', 'comet_iframe');
+    for(var key in data){
+        var input = $('<input type="text" name="'+key+'" />');
+        input.attr('value',data[key]);
+        form.append(input);
+    }
+    // 提交表单
+    form.submit();
 }
 </script>
 <?php
@@ -147,3 +171,4 @@ Modal::begin([
 ]);
 Modal::end();
 ?>
+<iframe name="comet_iframe" id="comet_iframe" src="" style="display: none"></iframe>
