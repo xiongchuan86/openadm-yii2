@@ -2,10 +2,7 @@
 
 namespace app\commands;
 
-use yii\db\Connection;
-use yii\db\Query;
-use yii\di\Instance;
-use yii\helpers\Console;
+use yii\base\InvalidConfigException;
 use yii\console\controllers\MigrateController as BaseMigrateController;
 use yii;
 use app\models\PluginManager;
@@ -35,9 +32,14 @@ class MigrateController extends BaseMigrateController
     public $migrationTable = '{{%migration}}';
 
     /**
+     * @var string 默认路径
+     */
+    public $defaultMigrationPath = '@app/migrations';
+
+    /**
      * @inheritdoc
      */
-    public $migrationPath = '@app/migrations';
+    public $migrationPath = '';
 
     /**
      * @inheritdoc
@@ -48,38 +50,62 @@ class MigrateController extends BaseMigrateController
 
     public function init()
     {
-        //如果system config被migrate/down 删除了,会报错,通过try catch 过滤掉
-        try {
-            //自动把插件的migrations path加入到搜索路径
-            $setupedPlugins = PluginManager::GetSetupedPlugins();
-            if ($setupedPlugins && is_array($setupedPlugins)) foreach ($setupedPlugins as $plugin) {
-                $pluginId = isset($plugin['id']) ? $plugin['id'] : '';
-                $path = Yii::getAlias('@plugins') . DIRECTORY_SEPARATOR . "{$pluginId}" . DIRECTORY_SEPARATOR . "migrations";
-                if (is_dir($path)) {
-                    $this->_plugin_migration_paths[] = $path;
-                }
-            }
-        }catch (yii\base\Exception $e){
-            //不影响
-        }
-        $this->_plugin_migration_paths[] = Yii::getAlias($this->migrationPath);
 
         parent::init();
     }
 
-    public function beforeAction($action){
-        if(!is_dir(Yii::getAlias($this->migrationPath))){
-            $path = Yii::getAlias('@root').DIRECTORY_SEPARATOR.Yii::getAlias($this->migrationPath);
+    /**
+     * 如果 migrationPath 有值,则说明yii migrate --migrationPath=$path,通过传参运行
+     * migrationPath 没有传参,则使用默认的 defaultMigrationPath 和 plugin的migrations
+     *
+     * 此method需要放在beforeAction里面,此时migrationPath已经被赋值。
+     */
+    public function generateMigrationPath()
+    {
+        //
+        if($this->migrationPath != ''){
+            $path = Yii::getAlias($this->migrationPath);
+            if(is_dir($path)){
+                $this->_plugin_migration_paths[] = $path;
+            }else{
+                //报错,退出
+                throw new InvalidConfigException("Migration failed. Directory specified in migrationPath doesn't exist: {$this->migrationPath}");
+            }
+
+        }else{
+            //如果system config被migrate/down 删除了,会报错,通过try catch 过滤掉
+            try {
+                //自动把插件的migrations path加入到搜索路径
+                $setupedPlugins = PluginManager::GetSetupedPlugins();
+                if ($setupedPlugins && is_array($setupedPlugins)) foreach ($setupedPlugins as $plugin) {
+                    $pluginId = isset($plugin['id']) ? $plugin['id'] : '';
+                    $path = Yii::getAlias('@plugins') . DIRECTORY_SEPARATOR . "{$pluginId}" . DIRECTORY_SEPARATOR . "migrations";
+                    if (is_dir($path)) {
+                        $this->_plugin_migration_paths[] = $path;
+                    }
+                }
+            }catch (yii\base\Exception $e){
+                //不影响
+            }
+            //默认的migrationPath
+            $path = Yii::getAlias($this->defaultMigrationPath);
             if(is_dir($path)){
                 $this->_plugin_migration_paths[] = $path;
             }
-        }else{
-            $this->_plugin_migration_paths[] = Yii::getAlias($this->migrationPath);
         }
+        //添加path到include path
         if(count($this->_plugin_migration_paths)>0){
             $need_include_paths = join(PATH_SEPARATOR,$this->_plugin_migration_paths);
             set_include_path(get_include_path() . PATH_SEPARATOR . $need_include_paths);
+        }else{
+            throw new InvalidConfigException('At least one of `defaultMigrationPath` or `migrationPath` or `migrationNamespaces` should be specified.');
         }
+    }
+
+    public function beforeAction($action){
+
+        $this->generateMigrationPath();
+
         return parent::beforeAction($action);
     }
 
