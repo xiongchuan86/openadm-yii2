@@ -43,7 +43,12 @@ $config = [
         'assetManager' => [
         	'class' => 'yii\web\AssetManager',
         	'basePath' => '@webroot/static/assets',
-        	'baseUrl'  => '@web/static/assets'
+        	'baseUrl'  => '@web/static/assets',
+            'bundles' => [
+                'dmstr\web\AdminLteAsset' => [
+                    'skin' => 'skin-red',
+                ],
+            ],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

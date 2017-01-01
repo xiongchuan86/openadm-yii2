@@ -47,7 +47,7 @@ $role = $module->model("Role");
     <?php endif;?>
 
     <div class="form-group">
-        <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-primary' : 'btn btn-primary']) ?>
         <?php echo Html::a(Yii::t('user', 'Cancel'),['index'], ['class' => 'btn btn-default']); ?>
     </div>
 

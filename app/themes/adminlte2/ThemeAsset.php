@@ -26,7 +26,6 @@ class ThemeAsset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
-        'dmstr\web\AdminLteAsset',
         'app\themes\adminlte2\AdminltePluginsAsset'
     ];
 }

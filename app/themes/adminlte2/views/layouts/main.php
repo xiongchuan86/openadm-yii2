@@ -35,7 +35,7 @@ ShowLoadingAsset::register($this);
     </head>
 
 <?php if(!Yii::$app->user->isGuest):?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition <?= \dmstr\helpers\AdminLteHelper::skinClass() ?> sidebar-mini">
     <div class="wrapper">
     <?php $this->beginBody() ?>
     <?= $this->render('header.php') ?>

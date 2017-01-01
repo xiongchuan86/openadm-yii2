@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('user', 'Create User'), ['create'], ['class' => 'btn btn-success btn-sm']) ?>
+        <?= Html::a(Yii::t('user', 'Create User'), ['create'], ['class' => 'btn btn-primary btn-sm']) ?>
         <?= Html::a(Yii::t('user','Batch Delete'), "javascript:void(0);", ['class' => 'btn btn-default btn-sm gridview']) ?>
     </p>
         <?php
