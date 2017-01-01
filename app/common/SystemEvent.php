@@ -65,20 +65,6 @@ class SystemEvent
     }
 
     /**
-     * @return null|Array 菜单
-     */
-    static public function GetMenus()
-    {
-        static $_menus = null;
-        if($_menus == null){
-            $_menus[SystemConfig::TOPMENU_KEY]   = SystemConfig::Get(SystemConfig::TOPMENU_KEY,'',SystemConfig::CONFIG_TYPE_USER);
-            $_menus[SystemConfig::LEFTMENU_KEY]  = SystemConfig::Get(SystemConfig::LEFTMENU_KEY,'',SystemConfig::CONFIG_TYPE_USER);
-            $_menus[SystemConfig::INNERMENU_KEY] = SystemConfig::Get(SystemConfig::INNERMENU_KEY,'',SystemConfig::CONFIG_TYPE_USER);
-        }
-        return $_menus;
-    }
-
-    /**
      * 获取菜单项,并且通过权限过滤
      * @param $key system_config的cfg_key
      * @param $pid system_config的id

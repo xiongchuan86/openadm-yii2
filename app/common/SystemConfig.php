@@ -20,6 +20,25 @@ class SystemConfig
     const CONFIG_TYPE_SYSTEM   = "SYSTEM";
     const CONFIG_TYPE_ROUTE    = "ROUTE";
     const CONFIG_TYPE_PLUGIN   = "PLUGIN";
+
+    const CACHE_5MINS           = 300;
+    const CACHE_30MINS          = 1800;
+    const CACHE_1HOURS          = 3600;
+
+    static public function getCache()
+    {
+        return Yii::$app->cache;
+    }
+
+    static public function cache_set($key,$data,$expired)
+    {
+        return self::getCache()->set($key,$data,$expired);
+    }
+
+    static public function cache_get($key)
+    {
+        return self::getCache()->get($key);
+    }
 	
 	/**
 	 * 返回 array(value=>comment)类型数据
@@ -50,15 +69,20 @@ class SystemConfig
 	 * 获取配置的数据
 	 * @return array
 	 */
-	static public function Get($name='',$pid=0,$type='USER')
+	static public function Get($name='',$pid=0,$type='USER',$allowCaching = true)
 	{
-		$cacheKey = $name.'-'.$pid.'-'.$type;
-		
-		if(!isset(self::$_config[$cacheKey])){
-			$value = self::_Get($name,$pid,$type);
-			self::$_config[$cacheKey] = $value;
-		}
-		return self::$_config[$cacheKey];
+	    if($allowCaching){
+            $cacheKey = $name.'-'.$pid.'-'.$type;
+            $data = self::cache_get($cacheKey);
+            if(!$data || empty($data)){
+                $data = self::_Get($name,$pid,$type);
+                self::cache_set($cacheKey,$data,self::CACHE_5MINS);
+            }
+        }else{
+            $data = self::_Get($name,$pid,$type);
+        }
+
+		return $data;
 	}
 
     /**
