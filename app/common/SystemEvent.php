@@ -115,7 +115,7 @@ class SystemEvent
                     $left_menus[$k]['active'] = true;
                     $left_menu_id = $left_menus[$k]['id'];
                     break;//找到后就跳出
-                }elseif ( ($noaction = substr($menu['value']['url'],0,strripos($menu['value']['url'],"/")-1)) && is_int(strpos("/".Yii::$app->request->pathInfo,$noaction))){
+                }elseif ( count( $_arr=explode("/",$menu['value']['url']) )>3 && ($noaction = substr($menu['value']['url'],0,strripos($menu['value']['url'],"/")-1)) && is_int(strpos("/".Yii::$app->request->pathInfo,$noaction))){
                     $left_menus[$k]['active'] = true;
                     $left_menu_id = $left_menus[$k]['id'];
                     break;//找到后就跳出

@@ -4,7 +4,6 @@ use yii2mod\rbac\RbacAsset;
 
 /* @var $this \yii\web\View */
 
-Yii::$container->set(RbacAsset::className(), ['registerOnlyRouteScript' => isset($registerOnlyRouteScript) ? true : false]);
 RbacAsset::register($this);
 
 $this->params['sidebar'] = [
