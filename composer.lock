@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ba9b5e123c1d1dd1cd152a055675dcfd",
-    "content-hash": "e12d49712e9dc630d88274ad23d54632",
+    "hash": "ab0258072259ed1f079d1019ce70b7b5",
+    "content-hash": "84f48f54e198a02ae65a0da9244ee1ea",
     "packages": [
         {
             "name": "2amigos/yii2-arrayquery-component",
@@ -825,6 +825,72 @@
                 "yii"
             ],
             "time": "2013-12-10 17:49:58"
+        },
+        {
+            "name": "creocoder/yii2-flysystem",
+            "version": "0.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/creocoder/yii2-flysystem.git",
+                "reference": "9ca837c8ceb1535f722969f6a9cbbcb0f267667a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/creocoder/yii2-flysystem/9ca837c8ceb1535f722969f6a9cbbcb0f267667a.zip",
+                "reference": "9ca837c8ceb1535f722969f6a9cbbcb0f267667a",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "~1.0",
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "require-dev": {
+                "league/flysystem-aws-s3-v2": "~1.0",
+                "league/flysystem-azure": "~1.0",
+                "league/flysystem-cached-adapter": "~1.0",
+                "league/flysystem-copy": "~1.0",
+                "league/flysystem-dropbox": "~1.0",
+                "league/flysystem-gridfs": "~1.0",
+                "league/flysystem-rackspace": "~1.0",
+                "league/flysystem-replicate-adapter": "~1.0",
+                "league/flysystem-sftp": "~1.0",
+                "league/flysystem-webdav": "~1.0",
+                "league/flysystem-ziparchive": "~1.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "creocoder\\flysystem\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Kochetov",
+                    "email": "creocoder@gmail.com"
+                }
+            ],
+            "description": "The flysystem extension for the Yii framework",
+            "keywords": [
+                "Flysystem",
+                "GridFS",
+                "WebDAV",
+                "aws",
+                "azure",
+                "copy.com",
+                "dropbox",
+                "files",
+                "filesystem",
+                "ftp",
+                "rackspace",
+                "s3",
+                "sftp",
+                "yii2"
+            ],
+            "time": "2015-05-12 08:36:25"
         },
         {
             "name": "dmstr/yii2-adminlte-asset",
@@ -2801,50 +2867,6 @@
             ],
             "description": "Yii2 file upload and storage kit",
             "time": "2016-03-11 11:20:20"
-        },
-        {
-            "name": "xiongchuan/yii2-adminlte-treeview",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/xiongchuan86/yii2-adminlte-treeview.git",
-                "reference": "30385c9bc621e90379ec62063ab4a4130d5487c9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/xiongchuan86/yii2-adminlte-treeview/30385c9bc621e90379ec62063ab4a4130d5487c9.zip",
-                "reference": "30385c9bc621e90379ec62063ab4a4130d5487c9",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2-bootstrap": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "xiongchuan\\treeview\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "chuan xiong",
-                    "email": "xiongchuan86@gmail.com"
-                }
-            ],
-            "description": "A Bootstrap Treeview Generator for AdminLte Sidebar",
-            "keywords": [
-                "AdminLTE",
-                "extension",
-                "generator",
-                "sidebar",
-                "treeview",
-                "yii2"
-            ],
-            "time": "2016-12-26 10:43:58"
         },
         {
             "name": "xiongchuan/yii2-sortable-tree",

@@ -251,19 +251,19 @@ class SystemEvent
         $user = Yii::$app->getUser();
         if($p){
             $route = "/{$m}/{$p}/{$c}/{$a}";
-            if($user->can(str_replace("//", "/",$route)))return true;//check action
+            if($user->can(str_replace("//", "/",$route),[],true))return true;//check action
             $route = "/{$m}/{$p}/{$c}/*";
-            if($user->can(str_replace("//", "/",$route)))return true;//check controller
+            if($user->can(str_replace("//", "/",$route),[],true))return true;//check controller
             $route = "/{$m}/{$p}/*";
-            if($user->can(str_replace("//", "/",$route)))return true;//check plugin
+            if($user->can(str_replace("//", "/",$route),[],true))return true;//check plugin
         }else{
             $route = "/{$m}/{$c}/{$a}";
-            if($user->can(str_replace("//", "/",$route)))return true;//check action
+            if($user->can(str_replace("//", "/",$route),[],true))return true;//check action
             $route = "/{$m}/{$c}/*";
-            if($user->can(str_replace("//", "/",$route)))return true;//check controller
+            if($user->can(str_replace("//", "/",$route),[],true))return true;//check controller
         }
         $route = "/{$m}/*";
-        if($user->can(str_replace("//", "/",$route)))return true;//check module
+        if($user->can(str_replace("//", "/",$route),[],true))return true;//check module
         return false;
     }
 

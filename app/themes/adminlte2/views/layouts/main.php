@@ -1,9 +1,6 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Alert;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use app\themes\adminlte2\ThemeAsset;
 use nirvana\showloading\ShowLoadingAsset;
 ThemeAsset::register($this);
@@ -60,7 +57,12 @@ ShowLoadingAsset::register($this);
     </div>
     <!-- ./wrapper -->
 <?php if(!Yii::$app->user->isGuest):?>
-    <?= $this->render('noty.default.php') ?>
+    <?php
+    echo $this->render('noty.default.php')
+    ?>
+    <?php
+    //echo \dmstr\widgets\Alert::widget();
+    ?>
 <?php endif;?>
 	<!-- end: JavaScript-->
 	<?php $this->endBody() ?>

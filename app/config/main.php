@@ -57,8 +57,8 @@ $config = [
 		   ],
 
         'authManager' => [
-            'class' => 'yii\rbac\DbManager',
-            'cache' => 'yii\caching\FileCache',
+            'class' => 'app\common\components\RbacCacheDbManager',
+            'cache' => 'cache',
             'ruleTable' => '{{%auth_rule}}', // Optional
             'itemTable' => '{{%auth_item}}',  // Optional
             'itemChildTable' => '{{%auth_item_child}}',  // Optional
