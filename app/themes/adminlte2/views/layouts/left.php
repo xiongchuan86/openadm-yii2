@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use xiongchuan\treeview\Treeview;
 use app\common\SystemConfig;
+use dmstr\widgets\Menu;
 
 function formatItem($v){
     $item=[];
@@ -41,10 +41,7 @@ if(Yii::$app->params[SystemConfig::LEFTMENU_KEY] && is_array(Yii::$app->params[S
         }
     }
 
-    $sidenav = Treeview::widget([
-        'clientOptions' => false,
-        'encodeLabels' => false,
-        'dropDownCaret'=>'<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>',
+    $sidenav = Menu::widget([
         'options' => ['class'=>'sidebar-menu'],
         'items' => $items,
     ]);

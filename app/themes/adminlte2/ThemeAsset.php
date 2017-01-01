@@ -17,18 +17,16 @@ class ThemeAsset extends AssetBundle
 
     public $sourcePath = '@app/themes/'.self::themeId.'/assets';
     public $css = [
-        'css/AdminLTE.min.css',
-        'css/skins/_all-skins.min.css',
         'css/openadm.css'
     ];
     public $js = [
-        'plugins/fastclick/fastclick.js',
-        'js/app.min.js',
     ];
     public $jsOptions = ['position' => \yii\web\View::POS_END];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
+        'dmstr\web\AdminLteAsset',
+        'app\themes\adminlte2\AdminltePluginsAsset'
     ];
 }

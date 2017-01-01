@@ -23,12 +23,9 @@
         "kartik-v/yii2-builder": "@dev",
         "kit-tools/yii2-webui-popover": "*",
         "symfony/process": "*",
-      "xiongchuan/yii2-adminlte-treeview":"*",
       "xiongchuan/yii2-sortable-tree" :"*",
-        "sgdot/yii2-admin-module": "*",
         "trntv/yii2-file-kit": "^1.1",
-        "deanar/yii2-file-processor": "0.1.*",
-        "creocoder/yii2-flysystem": "^0.8.1"
+      "dmstr/yii2-adminlte-asset":"2.*"
     },
     "require-dev": {
       "yiisoft/yii2-debug": "~2.0.0",
