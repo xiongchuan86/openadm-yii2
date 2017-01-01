@@ -3,9 +3,6 @@
 use yii2mod\rbac\RbacAsset;
 
 /* @var $this \yii\web\View */
-
-RbacAsset::register($this);
-
 $this->params['sidebar'] = [
     [
         'label' => Yii::t('yii2mod.rbac', 'Assignments'),

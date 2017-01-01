@@ -3,14 +3,14 @@
 use yii\helpers\Html;
 use yii\helpers\Json;
 
+use yii2mod\rbac\RbacRouteAsset;
+RbacRouteAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $routes [] */
 
 $this->title = Yii::t('yii2mod.rbac', 'Routes');
 $this->params['breadcrumbs'][] = $this->title;
-$this->render('/layouts/_sidebar', [
-    'registerOnlyRouteScript' => true,
-]);
+$this->render('/layouts/_sidebar');
 ?>
 <div class="box box-primary">
 <div class="box-header with-border">
