@@ -143,7 +143,7 @@ $(".gridview").on("click", function () {
             // 'banned_at',
             // 'banned_reason',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'app\common\grid\ActionColumn'],
         ],
     ]); ?>
     <?php \yii\widgets\Pjax::end(); ?>

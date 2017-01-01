@@ -30,7 +30,7 @@ $this->render('/layouts/_sidebar');
         'layout' => "{items}{summary}{pager}",
         'columns' => ArrayHelper::merge($gridViewColumns, [
             [
-                'class' => 'yii\grid\ActionColumn',
+                'class' => 'app\common\grid\ActionColumn',
                 'template' => '{view}',
             ],
         ]),
