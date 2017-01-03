@@ -24,7 +24,6 @@
       "kartik-v/yii2-builder": "@dev",
       "kit-tools/yii2-webui-popover": "*",
       "symfony/process": "*",
-      "xiongchuan/yii2-sortable-tree" :"*",
       "trntv/yii2-file-kit": "^1.1",
       "dmstr/yii2-adminlte-asset":"2.*"
     },
@@ -39,7 +38,7 @@
     },
     "autoload": {
       "psr-4": {
-
+        "xiongchuan\\tree\\": "/Users/xiongchuan/git/github/yii2-sortable-tree"
       }
     },
     "config": {

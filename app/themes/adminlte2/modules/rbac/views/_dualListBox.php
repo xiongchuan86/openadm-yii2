@@ -11,13 +11,13 @@ use yii\web\View;
 $this->registerJs("var _opts = {$opts};", View::POS_BEGIN);
 ?>
 <div class="row">
-    <div class="col-lg-5">
+    <div class="col-md-5">
         <input class="form-control search" data-target="available"
                placeholder="<?php echo Yii::t('yii2mod.rbac', 'Search for available'); ?>">
         <br/>
         <select multiple size="20" class="form-control list" data-target="available"></select>
     </div>
-    <div class="col-lg-2">
+    <div class="col-md-2">
         <div class="move-buttons">
             <br><br>
             <?php echo Html::a('&gt;&gt;', $assignUrl, [
@@ -33,7 +33,7 @@ $this->registerJs("var _opts = {$opts};", View::POS_BEGIN);
             ]); ?>
         </div>
     </div>
-    <div class="col-lg-5">
+    <div class="col-md-5">
         <input class="form-control search" data-target="assigned"
                placeholder="<?php echo Yii::t('yii2mod.rbac', 'Search for assigned') ?>">
         <br/>

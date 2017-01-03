@@ -1,8 +1,34 @@
 <?php
-use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\bootstrap\Nav;
+use app\common\Functions;
+use app\common\SystemConfig;
 ?>
-<?php if(!Yii::$app->user->isGuest):?>
+<?php if(!Yii::$app->user->isGuest):
+
+    $items = [];
+    if(isset(Yii::$app->params[SystemConfig::TOPMENU_KEY])){
+        foreach (Yii::$app->params[SystemConfig::TOPMENU_KEY] as $key=>$menu){
+            $item = Functions::formatItem($menu);
+            $item['linkOptions'] = ['onclick'=>'oa_build_left_menu(this,'.$menu['id'].')'];
+            $items[] = $item;
+        }
+    }
+    $nav = Nav::widget([
+        'options'=>['class'=>'nav navbar-nav','id'=>'topmenu'],
+        'items' => $items,
+    ]);
+    $leftMenuItems = Json::encode(Yii::$app->params[SystemConfig::LEFTMENU_KEY]);
+    $this->registerJs( "var leftMenuItems=". $leftMenuItems,\yii\web\View::POS_HEAD);
+    $this->registerJs( '
+        
+        $(document).ready(function(){
+            $("#topmenu").find("li:first a").click();    
+            initOpenAdmMenus();
+        });
+    ',\yii\web\View::POS_END);
+    ?>
     <header class="main-header">
 
         <!-- Logo -->
@@ -19,6 +45,9 @@ use yii\helpers\Url;
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
+            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                <?=$nav;//顶部导航?>
+            </div>
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">

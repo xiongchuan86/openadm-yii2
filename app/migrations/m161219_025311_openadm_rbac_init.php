@@ -42,19 +42,19 @@ class m161219_025311_openadm_rbac_init extends Migration
 
     public function safeDown()
     {
-        $this->removeRole('Admin');
-        $this->removeRole('User');
-
-        $this->removePermission('/*');
-        $this->removePermission('/dashboard/*');
-        $this->removePermission('/debug/*');
-        $this->removePermission('/gii/*');
-        $this->removePermission('/plugin/*');
-        $this->removePermission('/plugin-manager/*');
-        $this->removePermission('/rbac/*');
-        $this->removePermission('/site/*');
-        $this->removePermission('/user/*');
-        $this->removePermission('/user/default/*');
+//        $this->removeRole('Admin');
+//        $this->removeRole('User');
+//
+//        $this->removePermission('/*');
+//        $this->removePermission('/dashboard/*');
+//        $this->removePermission('/debug/*');
+//        $this->removePermission('/gii/*');
+//        $this->removePermission('/plugin/*');
+//        $this->removePermission('/plugin-manager/*');
+//        $this->removePermission('/rbac/*');
+//        $this->removePermission('/site/*');
+//        $this->removePermission('/user/*');
+//        $this->removePermission('/user/default/*');
 
     }
 }

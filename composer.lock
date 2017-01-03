@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ab0258072259ed1f079d1019ce70b7b5",
-    "content-hash": "84f48f54e198a02ae65a0da9244ee1ea",
+    "hash": "ac71f3ed619f482dbc33ee5bd40b56fd",
+    "content-hash": "79bba74adeea8cac188a5b6f7e041c2a",
     "packages": [
         {
             "name": "2amigos/yii2-arrayquery-component",
@@ -444,45 +444,6 @@
                     "index*"
                 ]
             }
-        },
-        {
-            "name": "bower-asset/jquery-sortable-lists",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/camohub/jquery-sortable-lists.git",
-                "reference": "4cd96744f06540b391176cdf4697c289cf3572ed"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/camohub/jquery-sortable-lists/zipball/4cd96744f06540b391176cdf4697c289cf3572ed",
-                "reference": "4cd96744f06540b391176cdf4697c289cf3572ed",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/jquery": ">=1,<3.0.0"
-            },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": "jquery-sortable-lists.js",
-                "bower-asset-ignore": [
-                    "javascripts",
-                    ".idea",
-                    "package.json"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "jQuery plugin to sorting html lists also the tree structures",
-            "keywords": [
-                "jquery",
-                "jquery-plugin",
-                "lists",
-                "ordering",
-                "tree"
-            ],
-            "time": "2016-02-10 02:55:29"
         },
         {
             "name": "bower-asset/jquery-ui",
@@ -1294,12 +1255,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "58deb2ca56172dd325a87b09644f5af62d47654f"
+                "reference": "a6cae1596c736ac2133020223eda81ed89976ad6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/kartik-v/yii2-grid/58deb2ca56172dd325a87b09644f5af62d47654f.zip",
-                "reference": "58deb2ca56172dd325a87b09644f5af62d47654f",
+                "url": "https://packagist.phpcomposer.com/files/kartik-v/yii2-grid/a6cae1596c736ac2133020223eda81ed89976ad6.zip",
+                "reference": "a6cae1596c736ac2133020223eda81ed89976ad6",
                 "shasum": ""
             },
             "require": {
@@ -1339,7 +1300,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-12-19 21:36:49"
+            "time": "2017-01-02 03:36:26"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -2869,60 +2830,17 @@
             "time": "2016-03-11 11:20:20"
         },
         {
-            "name": "xiongchuan/yii2-sortable-tree",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/xiongchuan86/yii2-sortable-tree.git",
-                "reference": "0369d723ed80b8aed42ec73b41c592c6d282b99b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/xiongchuan86/yii2-sortable-tree/0369d723ed80b8aed42ec73b41c592c6d282b99b.zip",
-                "reference": "0369d723ed80b8aed42ec73b41c592c6d282b99b",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/jquery-sortable-lists": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "xiongchuan\\tree\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "chuan xiong",
-                    "email": "xiongchuan86@gmail.com"
-                }
-            ],
-            "description": "The Tree widget based on Jquery-sortable-list,drag and drop to sort the tree.",
-            "keywords": [
-                "drap and drop",
-                "extension",
-                "sortable",
-                "tree",
-                "yii2"
-            ],
-            "time": "2016-12-26 11:38:20"
-        },
-        {
             "name": "yii2mod/yii2-editable",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yii2mod/yii2-editable.git",
-                "reference": "09c108de0b265ffd3b4ece2b95c9f934196ebd08"
+                "reference": "8b66bfd73e986f53649bccab6663fc9b10dbeb0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/yii2mod/yii2-editable/09c108de0b265ffd3b4ece2b95c9f934196ebd08.zip",
-                "reference": "09c108de0b265ffd3b4ece2b95c9f934196ebd08",
+                "url": "https://packagist.phpcomposer.com/files/yii2mod/yii2-editable/8b66bfd73e986f53649bccab6663fc9b10dbeb0c.zip",
+                "reference": "8b66bfd73e986f53649bccab6663fc9b10dbeb0c",
                 "shasum": ""
             },
             "require": {
@@ -2955,7 +2873,7 @@
                 "yii2 editable column",
                 "yii2 editable field"
             ],
-            "time": "2016-12-12 22:44:57"
+            "time": "2017-01-01 15:18:57"
         },
         {
             "name": "yii2mod/yii2-rbac",
@@ -3016,12 +2934,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "2e09c171de2f1e9bf8d28a2246c54d52c2606b56"
+                "reference": "1dc7e0f42901d762153641a0bfd08f49d019801e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-framework/2e09c171de2f1e9bf8d28a2246c54d52c2606b56.zip",
-                "reference": "2e09c171de2f1e9bf8d28a2246c54d52c2606b56",
+                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-framework/1dc7e0f42901d762153641a0bfd08f49d019801e.zip",
+                "reference": "1dc7e0f42901d762153641a0bfd08f49d019801e",
                 "shasum": ""
             },
             "require": {
@@ -3108,7 +3026,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-12-31 19:29:12"
+            "time": "2017-01-02 01:15:13"
         },
         {
             "name": "yiisoft/yii2-authclient",

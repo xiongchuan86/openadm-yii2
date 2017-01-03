@@ -30,19 +30,17 @@ class m161219_020410_openadm_init extends Migration
         $columns = ['id','cfg_name', 'cfg_value', 'cfg_order','cfg_pid','ctime','cfg_type','cfg_status','cfg_comment'];
         $ctime = time();
         $this->batchInsert('{{%system_config}}', $columns, [
-            [1,'LEFTMENU', '{"url":"#","icon":"fa fa-cogs"}', 50, 0, $ctime, 'USER', 1, '系统设置'],
-            [2,'LEFTMENU', '{"url":"#","icon":"fa fa-unlock-alt"}', 51, 0,$ctime , 'USER', 1, '权限管理'],
-            [3,'LEFTMENU', '{"url":"/dashboard/main","icon":"fa fa-dashboard"}', 0, 0, $ctime, 'USER', 1, '控制面板'],
-            [4,'LEFTMENU', '{"url":"/plugin-manager/local/all"}', 0, 1, $ctime, 'USER', 1, '插件管理'],
-            [5,'INNERMENU', '{"url":"/plugin-manager/local/all"}', 0, 4, $ctime, 'USER', 1, '全部'],
-            [6,'INNERMENU', '{"url":"/plugin-manager/local/setuped"}', 1, 4, $ctime, 'USER', 1, '已安装'],
-            [7,'INNERMENU', '{"url":"/plugin-manager/local/new"}', 2, 4, $ctime, 'USER', 1, '未安装'],
-            [8,'LEFTMENU', '{"url":"/user/admin"}', 0, 1, $ctime, 'USER', 1, '管理员列表'],
-            [9,'LEFTMENU', '{"url":"/rbac/assignment"}', 0, 2, $ctime, 'USER', 1, '授权用户'],
-            [10,'LEFTMENU', '{"url":"/rbac/role"}', 0, 2, $ctime, 'USER', 1, '角色列表'],
-            [11,'LEFTMENU', '{"url":"/rbac/route"}', 0, 2, $ctime, 'USER', 1, '路由列表'],
+            [1,'MENU', '{"url":"#","icon":"fa fa-cogs"}', 50, 0, $ctime, 'USER', 1, '默认菜单'],
+            [2,'MENU', '{"url":"#","icon":"fa fa-cogs"}', 50, 1, $ctime, 'USER', 1, '系统设置'],
+            [3,'MENU', '{"url":"#","icon":"fa fa-unlock-alt"}', 51, 1,$ctime , 'USER', 1, '权限管理'],
+            [4,'MENU', '{"url":"/dashboard/main","icon":"fa fa-dashboard"}', 0, 1, $ctime, 'USER', 1, '控制面板'],
+            [5,'MENU', '{"url":"/plugin-manager/local/all"}', 0, 2, $ctime, 'USER', 1, '插件管理'],
+            [6,'MENU', '{"url":"/user/admin"}', 0, 2, $ctime, 'USER', 1, '管理员列表'],
+            [7,'MENU', '{"url":"/rbac/assignment"}', 0, 3, $ctime, 'USER', 1, '授权用户'],
+            [8,'MENU', '{"url":"/rbac/role"}', 0, 3, $ctime, 'USER', 1, '角色列表'],
+            [9,'MENU', '{"url":"/rbac/route"}', 0, 3, $ctime, 'USER', 1, '路由列表'],
             //第12条路由很重要,删除后不能正确访问插件管理功能
-            [12,'PLUGINMANAGER_ROUTE', 'plugin-manager/<a:\w+>/<tab:\w+>=>plugin-manager/<a>', 0, 0, $ctime, 'ROUTE', 1, '插件管理路由']
+            [10,'PLUGINMANAGER_ROUTE', 'plugin-manager/<a:\w+>/<tab:\w+>=>plugin-manager/<a>', 0, 0, $ctime, 'ROUTE', 1, '插件管理路由']
         ]);
 
     }

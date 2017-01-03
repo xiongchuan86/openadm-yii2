@@ -46,7 +46,7 @@ $config = [
         	'baseUrl'  => '@web/static/assets',
             'bundles' => [
                 'dmstr\web\AdminLteAsset' => [
-                    'skin' => 'skin-red',
+                    'skin' => 'skin-blue',
                 ],
             ],
         ],

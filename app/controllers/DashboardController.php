@@ -7,7 +7,7 @@ use app\common\SystemEvent;
 
 class DashboardController extends Controller
 {
-    public $defaultAction = 'main';
+    public $defaultAction = 'index';
 	public function init()
 	{
 		parent::init();
@@ -17,6 +17,11 @@ class DashboardController extends Controller
     public function actionMain()
     {
         return $this->render('main');
+    }
+
+    public function actionIndex()
+    {
+        return $this->renderPartial('index');
     }
 	
 

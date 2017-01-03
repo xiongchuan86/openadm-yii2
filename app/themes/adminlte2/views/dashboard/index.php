@@ -35,18 +35,30 @@ ShowLoadingAsset::register($this);
     </head>
 
     <?php if(!Yii::$app->user->isGuest):?>
-    <body class="hold-transition sidebar-mini skin-yellow-light" style="padding: 15px;background-color: #f9fafc;">
+    <body  class="hold-transition <?= \dmstr\helpers\AdminLteHelper::skinClass() ?> sidebar-mini">
     <div class="wrapper">
-
         <?php $this->beginBody() ?>
-        <?=$content?>
+        <?= $this->render('header.php') ?>
+        <?= $this->render('left.php') ?>
+        <?= $this->render('content.php') ?>
+        <?php endif;?>
+
+
+        <?php if(!Yii::$app->user->isGuest):?>
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs">
+                    Powered by <strong><a href="http://openadm.com" target="_blank">OpenAdm.Com</a>.</strong> <b>Version</b> <?=\app\common\SystemConfig::getVersion()?>
+                </div>
+                <strong>Copyright &copy; 2016-2017 <a href="http://openadm.com" target="_blank"><?=Yii::$app->name?></a>.</strong> All rights
+                reserved.
+            </footer>
         <?php endif;?>
 
     </div>
     <!-- ./wrapper -->
     <?php if(!Yii::$app->user->isGuest):?>
         <?php
-        echo $this->render('noty.default.php')
+        echo $this->render('../layouts/noty.default.php')
         ?>
     <?php endif;?>
     <!-- end: JavaScript-->

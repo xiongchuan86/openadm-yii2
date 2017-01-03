@@ -87,8 +87,9 @@ class MigrateController extends BaseMigrateController
             }catch (yii\base\Exception $e){
                 //不影响
             }
+            $this->migrationPath = $this->defaultMigrationPath;//如果不赋值,basemigratecontroller会报错
             //默认的migrationPath
-            $path = Yii::getAlias($this->defaultMigrationPath);
+            $path = Yii::getAlias($this->migrationPath);
             if(is_dir($path)){
                 $this->_plugin_migration_paths[] = $path;
             }
