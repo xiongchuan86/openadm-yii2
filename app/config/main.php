@@ -15,7 +15,7 @@ $config = [
     'TimeZone' => 'PRC',
     'on beforeRequest' =>['app\common\SystemEvent','beforeRequest'],
     'on beforeAction' => ['app\common\SystemEvent','beforeAction'],
-    'defaultRoute' => 'dashboard/main',
+    'defaultRoute' => 'dashboard/index',
     'components' => [
 
         'cache' => [
@@ -131,7 +131,7 @@ $config = [
         ],
         'user' => [
             'class' => 'amnah\yii2\user\Module',
-	        'loginRedirect' => '/dashboard/main',
+	        'loginRedirect' => '/dashboard/index',
 	        'logoutRedirect'=>'/user/login',
             'requireEmail' => false,
             'requireUsername' => true,

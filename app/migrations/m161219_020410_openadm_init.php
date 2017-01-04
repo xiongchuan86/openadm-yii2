@@ -30,7 +30,7 @@ class m161219_020410_openadm_init extends Migration
         $columns = ['id','cfg_name', 'cfg_value', 'cfg_order','cfg_pid','ctime','cfg_type','cfg_status','cfg_comment'];
         $ctime = time();
         $this->batchInsert('{{%system_config}}', $columns, [
-            [1,'MENU', '{"url":"#","icon":"fa fa-cogs"}', 50, 0, $ctime, 'USER', 1, '默认菜单'],
+            [1,'MENU', '{"url":"#","icon":"fa fa-cogs"}', 50, 0, $ctime, 'USER', 1, '系统'],
             [2,'MENU', '{"url":"#","icon":"fa fa-cogs"}', 50, 1, $ctime, 'USER', 1, '系统设置'],
             [3,'MENU', '{"url":"#","icon":"fa fa-unlock-alt"}', 51, 1,$ctime , 'USER', 1, '权限管理'],
             [4,'MENU', '{"url":"/dashboard/main","icon":"fa fa-dashboard"}', 0, 1, $ctime, 'USER', 1, '控制面板'],
