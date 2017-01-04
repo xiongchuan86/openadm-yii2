@@ -138,6 +138,16 @@ class ActionColumn extends GridActionColumn
         $this->initDefaultButtons();
     }
 
+    public function getName($name)
+    {
+        $names = [
+            'view' => '查看',
+            'update' => '编辑',
+            'delete' => '删除'
+        ];
+        return isset($names[$name]) ? $names[$name] : '';
+    }
+
     /**
      * Initializes the default button rendering callbacks.
      */
@@ -169,7 +179,7 @@ class ActionColumn extends GridActionColumn
                     'aria-label' => $title,
                     'data-pjax' => '0'
                 ], $additionalOptions, $this->buttonOptions);
-                $icon = Html::tag('i', '', ['class' => "fa fa-$iconName"]);
+                $icon = Html::tag('i', $this->getName($name), ['class' => "fa fa-$iconName"]);
                 return Html::a($icon, $url, $options);
             };
         }

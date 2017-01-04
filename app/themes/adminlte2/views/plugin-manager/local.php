@@ -175,6 +175,7 @@ $js = <<<JS
         plugin_action(this,'delete');
     });
     $('#install-modal').on('hidden.bs.modal', function (e) {
+        top.onMenuChange();
         location.href=location.href;
     })
 JS;
