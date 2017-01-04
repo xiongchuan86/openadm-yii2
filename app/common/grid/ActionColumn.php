@@ -153,8 +153,8 @@ class ActionColumn extends GridActionColumn
      */
     protected function initDefaultButtons()
     {
-        $this->initDefaultButton('view', 'eye',['class'=>'btn btn-xs btn-success']);
-        $this->initDefaultButton('update', 'pencil',['class'=>'btn btn-xs btn-primary']);
+        $this->initDefaultButton('view', 'eye',['class'=>'btn btn-xs btn-primary']);
+        $this->initDefaultButton('update', 'edit',['class'=>'btn btn-xs btn-success']);
         $this->initDefaultButton('delete', 'trash', [
             'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
             'data-method' => 'post',

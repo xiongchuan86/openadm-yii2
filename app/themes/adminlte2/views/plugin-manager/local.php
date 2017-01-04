@@ -1,5 +1,5 @@
 <?php
-use yii\helpers\Url;
+use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
@@ -47,23 +47,19 @@ if(is_array($result) && isset($result['data'])){
 				$v['config']['description'] .= "<br/>"."<font color='#f00' id='needed'>缺失依赖插件:</font>".$v['config']['needed'];
 			}
 			//增加操作类型
-			$btn_setup = Button::widget(array(
-			    'label'=>'安装',
-			    'options'=>array('class' => 'setup btn-xs btn-success','style'=>'margin-right:10px;','data-toggle' => 'modal'),
-			),true);
-			$btn_unsetup = Button::widget(array(
-			    'label'=>'卸载',
-			    'options'=>array('class' => 'unsetup btn-xs btn-danger','style'=>'margin-right:10px;','data-toggle' => 'modal'),
-			),true);
-			$btn_delete = Button::widget(array(
-			    'label'=>'删除',
-			    'options'=>array('class' => 'delete btn-xs btn-default','style'=>'','data-toggle' => 'modal'),
-			),true);
+            $btn_setup_label = Html::tag('i','安装',['class'=>'fa fa-cog']);
+			$btn_setup = Html::a($btn_setup_label,'',['class' => 'setup btn btn-xs btn-primary','style'=>'','data-toggle' => 'modal']);
+
+            $btn_unsetup_label = Html::tag('i','卸载',['class'=>'fa fa-edit']);
+			$btn_unsetup = Html::a($btn_unsetup_label,'',['class' => 'unsetup btn btn-xs btn-success','style'=>'','data-toggle' => 'modal']);
+
+			$btn_delete_label = Html::tag('i','删除',['class'=>'fa fa-trash']);
+            $btn_delete = Html::a($btn_delete_label,'javascript::return false;',['class' => 'delete btn btn-xs btn-danger','style'=>'','data-toggle' => 'modal']);
 			$v['config']['_action_'] = '';
 			if($v['setup']){
 				$v['config']['_action_'] = $btn_unsetup;
 			}else{
-				$v['config']['_action_'] = $btn_setup.$btn_delete;
+				$v['config']['_action_'] = $btn_setup.' '.$btn_delete;
 			}
 			$data[]=$v['config'];
 		}
