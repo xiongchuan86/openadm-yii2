@@ -25,7 +25,7 @@ class PluginManagerController extends Controller
 		//获取插件
 		$pageSize = 20;
 		$result = PluginManager::GetPlugins($tab,$page,$pageSize);
-		return $this->render("local",array('tab'=>$tab,'result'=>$result));
+		return $this->render("local",['tab'=>$tab,'result'=>$result]);
 	}
 	
 	public function actionShop()

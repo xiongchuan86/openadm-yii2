@@ -19,3 +19,47 @@
     border-radius: 0;
     border-top: none;
 }
+/*菜单排序*/
+ul.sortable{
+    padding-left: 0;
+}
+
+ul.sortable,ul.sortable ul {
+    list-style-type: none;
+}
+
+.sortable li div {
+    border: 1px solid #d4d4d4;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    cursor: move;
+    border-color: #D4D4D4 #D4D4D4 #BCBCBC;
+    margin: 5px 0;
+    padding: 5px;
+}
+
+.sortable li div i.btn-edit,.sortable li div i.btn-delete{
+    font-size: 12px;
+    float: right;
+    margin-left:2px;
+    margin-top: 1px;
+    padding: 3px;
+    cursor: pointer
+}
+
+.sortable li div i.disclose{
+    cursor: pointer
+}
+li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
+    border-color: #999;
+}
+
+
+.sortable li.mjs-nestedSortable-collapsed > ul {
+    display: none;
+}
+
+.sortable li.mjs-nestedSortable-branch > div > .disclose {
+    display: inline-block;
+}

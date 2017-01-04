@@ -13,7 +13,22 @@ td{padding:0;}
 .pagination{margin:5px 0;}
 </style>
 <div class="nav-tabs-custom">
-<?php echo $this->render('../common/tabs.php');?>
+<?php
+$items = [
+    ['label'=>'全部','url'=>['local','tab'=>'all'],'active'=>'true'],
+    ['label'=>'已安装','url'=>['local','tab'=>'setuped'],'active'=>'true'],
+    ['label'=>'未安装','url'=>['local','tab'=>'new'],'active'=>'true'],
+];
+foreach (['all','setuped','new'] as $i=>$v){
+    if($tab!=$v){
+        unset($items[$i]['active']);
+    }
+}
+echo Nav::widget(array(
+    'options' => ['class' =>'nav-tabs'],
+    'items'=>$items
+));
+?>
 <div class="tab-content">
 <?php
 $data = array(); 

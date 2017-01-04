@@ -15,7 +15,7 @@ class SystemConfig
     const TOPMENU_KEY          = "TOPMENU";
     const LEFTMENU_KEY         = "LEFTMENU";
     const LEFTMENU_SUB_KEY     = "LEFTMSUBENU";
-    const INNERMENU_KEY        = "INNERMENU";
+
     const MENU_KEY             = "MENU";
 
     const CONFIG_TYPE_USER     = "USER";
@@ -34,12 +34,15 @@ class SystemConfig
 
     static public function cache_set($key,$data,$expired)
     {
-        return self::getCache()->set($key,$data,$expired);
+        //return self::getCache()->set($key,$data,$expired);
+        self::$_config[$key] = $data;
+        return true;
     }
 
     static public function cache_get($key)
     {
-        return self::getCache()->get($key);
+        //return self::getCache()->get($key);
+        return isset(self::$_config[$key]) ? self::$_config[$key] : false;
     }
 	
 	/**

@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use yii;
+use yii\helpers\Json;
 use app\common\Controller;
 use app\common\SystemEvent;
 
@@ -21,8 +23,10 @@ class DashboardController extends Controller
 
     public function actionIndex()
     {
-        return $this->renderPartial('index');
+        $menus = SystemEvent::GetAdminMenu();
+        if(Yii::$app->request->isAjax){
+            return '<script>OA_Menus='.Json::encode($menus).'</script>';
+        }
+        return $this->renderPartial('index',['menus'=>$menus]);
     }
-	
-
 }

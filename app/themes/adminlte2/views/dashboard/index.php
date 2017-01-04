@@ -1,10 +1,21 @@
 <?php
+use yii\helpers\Json;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\themes\adminlte2\ThemeAsset;
 use nirvana\showloading\ShowLoadingAsset;
 ThemeAsset::register($this);
 ShowLoadingAsset::register($this);
+
+$this->registerJs( "var OA_Menus=". Json::encode($menus),\yii\web\View::POS_HEAD);
+$this->registerJs( '
+        
+        $(document).ready(function(){
+            oa_build_top_menu();
+            $("#topmenu").find("li:first a").click();
+        });
+        window.onMenuChange = function(id){oa_update_menu(id);};
+    ',\yii\web\View::POS_END);
 ?>
 <?php $this->beginPage() ?>
 

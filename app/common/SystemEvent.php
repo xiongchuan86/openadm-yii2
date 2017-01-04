@@ -9,13 +9,8 @@ use yii\base\InvalidParamException;
 class SystemEvent
 {
     const PLUGIN_MODULE_NAME    = "plugin";
-    const SYSTEM_TOPMENUID_KEY  = "tmid";
-    const SYSTEM_LEFTMENUID_KEY = "lmid";
-    const SYSTEM_INNERMENUID_KEY = "imid";
 
     static private $requestedPlugin = false;
-
-    static private $hasGetMenu         = false;
 
     static public function beforeRequest()
     {
@@ -46,7 +41,6 @@ class SystemEvent
             if(in_array(Yii::$app->controller->module->id,['rbac']))self::GetAdminMenu();
         }
         self::Authenticate();
-        self::GetAdminMenu();
     }
 
     static public function Authenticate()
@@ -91,68 +85,30 @@ class SystemEvent
         return $menus;
     }
 
+    static public function FortmatMenus($menus,$pid=0)
+    {
+        $items = [];
+        if(is_array($menus) && !empty($menus)){
+            foreach ($menus as $k=>$menu){
+                if($menu['cfg_pid']==$pid){
+                    $_menu['content'] = $menu;
+                    $submenus = self::FortmatMenus($menus,$menu['id']);
+                    if(!empty($submenus))
+                        $_menu['items'] = $submenus;
+                    $items[] = $_menu;
+                }
+            }
+        }
+        return $items;
+    }
 
 
     //获取Admin菜单
     static public function GetAdminMenu(){
-        if(self::$hasGetMenu)return;
-
-        $left_menu_id_parent = '';
-
         //默认获取全部的菜单
         $menus  = self::GetCanAccessMenu(SystemConfig::MENU_KEY,'');
 
-        $top_menus  = [];
-        $left_menus = [];
-        if($menus && is_array($menus)){
-            foreach ($menus as $k=>$menu)
-            {
-                try{
-                    $value = Json::decode($menu['cfg_value'],true);
-                    if(isset($value['url'])){//必须要有url字段
-                        if(!self::CheckAccessMenu($value['url']))unset($menus[$k]);
-                        else{
-                            $menus[$k]['value'] = $value;
-                        }
-                    }
-                }catch (InvalidParamException $e){
-                    continue;
-                }
-
-                if($menu['cfg_pid'] == 0){
-                    $top_menus[$menu['id']] = $menus[$k];
-                }else{
-                    if(!isset($left_menus[$menu['cfg_pid']])){
-                        $left_menus[$menu['cfg_pid']] = [];
-                    }
-                    $left_menus[$menu['cfg_pid']][$menu['id']] = $menu;
-                }
-            }
-            //把临时的left menu,规整后写入left_menus
-            if($top_menus && !empty($top_menus))foreach ($top_menus as $top_mid=>$menu)
-            {
-                $submenus = isset($left_menus[$top_mid]) ? $left_menus[$top_mid] : [];
-                foreach ($submenus as $sub_mid=>$submenu){
-                    if(isset($left_menus[$sub_mid])){
-                        $left_menus[$top_mid][$sub_mid] = [
-                            'content' => $submenu,
-                            'items'   => $left_menus[$sub_mid]
-                        ];
-                        unset($left_menus[$sub_mid]);
-                    }else{
-                        $left_menus[$top_mid][$sub_mid] = [
-                            'content' => $submenu,
-                            'items'   => []
-                        ];
-                    }
-                }
-            }
-        }
-
-        Yii::$app->params[SystemConfig::TOPMENU_KEY]   = $top_menus;
-        Yii::$app->params[SystemConfig::LEFTMENU_KEY]  = $left_menus;
-
-        self::$hasGetMenu = true;
+        return  self::FortmatMenus($menus);
     }
 
     /**

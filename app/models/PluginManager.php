@@ -30,9 +30,7 @@ class PluginManager
     static private $_plugins = array();
     static private $_setupedplugins = array();
     static private $_valid_menu_cfgnames = [
-        SystemConfig::TOPMENU_KEY,
-        SystemConfig::LEFTMENU_KEY,
-        SystemConfig::INNERMENU_KEY,
+        SystemConfig::MENU_KEY,
     ];
 
     const YII_COMMAND   = '@root/yii';
@@ -98,7 +96,7 @@ class PluginManager
         }
 
         $str = str_replace(["'","\n"],["\"",""],$str);
-        echo "<script>top.onmessage('$str','$boxId');</script>";
+        echo "<script>parent.onmessage('$str','$boxId');</script>";
         ob_flush();
         flush();
     }
@@ -283,16 +281,6 @@ class PluginManager
     }
 
     /**
-     * 检查menu的cfg_name是否合法
-     * @param $cfg_name string
-     * @return boolean
-     */
-    static public function CheckMenuCfgName($cfg_name)
-    {
-        return in_array($cfg_name,self::$_valid_menu_cfgnames);
-    }
-
-    /**
      * 插件注入route
      */
     static public function PluginInjectRoute(array $conf)
@@ -358,15 +346,15 @@ class PluginManager
      * @param $cfg_name
      * @param array $menus
      */
-    static public function _PluginInjectMenu($pluginId,$cfg_name,$cfg_pid,array $menus)
+    static public function _PluginInjectMenu($pluginId,$cfg_pid,array $menus)
     {
         foreach ($menus as $menu){
-            $params = array(
+            $params = [
                 'cfg_value'   => isset($menu['cfg_value']) ? $menu['cfg_value'] : '',
                 'cfg_comment' => isset($menu['cfg_comment']) ? $menu['cfg_comment'] : '',
                 'cfg_pid'     => $cfg_pid ==0 ? (isset($menu['cfg_pid']) ? $menu['cfg_pid'] : 0) : $cfg_pid,
                 'cfg_order'   => isset($menu['cfg_order']) ? $menu['cfg_order'] : 0
-            );
+            ];
             if(empty($params['cfg_value']) || empty($params['cfg_comment']))continue;
             //检查cfg_value是否为数组,并且有url,icon(可选)
             if(is_array($params['cfg_value']) && isset($params['cfg_value']['url'])){
@@ -375,24 +363,12 @@ class PluginManager
                 continue;//不满条件,就继续foreach
             }
             //写入system_config表
-            $lastPuginConfigId = SystemConfig::Set($cfg_name,$params);
+            $lastPuginConfigId = SystemConfig::Set(SystemConfig::MENU_KEY,$params);
             self::RecordPluginConfigId($pluginId,$lastPuginConfigId);
 
-            if($lastPuginConfigId && $cfg_name == SystemConfig::TOPMENU_KEY){
-                $subkey = SystemConfig::LEFTMENU_KEY;
-                if(isset($menu[$subkey]) && is_array($menu[$subkey]) && !empty($menu[$subkey]) ){
-                    self::_PluginInjectMenu($pluginId,$subkey,$lastPuginConfigId,$menu[$subkey]);
-                }
-            }
-            else if( $lastPuginConfigId && $cfg_name == SystemConfig::LEFTMENU_KEY){
-                $subkey = SystemConfig::LEFTMENU_SUB_KEY;
-                if(isset($menu[$subkey]) && is_array($menu[$subkey]) && !empty($menu[$subkey]) ){
-                    self::_PluginInjectMenu($pluginId,SystemConfig::LEFTMENU_KEY,$lastPuginConfigId,$menu[$subkey]);
-                }
-                $subkey = SystemConfig::INNERMENU_KEY;
-                if(isset($menu[$subkey]) && !empty($menu[$subkey])){
-                    self::_PluginInjectMenu($pluginId,$subkey,$lastPuginConfigId,$menu[$subkey]);
-                }
+            //检查是否有子菜单
+            if(isset($menu['items']) && is_array($menu['items'])){
+                self::_PluginInjectMenu($pluginId,$lastPuginConfigId,$menu['items']);
             }
         }
 
@@ -466,10 +442,8 @@ class PluginManager
     static public function PluginInjectMenu(array $conf)
     {
         $pluginId = $conf['id'];
-        if(isset($conf['menus']) && is_array($conf['menus']) && !empty($conf['menus']))foreach ($conf['menus'] as $cfg_name => $menus) {
-            if(!self::CheckMenuCfgName($cfg_name)) continue;
-
-            self::_PluginInjectMenu($pluginId,$cfg_name,0,$menus);
+        if(isset($conf['menus']) && is_array($conf['menus']) && !empty($conf['menus'])){
+            self::_PluginInjectMenu($pluginId,0,$conf['menus']);
         }
     }
 
