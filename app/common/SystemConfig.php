@@ -39,7 +39,7 @@ class SystemConfig
         return Yii::$app->cache;
     }
 
-    static public function cache_set($key,$data,$expired)
+    static public function cache_set($key,$data,$expired=self::CACHE_1HOURS)
     {
         return self::getCache()->set($key,$data,$expired);
     }
@@ -85,7 +85,7 @@ class SystemConfig
             $data = self::cache_get($cacheKey);
             if(!$data || empty($data)){
                 $data = self::_Get($name,$pid,$type);
-                self::cache_set($cacheKey,$data,self::CACHE_5MINS);
+                self::cache_set($cacheKey,$data);
             }
         }else{
             $data = self::_Get($name,$pid,$type);
