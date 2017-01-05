@@ -14,7 +14,6 @@ $config = [
     'sourceLanguage' => 'en-US',
     'TimeZone' => 'PRC',
     'on beforeRequest' =>['app\common\SystemEvent','beforeRequest'],
-    'on beforeAction' => ['app\common\SystemEvent','beforeAction'],
     'defaultRoute' => 'dashboard/index',
     'components' => [
 

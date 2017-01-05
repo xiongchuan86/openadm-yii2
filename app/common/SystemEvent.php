@@ -1,16 +1,15 @@
 <?php
 namespace app\common;
+
 use yii;
+use yii\base\Component;
 use app\models\PluginManager;
 use yii\web\Request;
 use yii\helpers\Json;
 use yii\base\InvalidParamException;
 
-class SystemEvent
+class SystemEvent extends Component
 {
-    const PLUGIN_MODULE_NAME    = "plugin";
-
-    static private $requestedPlugin = false;
 
     static public function beforeRequest()
     {
@@ -28,33 +27,6 @@ class SystemEvent
                     $rules[$tmp[0]] = $tmp[1];
             }
             if($rules)Yii::$app->urlManager->addRules($rules);
-        }
-    }
-
-    static public function beforeAction()
-    {
-        self::GetRequestedPlugin();
-        if( self::$requestedPlugin){
-            $plugin_type = isset(self::$requestedPlugin['config']['type']) ? self::$requestedPlugin['config']['type'] : '';
-            if($plugin_type == PluginManager::PLUGIN_TYPE_ADMIN) self::GetAdminMenu();
-        }else{
-            if(in_array(Yii::$app->controller->module->id,['rbac']))self::GetAdminMenu();
-        }
-        self::Authenticate();
-    }
-
-    static public function Authenticate()
-    {
-        //
-    }
-
-    //读取当前请求的插件信息
-    static public function GetRequestedPlugin()
-    {
-        if(self::PLUGIN_MODULE_NAME == strtolower(Yii::$app->controller->module->id))
-        {
-            //读取插件信息
-            self::$requestedPlugin = PluginManager::GetPluginConfig(strtolower(Yii::$app->controller->id),false,null,false);
         }
     }
 
@@ -91,6 +63,7 @@ class SystemEvent
         if(is_array($menus) && !empty($menus)){
             foreach ($menus as $k=>$menu){
                 if($menu['cfg_pid']==$pid){
+                    $_menu = [];
                     $_menu['content'] = $menu;
                     $submenus = self::FortmatMenus($menus,$menu['id']);
                     if(!empty($submenus))

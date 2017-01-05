@@ -27,6 +27,13 @@ class SystemConfig
     const CACHE_30MINS          = 1800;
     const CACHE_1HOURS          = 3600;
 
+    const EVENT_CLEAR_CACHE     = "event_clear_system_config_cache";
+
+    static public function cache_flush()
+    {
+        Yii::$app->cache->flush();
+    }
+
     static public function getCache()
     {
         return Yii::$app->cache;
@@ -34,15 +41,12 @@ class SystemConfig
 
     static public function cache_set($key,$data,$expired)
     {
-        //return self::getCache()->set($key,$data,$expired);
-        self::$_config[$key] = $data;
-        return true;
+        return self::getCache()->set($key,$data,$expired);
     }
 
     static public function cache_get($key)
     {
-        //return self::getCache()->get($key);
-        return isset(self::$_config[$key]) ? self::$_config[$key] : false;
+        return self::getCache()->get($key);
     }
 	
 	/**

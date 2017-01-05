@@ -225,7 +225,7 @@ function oa_update_menu(delMenuId)
         activeMenuId = parseInt($(activeLi).find('a').data('id'));
     }
     //请求后台,获取最新的菜单数据
-    $.get(['index'],function (data) {
+    $.get('/dashboard/index',function (data) {
         $('body').append(data);
         oa_build_top_menu();
         var hasFoundOldMenu = false;
