@@ -38,7 +38,6 @@
     },
     "autoload": {
       "psr-4": {
-        "xiongchuan\\tree\\": "/Users/xiongchuan/git/github/yii2-sortable-tree"
       }
     },
     "config": {
