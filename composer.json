@@ -24,7 +24,7 @@
       "kartik-v/yii2-builder": "@dev",
       "kit-tools/yii2-webui-popover": "*",
       "symfony/process": "*",
-      "trntv/yii2-file-kit": "^1.1",
+      "trntv/yii2-file-kit": "*",
       "dmstr/yii2-adminlte-asset":"2.*"
     },
     "require-dev": {
