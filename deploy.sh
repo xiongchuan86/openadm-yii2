@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/www-data/openadmin.com
+cd /home/www-data/openadm.com
 targetDir=`pwd`
 
 if [ ! -d "$targetDir/git-src" ];then
@@ -29,6 +29,8 @@ if [ ! -f "./composer.json" ];then
     #认为是第一次执行部署
     composer global require "fxp/composer-asset-plugin:^1.2.0"
     composer -vvv update
+    #执行数据导入操作
+    ./yii migrate/up --interactive=0
     cp composer.json ../
     cd ..
 else
