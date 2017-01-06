@@ -16,9 +16,16 @@ OpenAdm
 
 
 
-持续集成
+持续集成部署
 ----
-使用某个平台(阿里云CRP或者其他)的持续集成。有几个路径:
+>被部署的服务器需要安装的软件  
+
+1.composer [安装composer](https://getcomposer.org/download/)   
+2.github accesstoken 配置,[Github网站生成token](https://github.com/settings/tokens)  
+3.git config global github.user xxxx  
+4.git config global github.accesstoken xxxx(第二步生成的)  
+
+>使用某个平台(阿里云CRP或者其他)的持续集成。有几个路径:
 1. 部署路径,比如:/path/openadm.com/deploy/ ,持续集成引擎会把代码包(package.tgz)推送到这个目录
 2. 部署后执行脚本:/path/openadm.com/deploy.sh ,当前openadm-yii2下面的deploy.sh,需要提前放到/path/openadm.com/下面。
 3. 此时可以执行部署操作。

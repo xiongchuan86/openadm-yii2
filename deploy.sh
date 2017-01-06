@@ -1,6 +1,6 @@
 #!/bin/bash
+cd /home/www-data/openadmin.com
 targetDir=`pwd`
-cd $targetDir
 
 if [ ! -d "$targetDir/git-src" ];then
     mkdir "$targetDir/git-src"
@@ -26,6 +26,8 @@ cd ../
 if [ ! -f "./composer.json" ];then
 
     cd src
+    #认为是第一次执行部署
+    composer global require "fxp/composer-asset-plugin:^1.2.0"
     composer -vvv update
     cp composer.json ../
     cd ..
@@ -34,6 +36,7 @@ else
    rs=`diff composer.json  src/composer.json`
    echo "rs=$rs"
    if [ "$rs" ];then
+       #认为composer.json有变动需要 update
        echo "must composer update"
        cd src
        composer -vvv update
