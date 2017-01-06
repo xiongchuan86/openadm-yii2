@@ -36,7 +36,6 @@ if [ ! -f "./composer.json" ];then
 else
    echo "diff composer.json  src/composer.json ..."
    rs=`diff composer.json  src/composer.json`
-   echo "rs=$rs"
    if [ "$rs" ];then
        #认为composer.json有变动需要 update
        echo "must composer update"
