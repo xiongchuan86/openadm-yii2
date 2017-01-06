@@ -15,6 +15,18 @@ OpenAdm
 8. 如果需要使用前台用户功能,请配置environments/dev/app/config/main-local.php里面的mailer,然后再./init 安装
 
 
+
+持续集成
+----
+使用某个平台(阿里云CRP或者其他)的持续集成。有几个路径:
+1. 部署路径,比如:/path/openadm.com/deploy/ ,持续集成引擎会把代码包(package.tgz)推送到这个目录
+2. 部署后执行脚本:/path/openadm.com/deploy.sh ,当前openadm-yii2下面的deploy.sh,需要提前放到/path/openadm.com/下面。
+3. 此时可以执行部署操作。
+4. deploy工作,主要就是解压deploy/pacage.tgz,放到openadm.com/src/下面
+5. 配置域名到目录的访问:www.openadm.com 指向 /path/openadm.com/src/web/
+6. 低配置的vps或者ecs,composer安装过程可能出现内存不够用,具体查看持续集成引擎的报错,如遇到错误可以参加:[Composer内存错误](https://getcomposer.org/doc/articles/troubleshooting.md#proc-open-fork-failed-errors)
+
+
 界面
 ----
 
