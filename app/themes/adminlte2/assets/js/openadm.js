@@ -40,7 +40,19 @@ function oa_build_left_menu(el) {
                     var subLeftMenuItems = currentLeftMenuItems[i].items;
                     sidebar_html += '<ul class="treeview-menu">';
                     for(var j in subLeftMenuItems){
-                        sidebar_html += '<li><a class="openlink" data-label="'+subLeftMenuItems[j].content.cfg_comment+'" data-id="'+subLeftMenuItems[j].content.id+'" href="'+subLeftMenuItems[j].content.value.url+'"><i class="'+ ( typeof subLeftMenuItems[j].content.value.icon == "undefined" ? "fa  fa-angle-right" : subLeftMenuItems[j].content.value.icon) +'"></i> '+subLeftMenuItems[j].content.cfg_comment+'</a></li>'
+                        //判断有没有第三层菜单
+                        if(typeof subLeftMenuItems[j].items == "undefined"){
+                            sidebar_html += '<li><a class="openlink" data-label="'+subLeftMenuItems[j].content.cfg_comment+'" data-id="'+subLeftMenuItems[j].content.id+'" href="'+subLeftMenuItems[j].content.value.url+'"><i class="'+ ( typeof subLeftMenuItems[j].content.value.icon == "undefined" ? "fa  fa-angle-right" : subLeftMenuItems[j].content.value.icon) +'"></i> '+subLeftMenuItems[j].content.cfg_comment+'</a></li>';
+                        }else{
+                            sidebar_html += '<li class="treeview"><a data-label="'+subLeftMenuItems[j].content.cfg_comment+'" data-id="'+subLeftMenuItems[j].content.id+'" href="'+subLeftMenuItems[j].content.value.url+'"><i class="'+ ( typeof subLeftMenuItems[j].content.value.icon == "undefined" ? "fa  fa-angle-right" : subLeftMenuItems[j].content.value.icon) +'"></i> <span>'+subLeftMenuItems[j].content.cfg_comment+'</span>';
+                            sidebar_html += '<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span></a>';
+                            var thirdMenuItems = subLeftMenuItems[j].items;
+                            sidebar_html += '<ul class="treeview-menu">';
+                            for(var k in thirdMenuItems){
+                                sidebar_html += '<li><a class="openlink" data-label="'+thirdMenuItems[k].content.cfg_comment+'" data-id="'+thirdMenuItems[k].content.id+'" href="'+thirdMenuItems[k].content.value.url+'"><i class="'+ ( typeof thirdMenuItems[k].content.value.icon == "undefined" ? "fa  fa-angle-double-right" : thirdMenuItems[k].content.value.icon) +'"></i> '+thirdMenuItems[k].content.cfg_comment+'</a></li>';
+                            }
+                            sidebar_html += '</ul></li>'
+                        }
                     }
                     sidebar_html += '</ul>';
                 }
