@@ -3,8 +3,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\themes\adminlte2\ThemeAsset;
 use nirvana\showloading\ShowLoadingAsset;
-ThemeAsset::register($this);
-ShowLoadingAsset::register($this);
+//ThemeAsset::register($this);
+//ShowLoadingAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 
