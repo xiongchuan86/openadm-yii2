@@ -69,7 +69,7 @@ $this->registerJs( '
     <!-- ./wrapper -->
     <?php if(!Yii::$app->user->isGuest):?>
         <?php
-        echo $this->render('../layouts/noty.default.php')
+        echo $this->render('noty.default.php')
         ?>
     <?php endif;?>
     <!-- end: JavaScript-->

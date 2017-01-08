@@ -6,15 +6,15 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'basic-console',
+    'id' => 'openadm-console',
     'bootstrap' => ['log', 'gii'],
     'basePath' => '@app',
     'vendorPath' => '@vendor',
     'runtimePath' => '@runtime',
-    'controllerNamespace' => 'app\commands',
+    'controllerNamespace' => 'app\console',
     'controllerMap' => [
         'migrate' => [
-            'class' => 'app\commands\MigrateController'
+            'class' => 'app\console\MigrateController'
         ]
     ],
     'components' => [

@@ -4,7 +4,7 @@
  * 插件id,插件目录，必须为小写
  * @author xiongchuan <xiongchuan@luxtonenet.com>
  */
-namespace app\models;
+namespace app\modules\admin\models;
 use yii;
 use app\common\SystemConfig;
 use yii\helpers\FileHelper;

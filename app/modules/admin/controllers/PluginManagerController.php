@@ -1,10 +1,10 @@
 <?php
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 
 use Yii;
 use app\common\Controller;
 use app\common\SystemConfig;
-use app\models\PluginManager;
+use app\modules\admin\models\PluginManager;
 use app\common\SystemEvent;
 
 class PluginManagerController extends Controller

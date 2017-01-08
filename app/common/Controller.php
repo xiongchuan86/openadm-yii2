@@ -2,15 +2,15 @@
 
 namespace app\common;
 
-use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
-use app\common\SystemConfig;
-use app\common\components\BaseController;
+use yii\web\Controller as BaseController;
+
 
 class Controller extends BaseController
 {
-	
+    public $layout = '/main';//必须是/main,斜线不能去掉,否则Plugin找不到模板
+
+    public function init(){
+        parent::init();
+    }
+
 }

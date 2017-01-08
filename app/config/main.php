@@ -14,7 +14,7 @@ $config = [
     'sourceLanguage' => 'en-US',
     'TimeZone' => 'PRC',
     'on beforeRequest' =>['app\common\SystemEvent','beforeRequest'],
-    'defaultRoute' => 'dashboard/index',
+    'defaultRoute' => 'site/index',
     'components' => [
 
         'cache' => [
@@ -81,6 +81,7 @@ $config = [
             'theme' => [
                 'pathMap' => [
                     '@app/views' => '@app/themes/adminlte2/views',
+                    '@app/modules/admin/views' => '@app/themes/adminlte2/modules/admin/views',
                     '@vendor/yii2mod/yii2-rbac/views' => '@app/themes/adminlte2/modules/rbac/views',
                     '@vendor/amnah/yii2-user/views' => '@app/themes/adminlte2/modules/user/views',
                 ],
@@ -106,31 +107,19 @@ $config = [
         ],
 
     ],
-    //globally whole applications
-    'as access' => [
-        'class' => yii2mod\rbac\filters\AccessControl::class,
-        'allowActions' => [
-            'user/default/login',
-            'user/default/register',
-            'user/default/index',
-            'user/default/resend',
-            'user/default/forgot',
-            'user/default/reset',
-            'user/default/confirm',
-            'user/auth/login',
-            'user/auth/connect',
-            'user/default/login-callback',
-            'site/*',
-            'debug/*',
-        ]
-    ],
     'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+            'as access' => [
+                'class' => yii2mod\rbac\filters\AccessControl::class
+            ],
+        ],
         'noty' => [
             'class' => 'lo\modules\noty\Module',
         ],
         'user' => [
             'class' => 'amnah\yii2\user\Module',
-	        'loginRedirect' => '/dashboard/index',
+	        'loginRedirect' => '/admin/dashboard/index',
 	        'logoutRedirect'=>'/user/login',
             'requireEmail' => false,
             'requireUsername' => true,
@@ -144,12 +133,30 @@ $config = [
                     'class' => 'app\modules\user\controllers\DefaultController',
                 ]
             ],
+            'as access' => [
+                'class' => yii2mod\rbac\filters\AccessControl::class,
+                'allowActions' => [
+                    'user/default/login',
+                    'user/default/register',
+                    'user/default/index',
+                    'user/default/resend',
+                    'user/default/forgot',
+                    'user/default/reset',
+                    'user/default/confirm',
+                    'user/auth/login',
+                    'user/auth/connect',
+                    'user/default/login-callback',
+                ]
+            ],
 	    ],
 	    'plugin' => [
             'class' => 'app\modules\plugin\Module',
         ],
         'rbac' => [
             'class' => 'yii2mod\rbac\Module',
+            'as access' => [
+                'class' => yii2mod\rbac\filters\AccessControl::class
+            ],
             'controllerMap' => [
                 'assignment' => [
                     'class' => 'yii2mod\rbac\controllers\AssignmentController',

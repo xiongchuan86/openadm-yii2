@@ -5,11 +5,31 @@
  * @author xiongchuan <xiongchuan86@gmail.com>
  */
 namespace app\common\components;
-use app\common\components\BaseController;
+use yii\base\UnknownPropertyException;
 use yii;
-class PluginBaseController extends BaseController
+use yii\web\Controller;
+class PluginBaseController extends Controller
 {
 	protected $pluginName = "";
+
+    public $layout = '/main';//必须是/main,斜线不能去掉,否则Plugin找不到模板
+
+    public function getUniqueId()
+    {
+        if('plugin' == $this->module->getUniqueId()){
+            //如果是plugin开头的plugin
+            $pluginId = '';
+            try{
+                $pluginId = $this->module->pluginid;
+            }catch (UnknownPropertyException $e){
+                $array = explode("/",Yii::$app->requestedRoute);
+                $pluginId = count($array)>1 ? $array[1] : '';
+            }
+            if($pluginId)
+                return $this->module instanceof Application ? $this->id : $this->module->getUniqueId() . '/' . $pluginId . '/' . $this->id;
+        }
+        return $this->module instanceof Application ? $this->id : $this->module->getUniqueId() . '/' . $this->id;
+    }
 	
 	public function init()
 	{

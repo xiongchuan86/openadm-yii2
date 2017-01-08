@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 
 use yii;
 use yii\helpers\Json;

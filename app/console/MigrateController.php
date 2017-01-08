@@ -1,11 +1,11 @@
 <?php
 
-namespace app\commands;
+namespace app\console;
 
 use yii\base\InvalidConfigException;
 use yii\console\controllers\MigrateController as BaseMigrateController;
 use yii;
-use app\models\PluginManager;
+use app\modules\admin\models\PluginManager;
 /**
  * Class MigrateController
  *

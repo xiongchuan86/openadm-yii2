@@ -3,7 +3,6 @@ namespace app\common;
 
 use yii;
 use yii\base\Component;
-use app\models\PluginManager;
 use yii\web\Request;
 use yii\helpers\Json;
 use yii\base\InvalidParamException;
