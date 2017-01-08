@@ -55,7 +55,7 @@ $this->registerJs( '
         <?php endif;?>
 
 
-        <?php if(!Yii::$app->user->isGuest):?>
+        <?php if(0 && !Yii::$app->user->isGuest):?>
             <footer class="main-footer">
                 <div class="pull-right hidden-xs">
                     Powered by <strong><a href="http://openadm.com" target="_blank">OpenAdm.Com</a>.</strong> <b>Version</b> <?=\app\common\SystemConfig::getVersion()?>

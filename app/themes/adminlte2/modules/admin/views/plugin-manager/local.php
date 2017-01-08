@@ -48,13 +48,13 @@ if(is_array($result) && isset($result['data'])){
 			}
 			//增加操作类型
             $btn_setup_label = Html::tag('i','安装',['class'=>'fa fa-cog']);
-			$btn_setup = Html::a($btn_setup_label,'',['class' => 'setup btn btn-xs btn-primary','style'=>'','data-toggle' => 'modal']);
+			$btn_setup = Html::a($btn_setup_label,'#',['class' => 'setup btn btn-xs btn-primary','style'=>'','data-toggle' => 'modal']);
 
             $btn_unsetup_label = Html::tag('i','卸载',['class'=>'fa fa-edit']);
-			$btn_unsetup = Html::a($btn_unsetup_label,'',['class' => 'unsetup btn btn-xs btn-success','style'=>'','data-toggle' => 'modal']);
+			$btn_unsetup = Html::a($btn_unsetup_label,'#',['class' => 'unsetup btn btn-xs btn-success','style'=>'','data-toggle' => 'modal']);
 
 			$btn_delete_label = Html::tag('i','删除',['class'=>'fa fa-trash']);
-            $btn_delete = Html::a($btn_delete_label,'javascript::return false;',['class' => 'delete btn btn-xs btn-danger','style'=>'','data-toggle' => 'modal']);
+            $btn_delete = Html::a($btn_delete_label,'#',['class' => 'delete btn btn-xs btn-danger','style'=>'','data-toggle' => 'modal']);
 			$v['config']['_action_'] = '';
 			if($v['setup']){
 				$v['config']['_action_'] = $btn_unsetup;
@@ -125,7 +125,7 @@ function doAction(o,action){
     var id = tr.find("td:first").text();
 
     //使用iframe
-    submitForm('/plugin-manager/ajax',{pluginid:id,action:action,'_csrf':'<?=Yii::$app->request->csrfToken?>'});
+    submitForm('/admin/plugin-manager/ajax',{pluginid:id,action:action,'_csrf':'<?=Yii::$app->request->csrfToken?>'});
 }
 
 window.onmessage = function (msg,boxId) {
@@ -162,17 +162,24 @@ function submitForm(url,data)
 $js = <<<JS
     $(document).on('click', '.setup', function () {
         plugin_action(this,'setup');
+        return false;
     });
     
     $(document).on('click', '.unsetup', function () {
         plugin_action(this,'unsetup');
+        return false;
     });
     $(document).on('click', '.delete', function () {
         plugin_action(this,'delete');
+        return false;
     });
     $('#install-modal').on('hidden.bs.modal', function (e) {
-        top.onMenuChange();
-        location.href=location.href;
+        try{
+            top.onMenuChange();    
+        }catch (e){
+            //todo    
+        }
+        location.href=location.href+"?t="+(new Date().getTime());
     })
 JS;
 $this->registerJs($js);

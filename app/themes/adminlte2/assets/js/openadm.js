@@ -1,3 +1,4 @@
+var OA_Menus_Children = [];
 function oa_build_top_menu() {
     var top_menu_html = "";
     if(typeof OA_Menus == "object" ){
@@ -6,7 +7,7 @@ function oa_build_top_menu() {
             if(top_menu.content.cfg_pid == 0){//说明是顶部菜单
                 if(typeof top_menu.items == "object"){//说明有子菜单
                     top_menu_html += '<li><a data-id="'+top_menu.content.id+'" href="#">'+top_menu.content.cfg_comment+'</a></li>';
-                    OA_Menus[top_menu.content.id] = top_menu.items;
+                    OA_Menus_Children[top_menu.content.id] = top_menu.items;
                 }else{
                     top_menu_html += '<li><a data-id="'+top_menu.content.id+'" data-label="'+top_menu.content.cfg_comment+'" href="#" data-url="'+top_menu.content.value.url+'" >'+top_menu.content.cfg_comment+'</a></li>';
                 }
@@ -25,9 +26,9 @@ function oa_build_top_menu() {
 function oa_build_left_menu(el) {
     oa_topmenu_change_active(el);
     var topmenu_id = $(el).data('id');
-    if(typeof OA_Menus == "object"){
-        if(typeof OA_Menus[topmenu_id] == "object"){
-            var currentLeftMenuItems = OA_Menus[topmenu_id];
+    if(typeof OA_Menus_Children == "object"){
+        if(typeof OA_Menus_Children[topmenu_id] == "object"){
+            var currentLeftMenuItems = OA_Menus_Children[topmenu_id];
             var sidebar_html = '<ul class="sidebar-menu">';
             for(var i in currentLeftMenuItems){
                 if(typeof currentLeftMenuItems[i].items == "undefined"){
@@ -85,13 +86,11 @@ function oa_top_menu_click() {
 }
 
 function oa_open_window(el) {
-    var iframe_min_height = 550;
+
     var tab_box    = $('#tab_box');
     var tabnav_box = $('#tab_nav');
 
-    var body_height    = $('body').outerHeight();
-    var header_height  = $('.main-header').outerHeight();
-    var footer_height  = $('.main-footer').outerHeight();
+
 
     var id = $(el).data('id');
     var url   = $(el).attr('href');
@@ -103,25 +102,61 @@ function oa_open_window(el) {
     //判断tab是否已经存在
     if($('#tab_nav_'+id).length==0) {
         //create tab nav
-        var tab_nav = $('<li data-id="'+id+'"  id="tab_nav_'+id+'" class="active"><a href="#tab_'+id+'" data-toggle="tab">'+label+' <i class="fa fa-remove" tabclose="20000" onclick="oa_tab_close('+id+')"></i></a></li>');
+        var tab_nav = $('<li data-id="'+id+'"  id="tab_nav_'+id+'" class="active"><a href="#tab_'+id+'"  data-toggle="tab">'+label+' <i class="fa fa-remove" onclick="oa_tab_close('+id+')"></i></a></li>');
         tabnav_box.append(tab_nav);
+
+        $(tab_nav).on('shown.bs.tab', function (e) {
+            var id = $(e.target).parent().data('id');
+            height = oa_intval($('#iframe_'+id).outerHeight());
+            oa_tab_iframe_height(id,height);//需要重新设置iframe的高度,否则点击其他tab再点击回来iframe高度不可用。
+        })
+
         //create content
-        var tab = $('<div class="tab-pane active" id="tab_'+id+'"></div>');
+        var tab = $('<div class="tab-pane" id="tab_'+id+'"></div>');
         tab_box.append(tab);
         var iframe = $('<iframe id="iframe_'+id+'" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="auto" allowtransparency="yes" src="" />');
         $('#tab_'+id).html(iframe);
         $("#iframe_"+id).attr('src',url);
-        //添加完tab后才能获取其height
-        var tab_nav_height = $('#tab_nav').outerHeight();
-        var iframe_height  = body_height - header_height - tab_nav_height - footer_height;
-        if(iframe_height < iframe_min_height){
-            iframe_height = iframe_min_height;
-        }
-        $("#iframe_"+id).attr('height',iframe_height);
-        oa_tab_context_menu(tab_nav);
     }
+
+    oa_tab_iframe_height(id);
+
+    oa_tab_context_menu(tab_nav);
+
     oa_setTabActiveById(id);
     return false;
+}
+
+function oa_intval(height) {
+    var height = parseInt(height);
+    return isNaN(height) ? 0 : height;
+}
+
+function oa_tab_iframe_height(id,height) {
+    var iframe_min_height = 550;
+    var body_height    = oa_intval($(window).outerHeight());
+    var header_height  = oa_intval($('.main-header').outerHeight());
+    var footer_height  = oa_intval($('.main-footer').outerHeight());
+    var tab_nav_height = oa_intval($('#tab_nav').outerHeight());
+    //每次都重新设置高度
+    var iframe_height  = body_height - header_height - tab_nav_height - footer_height;
+    //console.log(body_height ,header_height , tab_nav_height , footer_height)
+    if(iframe_height < iframe_min_height){
+        iframe_height = iframe_min_height;
+    }
+    if(typeof height == "number"){
+        //需要重新设置iframe的高度,否则点击其他tab再点击回来iframe高度不可用。
+        //必须要赋值一个新的高度,否则不生效
+        if(iframe_height == height){
+            $("#iframe_"+id).attr('height',iframe_height-1);
+        }else{
+            $("#iframe_"+id).attr('height',iframe_height);
+        }
+    }else{
+        $("#iframe_"+id).attr('height',iframe_height);
+    }
+
+    return true;
 }
 
 function initOpenAdmMenusEvents() {
@@ -225,7 +260,7 @@ function oa_update_menu(delMenuId)
         activeMenuId = parseInt($(activeLi).find('a').data('id'));
     }
     //请求后台,获取最新的菜单数据
-    $.get('/dashboard/index',function (data) {
+    $.get('/admin/dashboard/index',function (data) {
         $('body').append(data);
         oa_build_top_menu();
         var hasFoundOldMenu = false;

@@ -4,7 +4,7 @@ use yii\widgets\Breadcrumbs;
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper" id="openadm_content">
     <!-- Content Header (Page header) -->
-    <ul class="nav nav-tabs" id="tab_nav">
+    <ul class="nav nav-tabs" id="tab_nav" style="height: 38px">
     </ul>
     <div class="tab-content" id="tab_box">
 

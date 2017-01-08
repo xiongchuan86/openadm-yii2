@@ -5,7 +5,6 @@ use Yii;
 use app\common\Controller;
 use app\common\SystemConfig;
 use app\modules\admin\models\PluginManager;
-use app\common\SystemEvent;
 
 class PluginManagerController extends Controller
 {
@@ -44,6 +43,8 @@ class PluginManagerController extends Controller
                 PluginManager::setShowMsg(1);
                 $result = PluginManager::$action($pluginid);
                 PluginManager::setShowMsg(0);
+                //update  systemconfig
+                SystemConfig::cache_flush();
             }
         }
 	}
