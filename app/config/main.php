@@ -129,21 +129,6 @@ $config = [
                     'class' => 'app\modules\user\controllers\DefaultController',
                 ]
             ],
-            'as access' => [
-                'class' => yii2mod\rbac\filters\AccessControl::class,
-                'allowActions' => [
-                    'user/default/login',
-                    'user/default/register',
-                    'user/default/index',
-                    'user/default/resend',
-                    'user/default/forgot',
-                    'user/default/reset',
-                    'user/default/confirm',
-                    'user/auth/login',
-                    'user/auth/connect',
-                    'user/default/login-callback',
-                ]
-            ],
 	    ],
 	    'plugin' => [
             'class' => 'app\modules\plugin\Module',

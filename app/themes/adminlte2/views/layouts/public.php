@@ -34,6 +34,7 @@ ThemeAsset::register($this);
         <![endif]-->
         <link rel="shortcut icon" href="<?=Url::home(true)?>static/ico/favicon.png">
         <![CDATA[YII-BLOCK-HEAD]]>
+        <script>var User= {login : false};</script>
     </head>
     <body class="hold-transition <?= \dmstr\helpers\AdminLteHelper::skinClass() ?> layout-top-nav">
         <?php $this->beginBody() ?>

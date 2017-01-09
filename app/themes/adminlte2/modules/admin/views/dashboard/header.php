@@ -32,8 +32,8 @@ use yii\helpers\Url;
                         </a>
                         <ul class="dropdown-menu">
                             <!-- Menu Footer-->
-                            <li><a href="<?=Url::to('/user/profile')?>"><i class="fa fa-user"></i> 个人资料</a></li>
-                            <li><a href="<?=Url::to('/user/account')?>"><i class="fa fa-user"></i> 修改密码</a></li>
+                            <li><a data-id="10001" class="openlink" href="<?=Url::to('/user/profile')?>"><i class="fa fa-user"></i> 个人资料</a></li>
+                            <li><a data-id="10002" class="openlink" href="<?=Url::to('/user/account')?>"><i class="fa fa-user"></i> 修改密码</a></li>
                             <li><a href="<?=Url::to('/user/logout')?>"><i class="fa fa-off"></i> 退出</a></li>
                         </ul>
                     </li>

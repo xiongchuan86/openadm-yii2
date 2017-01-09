@@ -110,7 +110,9 @@ function oa_open_window(el) {
         url = $(el).data('url');
     }
     var label = $(el).data('label');
-
+    if(typeof label == "undefined"){
+        label = $(el).text();
+    }
     //判断tab是否已经存在
     if($('#tab_nav_'+id).length==0) {
         //create tab nav
@@ -287,3 +289,14 @@ function oa_update_menu(delMenuId)
         }
     });
 }
+
+function checkTopWindow() {
+    if(typeof User == "undefined"){
+        var pattern = new RegExp('/admin');
+        if(!pattern.test(top.location.pathname)){
+            var url = window.location.protocol+'//'+window.location.host+'/admin/';
+            location.href = url;
+        }
+    }
+}
+checkTopWindow();

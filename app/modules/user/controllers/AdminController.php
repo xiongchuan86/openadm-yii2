@@ -13,6 +13,7 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii2mod\editable\EditableAction;
+use yii2mod\rbac\filters\AccessControl;
 
 /**
  * AdminController implements the CRUD actions for User model.
@@ -33,6 +34,14 @@ class AdminController extends Controller
     {
         parent::init();
         $this->protected_uids[] = $this->superadmin_uid;//把superadmin 默认加入受保护的列表
+        $this->attachBehaviors([
+            'access' => [
+                'class' => AccessControl::className(),
+                'denyCallback' => function ($rule, $action) {
+                    return $this->redirect(["/user/login"]);
+                }
+            ],
+        ]);
     }
 
     /**

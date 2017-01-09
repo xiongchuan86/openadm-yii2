@@ -4,7 +4,7 @@ namespace app\modules\user\controllers;
 
 use Yii;
 use yii\web\Response;
-use yii\filters\AccessControl;
+use yii2mod\rbac\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use app\common\Controller;
@@ -27,19 +27,40 @@ class DefaultController extends Controller
         parent::init();
     }
 
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'confirm', 'resend', 'logout'],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
+                    ],
+                    [
+                        'actions' => ['account', 'profile', 'resend-change', 'cancel'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['login', 'register', 'forgot', 'reset', 'login-email', 'login-callback'],
+                        'allow' => true,
+                        'roles' => ['?','@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function beforeAction($action)
     {
-        parent::beforeAction($action);
         $loginedActions = ["profile","account"];
         if(in_array($action->id,$loginedActions)){
             $this->layout = '/main';
-        }else{
-            if(!Yii::$app->user->isGuest){
-               // $this->redirect(Yii::$app->getModule('user')->loginRedirect);
-            }
         }
         //要返回true 往下执行
-        return true;
+        return parent::beforeAction($action);
     }
 
     /**
