@@ -1,0 +1,3 @@
+[submodule "app/plugins"]
+	path = app/plugins
+	url = https://code.aliyun.com/xiongchuan86/openadm-yii2-plugins.git
