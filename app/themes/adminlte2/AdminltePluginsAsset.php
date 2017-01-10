@@ -16,6 +16,9 @@ class AdminltePluginsAsset extends AssetBundle
     public $css = [
     ];
     public $depends = [
+        'yii\web\YiiAsset',
+        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
         'dmstr\web\AdminLteAsset',
     ];
 }
