@@ -290,6 +290,18 @@ function oa_update_menu(delMenuId)
     });
 }
 
+function oa_timestamp(url) {
+    var timestamp = new Date().getTime();
+    var newurl = '';
+    if(url.indexOf('?') == -1){
+        newurl = url + '?t=' + timestamp;
+    }else{
+        var reg = new RegExp('t=\d*','g');
+        newurl  = url.replace(reg,'t='+timestamp);
+    }
+    return newurl;
+}
+
 function checkTopWindow() {
     if(typeof User == "undefined"){
         var pattern = new RegExp('/admin');

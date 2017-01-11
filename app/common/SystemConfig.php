@@ -226,7 +226,7 @@ class SystemConfig
 	static public function Update($id,array $value)
 	{
         if($id && $id>0){
-            $defaultFields = ['cfg_name','cfg_value','cfg_pid','cfg_order','cfg_comment'];
+            $defaultFields = ['cfg_name','cfg_value','cfg_pid','cfg_order','cfg_comment','cfg_status'];
             $useFields     = [];
             foreach ($value as $key=>$val){
                 if(in_array($key,$defaultFields)){

@@ -179,7 +179,7 @@ $js = <<<JS
         }catch (e){
             //todo    
         }
-        location.href=location.href+"?t="+(new Date().getTime());
+        location.href=oa_timestamp(location.href);
     })
 JS;
 $this->registerJs($js);

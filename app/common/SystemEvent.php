@@ -41,8 +41,9 @@ class SystemEvent extends Component
             foreach ($menus as $k=>$menu){
                 try{
                     $value = Json::decode($menu['cfg_value'],true);
+                    $type  = isset($value['type']) ? $value['type'] : 1;
                     if(isset($value['url'])){//必须要有url字段
-                        if(!self::CheckAccessMenu($value['url']))unset($menus[$k]);
+                        if($type==1 && !self::CheckAccessMenu($value['url']))unset($menus[$k]);
                         else{
                             $menus[$k]['value'] = $value;
                         }
