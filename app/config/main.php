@@ -108,7 +108,7 @@ $config = [
         'admin' => [
             'class' => 'app\modules\admin\Module',
             'as access' => [
-                'class' => yii2mod\rbac\filters\AccessControl::class
+                'class' => yii2mod\rbac\filters\AccessControl::class,
             ],
         ],
         'noty' => [
@@ -117,8 +117,8 @@ $config = [
         'user' => [
             'class' => 'amnah\yii2\user\Module',
 	        'loginRedirect' => '/admin/dashboard/index',
-	        'logoutRedirect'=>'/user/login',
-            'requireEmail' => false,
+	        'logoutRedirect'=>'/user/admin/login',
+            'requireEmail' => true,
             'requireUsername' => true,
             'controllerMap' => [
                 'admin' => [
@@ -129,7 +129,7 @@ $config = [
                 'default' => [
                     'class' => 'app\modules\user\controllers\DefaultController',
                 ]
-            ],
+            ]
 	    ],
 	    'plugin' => [
             'class' => 'app\modules\plugin\Module',

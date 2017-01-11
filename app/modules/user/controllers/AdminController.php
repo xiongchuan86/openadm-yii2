@@ -30,6 +30,8 @@ class AdminController extends Controller
 
     public $superadmin_uid = 0;
 
+    public $loginRedirect = '/admin/dashboard';
+
     public function init()
     {
         parent::init();
@@ -37,11 +39,131 @@ class AdminController extends Controller
         $this->attachBehaviors([
             'access' => [
                 'class' => AccessControl::className(),
+                'allowActions'=>[
+                    'login',
+                    'logout',
+                ],
                 'denyCallback' => function ($rule, $action) {
-                    return $this->redirect(["/user/login"]);
+                    $this->redirect('/user/admin/login');
                 }
             ],
         ]);
+    }
+
+    /**
+     * Display login page
+     */
+    public function actionLogin()
+    {
+        $this->layout = '/public';
+
+        /** @var \amnah\yii2\user\models\forms\LoginForm $model */
+        $model = $this->module->model("LoginForm");
+
+        // load post data and login
+        $post = Yii::$app->request->post();
+        if ($model->load($post) && $model->validate()) {
+            $returnUrl = $this->performLogin($model->getUser(), $model->rememberMe);
+            return $this->redirect($returnUrl);
+        }
+
+        return $this->render('login', compact("model"));
+    }
+
+    /**
+     * Perform the login
+     */
+    protected function performLogin($user, $rememberMe = true)
+    {
+        // log user in
+        $loginDuration = $rememberMe ? $this->module->loginDuration : 0;
+        Yii::$app->user->login($user, $loginDuration);
+
+        return $this->loginRedirect;
+    }
+
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+
+        // handle redirect
+        $logoutRedirect = $this->module->logoutRedirect;
+        if ($logoutRedirect) {
+            return $this->redirect($logoutRedirect);
+        }
+        return $this->goHome();
+    }
+
+    /**
+     * Account
+     */
+    public function actionAccount()
+    {
+        /** @var \amnah\yii2\user\models\User $user */
+        /** @var \amnah\yii2\user\models\UserToken $userToken */
+
+        // set up user and load post data
+        $user = Yii::$app->user->identity;
+        $user->setScenario("account");
+        $loadedPost = $user->load(Yii::$app->request->post());
+
+        // validate for ajax request
+        if ($loadedPost && Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($user);
+        }
+
+        // validate for normal request
+        $userToken = $this->module->model("UserToken");
+        if ($loadedPost && $user->validate()) {
+
+            // check if user changed his email
+            $newEmail = $user->checkEmailChange();
+            if ($newEmail) {
+                $userToken = $userToken::generate($user->id, $userToken::TYPE_EMAIL_CHANGE, $newEmail);
+                if (!$numSent = $user->sendEmailConfirmation($userToken)) {
+
+                    // handle email error
+                    //Yii::$app->session->setFlash("Email-error", "Failed to send email");
+                }
+            }
+
+            // save, set flash, and refresh page
+            $user->save(false);
+            Yii::$app->session->setFlash("success", Yii::t("user", "Account updated"));
+            return $this->refresh();
+        } else {
+            $userToken = $userToken::findByUser($user->id, $userToken::TYPE_EMAIL_CHANGE);
+        }
+
+        return $this->render("account", compact("user", "userToken"));
+    }
+
+    /**
+     * Profile
+     */
+    public function actionProfile()
+    {
+        /** @var \amnah\yii2\user\models\Profile $profile */
+
+        // set up profile and load post data
+        $profile = Yii::$app->user->identity->profile;
+        $loadedPost = $profile->load(Yii::$app->request->post());
+
+        // validate for ajax request
+        if ($loadedPost && Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($profile);
+        }
+
+        // validate for normal request
+        if ($loadedPost && $profile->validate()) {
+            $profile->save(false);
+            Yii::$app->session->setFlash("success", Yii::t("user", "Profile updated"));
+            return $this->refresh();
+        }
+
+        return $this->render("profile", compact("profile"));
     }
 
     /**
