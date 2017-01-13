@@ -34,6 +34,10 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+        'generators'=>[
+            'model' => ['class' => 'app\modules\gii\generators\model\Generator'],
+            'crud' => ['class' => 'app\modules\gii\generators\crud\Generator'],
+        ],
     ];
 }
 
