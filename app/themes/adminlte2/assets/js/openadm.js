@@ -23,6 +23,13 @@ function oa_build_top_menu() {
     }
     oa_top_menu_click();
 }
+
+function oa_icon_is_empty(icon) {
+    if(typeof icon == "undefined" || icon == "")
+        return true;
+    return false;
+}
+
 function oa_build_left_menu(el) {
     oa_topmenu_change_active(el);
     var topmenu_id = $(el).data('id');
@@ -35,21 +42,21 @@ function oa_build_left_menu(el) {
                     sidebar_html += '<li class="treeview"><a class="openlink" data-label="'+currentLeftMenuItems[i].content.cfg_comment+'" data-id="'+currentLeftMenuItems[i].content.id+'" href="'+currentLeftMenuItems[i].content.value.url+'"><i class="'+currentLeftMenuItems[i].content.value.icon+'"></i> <span>'+currentLeftMenuItems[i].content.cfg_comment+'</span>';
                     sidebar_html += '</a>';
                 }else{
-                    sidebar_html += '<li class="treeview"><a data-label="'+currentLeftMenuItems[i].content.cfg_comment+'" data-id="'+currentLeftMenuItems[i].content.id+'" href="'+currentLeftMenuItems[i].content.value.url+'"><i class="'+currentLeftMenuItems[i].content.value.icon+'"></i> <span>'+currentLeftMenuItems[i].content.cfg_comment+'</span>';
+                    sidebar_html += '<li class="treeview"><a data-label="'+currentLeftMenuItems[i].content.cfg_comment+'" data-id="'+currentLeftMenuItems[i].content.id+'" href="'+currentLeftMenuItems[i].content.value.url+'"><i class="'+( oa_icon_is_empty( currentLeftMenuItems[i].content.value.icon )  ? "fa  fa-angle-right" : currentLeftMenuItems[i].content.value.icon)+'"></i> <span>'+currentLeftMenuItems[i].content.cfg_comment+'</span>';
                     sidebar_html += '<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span></a>';
                     var subLeftMenuItems = currentLeftMenuItems[i].items;
                     sidebar_html += '<ul class="treeview-menu">';
                     for(var j in subLeftMenuItems){
                         //判断有没有第三层菜单
                         if(typeof subLeftMenuItems[j].items == "undefined"){
-                            sidebar_html += '<li><a class="openlink" data-label="'+subLeftMenuItems[j].content.cfg_comment+'" data-id="'+subLeftMenuItems[j].content.id+'" href="'+subLeftMenuItems[j].content.value.url+'"><i class="'+ ( typeof subLeftMenuItems[j].content.value.icon == "undefined" ? "fa  fa-angle-right" : subLeftMenuItems[j].content.value.icon) +'"></i> '+subLeftMenuItems[j].content.cfg_comment+'</a></li>';
+                            sidebar_html += '<li><a class="openlink" data-label="'+subLeftMenuItems[j].content.cfg_comment+'" data-id="'+subLeftMenuItems[j].content.id+'" href="'+subLeftMenuItems[j].content.value.url+'"><i class="'+ ( oa_icon_is_empty( subLeftMenuItems[j].content.value.icon ) ? "fa  fa-angle-right" : subLeftMenuItems[j].content.value.icon) +'"></i> '+subLeftMenuItems[j].content.cfg_comment+'</a></li>';
                         }else{
-                            sidebar_html += '<li class="treeview"><a data-label="'+subLeftMenuItems[j].content.cfg_comment+'" data-id="'+subLeftMenuItems[j].content.id+'" href="'+subLeftMenuItems[j].content.value.url+'"><i class="'+ ( typeof subLeftMenuItems[j].content.value.icon == "undefined" ? "fa  fa-angle-right" : subLeftMenuItems[j].content.value.icon) +'"></i> <span>'+subLeftMenuItems[j].content.cfg_comment+'</span>';
+                            sidebar_html += '<li class="treeview"><a data-label="'+subLeftMenuItems[j].content.cfg_comment+'" data-id="'+subLeftMenuItems[j].content.id+'" href="'+subLeftMenuItems[j].content.value.url+'"><i class="'+ ( oa_icon_is_empty( subLeftMenuItems[j].content.value.icon ) ? "fa  fa-angle-right" : subLeftMenuItems[j].content.value.icon) +'"></i> <span>'+subLeftMenuItems[j].content.cfg_comment+'</span>';
                             sidebar_html += '<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span></a>';
                             var thirdMenuItems = subLeftMenuItems[j].items;
                             sidebar_html += '<ul class="treeview-menu">';
                             for(var k in thirdMenuItems){
-                                sidebar_html += '<li><a class="openlink" data-label="'+thirdMenuItems[k].content.cfg_comment+'" data-id="'+thirdMenuItems[k].content.id+'" href="'+thirdMenuItems[k].content.value.url+'"><i class="'+ ( typeof thirdMenuItems[k].content.value.icon == "undefined" ? "fa  fa-angle-double-right" : thirdMenuItems[k].content.value.icon) +'"></i> '+thirdMenuItems[k].content.cfg_comment+'</a></li>';
+                                sidebar_html += '<li><a class="openlink" data-label="'+thirdMenuItems[k].content.cfg_comment+'" data-id="'+thirdMenuItems[k].content.id+'" href="'+thirdMenuItems[k].content.value.url+'"><i class="'+ ( oa_icon_is_empty( thirdMenuItems[k].content.value.icon ) ? "fa  fa-angle-double-right" : thirdMenuItems[k].content.value.icon) +'"></i> '+thirdMenuItems[k].content.cfg_comment+'</a></li>';
                             }
                             sidebar_html += '</ul></li>'
                         }
@@ -226,7 +233,7 @@ function oa_tab_context_menu(el) {
         bindings:{
             'refresh':function (t) {
                 oa_setTabActiveById(id);
-                var url = $('#iframe_'+id).attr("src")+"?t="+new Date().getTime();
+                var url = oa_timestamp($('#iframe_'+id).attr("src"));
                 $('#iframe_'+id).attr("src",url);
                 $("div#tabmenu").hide();
             },
@@ -296,8 +303,8 @@ function oa_timestamp(url) {
     if(url.indexOf('?') == -1){
         newurl = url + '?t=' + timestamp;
     }else{
-        var reg = new RegExp('t=\d*','g');
-        newurl  = url.replace(reg,'t='+timestamp);
+        var reg = new RegExp('t=\d+?&','g');
+        newurl  = url.replace(reg,'t='+timestamp+'&');
     }
     return newurl;
 }

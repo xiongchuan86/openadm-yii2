@@ -44,7 +44,7 @@ class MigrateController extends BaseMigrateController
     /**
      * @inheritdoc
      */
-    public $templateFile = '@vendor/yii2mod/yii2-rbac/views/migration.php';
+    public $templateFile = '@yii/views/migration.php';
 
     protected $_plugin_migration_paths = [];
 
