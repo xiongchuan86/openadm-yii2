@@ -39,3 +39,6 @@ phpunit.phar
 /app/runtime/*
 
 /app/config/*-local.php
+
+/storage/backup/*.sql
+/storage/backup/*.sql.gz
