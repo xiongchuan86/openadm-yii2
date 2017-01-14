@@ -25,7 +25,8 @@
       "kit-tools/yii2-webui-popover": "*",
       "symfony/process": "*",
       "trntv/yii2-file-kit": "*",
-      "dmstr/yii2-adminlte-asset":"2.*"
+      "dmstr/yii2-adminlte-asset":"2.*",
+      "kucha/ueditor": "*"
     },
     "require-dev": {
       "yiisoft/yii2-debug": "~2.0.0",

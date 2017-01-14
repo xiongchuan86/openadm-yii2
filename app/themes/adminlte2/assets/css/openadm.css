@@ -64,3 +64,8 @@ li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
 .sortable li.mjs-nestedSortable-branch > div > .disclose {
     display: inline-block;
 }
+
+li.upload-kit-item.done.image img{
+    max-width: 200px;
+    max-height: 200px;
+}

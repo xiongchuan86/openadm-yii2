@@ -51,6 +51,14 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
                     \'name\' => \'id\'
                 ],'."\n";
         }
+        if($name=="create_at" || $name=="created_at"){
+            echo '            [
+                \'label\'=>\'添加日期\',
+                \'attribute\'=>\'create_at\',
+                \'format\' => [\'date\', \'php:Y-m-d H:i\'],
+                \'value\' => \'create_at\'
+            ],'."\n";
+        }
         if (++$count < 6) {
             echo "            '" . $name . "',\n";
         } else {
@@ -67,6 +75,14 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
                 ],'."\n";
         }
         $format = $generator->generateColumnFormat($column);
+        if($column->name=="create_at" || $column->name=="created_at"){
+            echo '            [
+                \'label\'=>\'添加日期\',
+                \'attribute\'=>\'create_at\',
+                \'format\' => [\'date\', \'php:Y-m-d H:i\'],
+                \'value\' => \'create_at\'
+            ],'."\n";
+        }
         if (++$count < 6) {
             echo "            '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
         } else {

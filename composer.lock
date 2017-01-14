@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4d5bc569ecd803f90c7d6312faf91c92",
-    "content-hash": "f32ba54a0228d86329237d4cbea6513a",
+    "hash": "1398efa71453fa70e8c97b5e6f5d052a",
+    "content-hash": "6e3e88af3df24dcd5cbffff76377f27d",
     "packages": [
         {
             "name": "2amigos/yii2-arrayquery-component",
@@ -2435,6 +2435,39 @@
                 "yii2"
             ],
             "time": "2016-03-09 16:34:05"
+        },
+        {
+            "name": "kucha/ueditor",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BigKuCha/yii2-ueditor-widget.git",
+                "reference": "822abe88d3fdb4550aa1986ebff94551319aaef7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/BigKuCha/yii2-ueditor-widget/822abe88d3fdb4550aa1986ebff94551319aaef7.zip",
+                "reference": "822abe88d3fdb4550aa1986ebff94551319aaef7",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kucha\\ueditor\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "BigKuCha",
+                    "email": "nevermore1989@vip.qq.com"
+                }
+            ],
+            "description": "desc",
+            "time": "2016-09-29 08:04:22"
         },
         {
             "name": "league/flysystem",

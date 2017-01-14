@@ -109,6 +109,12 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', <?= $urlParams ?>]);
         } else {
+            $errors = $model->getErrors();
+            if(!empty($errors)){
+                foreach ($errors as $field=>$val){
+                    Yii::$app->session->setFlash('warning',"Field:{$field},{$val[0]}");
+                }
+            }
             return $this->render('create', [
                 'model' => $model,
             ]);
