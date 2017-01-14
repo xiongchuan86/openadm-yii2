@@ -5,6 +5,7 @@ namespace app\console;
 use yii\base\InvalidConfigException;
 use yii\console\controllers\MigrateController as BaseMigrateController;
 use yii;
+use yii\helpers\Console;
 use app\modules\admin\models\PluginManager;
 /**
  * Class MigrateController
@@ -172,5 +173,50 @@ class MigrateController extends BaseMigrateController
         ksort($migrations);
 
         return array_values($migrations);
+    }
+
+    public function getMigrationClassOfPlugin()
+    {
+        $dir = dir(Yii::getAlias($this->migrationPath));
+        $migrations = [];
+        while( ($file = $dir->read()) !== false){
+            if($file != '.' && $file != '..'){
+                $migrations[] = str_replace(".php","",$file);
+            }
+        }
+        return $migrations;
+    }
+
+    public function actionDownPlugin()
+    {
+        $migrations = $this->getMigrationClassOfPlugin();
+
+        if (empty($migrations)) {
+            $this->stdout("No migration has been done before.\n", Console::FG_YELLOW);
+
+            return self::EXIT_CODE_NORMAL;
+        }
+
+        $n = count($migrations);
+        $this->stdout("Total $n " . ($n === 1 ? 'migration' : 'migrations') . " to be reverted:\n", Console::FG_YELLOW);
+        foreach ($migrations as $migration) {
+            $this->stdout("\t$migration\n");
+        }
+        $this->stdout("\n");
+
+        $reverted = 0;
+        if ($this->confirm('Revert the above ' . ($n === 1 ? 'migration' : 'migrations') . '?')) {
+            foreach ($migrations as $migration) {
+                if (!$this->migrateDown($migration)) {
+                    $this->stdout("\n$reverted from $n " . ($reverted === 1 ? 'migration was' : 'migrations were') ." reverted.\n", Console::FG_RED);
+                    $this->stdout("\nMigration failed. The rest of the migrations are canceled.\n", Console::FG_RED);
+
+                    return self::EXIT_CODE_ERROR;
+                }
+                $reverted++;
+            }
+            $this->stdout("\n$n " . ($n === 1 ? 'migration was' : 'migrations were') ." reverted.\n", Console::FG_GREEN);
+            $this->stdout("\nMigrated down successfully.\n", Console::FG_GREEN);
+        }
     }
 }

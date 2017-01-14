@@ -35,7 +35,7 @@ class PluginManager
 
     const YII_COMMAND   = '@root/yii';
     const MIGRATE_UP    = 'up';
-    const MIGRATE_DOWN  = 'down';
+    const MIGRATE_DOWN  = 'down-plugin';//重写数据库清楚操作
     const MIGRATION_DEFAULT_DIRNAME = 'migrations';
 
     static public $isShowMsg = 0;
@@ -422,7 +422,7 @@ class PluginManager
             self::showMsg("<p id='cmd_box' style='background-color: #2c763e;color:#f5db88'>",0);
             //执行
             $handler = popen($cmd, 'r');
-
+            self::showMsg("cmd:  ".$cmd."\n",1,'','cmd_box');
             while (!feof($handler)) {
                 $output = fgets($handler,1024);
                 self::showMsg($output,1,'','cmd_box');
