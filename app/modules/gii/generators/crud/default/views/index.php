@@ -123,29 +123,48 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
 
 <?= "<?php " ?>
 $this->registerJs('
-$(".batchdelete").on("click", function () {
+function oa_action(action,status,tips){
     var keys = $("#grid").yiiGridView("getSelectedRows");
     if(keys.length==0){
         noty({text: "请至少选择一条数据!",type:\'warning\'});
         return ;
     }
-    yii.confirm("确定要删除?",function(){
+    if(tips == ""){
         $.ajax({
-            url: "deletes",
-            type: \'post\',
-            data: {ids:keys,_csrf:"'.Yii::$app->request->csrfToken.'"},
-            success: function (data) {
-                // do something
-                if(data["code"] == 200){
-                    noty({text: data.msg,type:\'success\'});
-                    setTimeout(function(){location.href=oa_timestamp(location.href);},1000);
-                }else{
-                    noty({text: data.msg,type:\'error\',timeout:1000});
+                url: action,
+                type: \'post\',
+                data: {ids:keys,status:status,_csrf:"'.Yii::$app->request->csrfToken.'"},
+                success: function (data) {
+                    // do something
+                    if(data["code"] == 200){
+                        noty({text: data.msg,type:\'success\'});
+                        setTimeout(function(){location.href=oa_timestamp(location.href);},1000);
+                    }else{
+                        noty({text: data.msg,type:\'error\',timeout:1000});
+                    }
                 }
-            }
+            });
+    }else{
+        yii.confirm(tips,function(){
+            $.ajax({
+                url: action,
+                type: \'post\',
+                data: {ids:keys,status:status,_csrf:"'.Yii::$app->request->csrfToken.'"},
+                success: function (data) {
+                    // do something
+                    if(data["code"] == 200){
+                        noty({text: data.msg,type:\'success\'});
+                        setTimeout(function(){location.href=oa_timestamp(location.href);},1000);
+                    }else{
+                        noty({text: data.msg,type:\'error\',timeout:1000});
+                    }
+                }
+            });
         });
-    });
-
+    }
+}
+$(".batchdelete").on("click", function () {
+    oa_action("deletes",1,"确定要删除?");
 });
 ');
 ?>
