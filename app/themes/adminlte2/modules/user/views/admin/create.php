@@ -8,9 +8,13 @@ use yii\helpers\Html;
  * @var amnah\yii2\user\models\Profile $profile
  */
 
-$this->title = Yii::t('user', 'Create {modelClass}', [
-  'modelClass' => 'User',
-]);
+$role_id = Yii::$app->request->get("role_id","");
+if($role_id == 1){
+    $title = "添加管理员";
+}else{
+    $title = "添加用户";
+}
+$this->title = $title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

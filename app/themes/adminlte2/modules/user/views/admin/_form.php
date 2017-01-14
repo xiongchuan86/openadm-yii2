@@ -31,7 +31,14 @@ $role = $module->model("Role");
     <?= $form->field($profile, 'full_name'); ?>
 
     <?php if(!$user->id == $this->context->superadmin_uid):?>
-    <?= $form->field($user, 'role_id')->dropDownList($role::dropdown()); ?>
+    <?php
+        $role_id = Yii::$app->request->get('role_id','');
+        if(!empty($role_id)){
+            echo  $form->field($user, 'role_id',['labelOptions'=>['style'=>'display:none']])->hiddenInput(['value'=>$role_id]);
+        }else{
+            echo  $form->field($user, 'role_id')->dropDownList($role::dropdown(),['value'=>1]);
+        }
+    ?>
 
     <?= $form->field($user, 'status')->dropDownList($user::statusDropdown()); ?>
 

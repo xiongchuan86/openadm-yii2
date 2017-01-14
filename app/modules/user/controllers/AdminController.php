@@ -174,7 +174,8 @@ class AdminController extends Controller
     {
         /** @var \amnah\yii2\user\models\search\UserSearch $searchModel */
         $searchModel = $this->module->model("UserSearch");
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+        $params = Yii::$app->request->getQueryParams();
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
@@ -212,7 +213,7 @@ class AdminController extends Controller
         // validate for ajax request
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($user, $profile);
+            //return ActiveForm::validate($user, $profile);
         }
 
         if ($userLoaded && $user->validate() && $profile->validate()) {
@@ -335,6 +336,86 @@ class AdminController extends Controller
 
         }else{
             $result=['code'=>0,'msg'=>'请选择要删除的用户!'];
+        }
+
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $result;
+        }
+        return $this->redirect(['index']);
+    }
+
+    public function actionActive()
+    {
+        $result= ['code'=>200];
+        $data = [];
+        $post = Yii::$app->request->post();
+        $status = Yii::$app->request->post('status',0);
+        if($post && isset($post['ids']) && is_array($post['ids'])){
+            $protected_uids_num = 0;
+            foreach ($post['ids'] as $id){
+                if(in_array($id,$this->protected_uids)){
+                    $protected_uids_num++;
+                }else{
+                    $user = $this->findModel($id);
+                    $user->status = $status;
+                    $user->save();
+                    $data[] = $id;
+                }
+            }
+            $result['data'] = $data;
+            $result['msg']  = '操作完成!';
+            if($protected_uids_num>0 && count($post['ids'])==$protected_uids_num){
+                $result=['code'=>0,'msg'=>'受保护的账号,不允许改变激活状态!'];
+            }else if($protected_uids_num>0 && $protected_uids_num<count($post['ids'])){
+                $result=['code'=>200,'msg'=>'操作完成,其中受保护的账号,不允许改变激活状态!'];
+            }
+
+        }else{
+            $result=['code'=>0,'msg'=>'请选择要操作的数据!'];
+        }
+
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $result;
+        }
+        return $this->redirect(['index']);
+    }
+
+    public function actionBanned()
+    {
+        $result= ['code'=>200];
+        $data = [];
+        $post = Yii::$app->request->post();
+        $status = Yii::$app->request->post('status',0);
+        if($post && isset($post['ids']) && is_array($post['ids'])){
+            $protected_uids_num = 0;
+            foreach ($post['ids'] as $id){
+                if(in_array($id,$this->protected_uids)){
+                    $protected_uids_num++;
+                }else{
+                    $user = $this->findModel($id);
+                    if($status ==0){
+                        $user->banned_at     = "";
+                        $user->banned_reason = "";
+                    }else{
+                        $user->banned_at     = date("Y-m-d H:i:s");
+                        $user->banned_reason = "管理员ID=".Yii::$app->user->id."操作";
+                    }
+                    $user->save();
+                    $data[] = $id;
+                }
+            }
+            $result['data'] = $data;
+            $result['msg']  = '操作完成!';
+            if($protected_uids_num>0 && count($post['ids'])==$protected_uids_num){
+                $result=['code'=>0,'msg'=>'受保护的账号,不允许禁用!'];
+            }else if($protected_uids_num>0 && $protected_uids_num<count($post['ids'])){
+                $result=['code'=>200,'msg'=>'操作完成,其中受保护的账号,不允许禁用!'];
+            }
+
+        }else{
+            $result=['code'=>0,'msg'=>'请选择要操作的数据!'];
         }
 
         if (Yii::$app->request->isAjax) {
