@@ -6,10 +6,10 @@ function oa_build_top_menu() {
             var top_menu = OA_Menus[i];
             if(top_menu.content.cfg_pid == 0){//说明是顶部菜单
                 if(typeof top_menu.items == "object"){//说明有子菜单
-                    top_menu_html += '<li><a data-id="'+top_menu.content.id+'" href="#">'+top_menu.content.cfg_comment+'</a></li>';
+                    top_menu_html += '<li><a id="nav'+top_menu.content.id+'" data-id="'+top_menu.content.id+'" href="#">'+top_menu.content.cfg_comment+'</a></li>';
                     OA_Menus_Children[top_menu.content.id] = top_menu.items;
                 }else{
-                    top_menu_html += '<li><a data-id="'+top_menu.content.id+'" data-label="'+top_menu.content.cfg_comment+'" href="#" data-url="'+top_menu.content.value.url+'" >'+top_menu.content.cfg_comment+'</a></li>';
+                    top_menu_html += '<li><a id="nav'+top_menu.content.id+'" data-id="'+top_menu.content.id+'" data-label="'+top_menu.content.cfg_comment+'" href="#" data-url="'+top_menu.content.value.url+'" >'+top_menu.content.cfg_comment+'</a></li>';
                 }
 
             }
@@ -39,24 +39,24 @@ function oa_build_left_menu(el) {
             var sidebar_html = '<ul class="sidebar-menu">';
             for(var i in currentLeftMenuItems){
                 if(typeof currentLeftMenuItems[i].items == "undefined"){
-                    sidebar_html += '<li class="treeview"><a class="openlink" data-label="'+currentLeftMenuItems[i].content.cfg_comment+'" data-id="'+currentLeftMenuItems[i].content.id+'" href="'+currentLeftMenuItems[i].content.value.url+'"><i class="'+currentLeftMenuItems[i].content.value.icon+'"></i> <span>'+currentLeftMenuItems[i].content.cfg_comment+'</span>';
+                    sidebar_html += '<li class="treeview"><a id="nav'+currentLeftMenuItems[i].content.id+'" class="openlink" data-label="'+currentLeftMenuItems[i].content.cfg_comment+'" data-id="'+currentLeftMenuItems[i].content.id+'" href="'+currentLeftMenuItems[i].content.value.url+'"><i class="'+currentLeftMenuItems[i].content.value.icon+'"></i> <span>'+currentLeftMenuItems[i].content.cfg_comment+'</span>';
                     sidebar_html += '</a>';
                 }else{
-                    sidebar_html += '<li class="treeview"><a data-label="'+currentLeftMenuItems[i].content.cfg_comment+'" data-id="'+currentLeftMenuItems[i].content.id+'" href="'+currentLeftMenuItems[i].content.value.url+'"><i class="'+( oa_icon_is_empty( currentLeftMenuItems[i].content.value.icon )  ? "fa  fa-angle-right" : currentLeftMenuItems[i].content.value.icon)+'"></i> <span>'+currentLeftMenuItems[i].content.cfg_comment+'</span>';
+                    sidebar_html += '<li class="treeview"><a id="nav'+currentLeftMenuItems[i].content.id+'" data-label="'+currentLeftMenuItems[i].content.cfg_comment+'" data-id="'+currentLeftMenuItems[i].content.id+'" href="'+currentLeftMenuItems[i].content.value.url+'"><i class="'+( oa_icon_is_empty( currentLeftMenuItems[i].content.value.icon )  ? "fa  fa-angle-right" : currentLeftMenuItems[i].content.value.icon)+'"></i> <span>'+currentLeftMenuItems[i].content.cfg_comment+'</span>';
                     sidebar_html += '<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span></a>';
                     var subLeftMenuItems = currentLeftMenuItems[i].items;
                     sidebar_html += '<ul class="treeview-menu">';
                     for(var j in subLeftMenuItems){
                         //判断有没有第三层菜单
                         if(typeof subLeftMenuItems[j].items == "undefined"){
-                            sidebar_html += '<li><a class="openlink" data-label="'+subLeftMenuItems[j].content.cfg_comment+'" data-id="'+subLeftMenuItems[j].content.id+'" href="'+subLeftMenuItems[j].content.value.url+'"><i class="'+ ( oa_icon_is_empty( subLeftMenuItems[j].content.value.icon ) ? "fa  fa-angle-right" : subLeftMenuItems[j].content.value.icon) +'"></i> '+subLeftMenuItems[j].content.cfg_comment+'</a></li>';
+                            sidebar_html += '<li><a id="nav'+subLeftMenuItems[j].content.id+'" class="openlink" data-label="'+subLeftMenuItems[j].content.cfg_comment+'" data-id="'+subLeftMenuItems[j].content.id+'" href="'+subLeftMenuItems[j].content.value.url+'"><i class="'+ ( oa_icon_is_empty( subLeftMenuItems[j].content.value.icon ) ? "fa  fa-angle-right" : subLeftMenuItems[j].content.value.icon) +'"></i> '+subLeftMenuItems[j].content.cfg_comment+'</a></li>';
                         }else{
-                            sidebar_html += '<li class="treeview"><a data-label="'+subLeftMenuItems[j].content.cfg_comment+'" data-id="'+subLeftMenuItems[j].content.id+'" href="'+subLeftMenuItems[j].content.value.url+'"><i class="'+ ( oa_icon_is_empty( subLeftMenuItems[j].content.value.icon ) ? "fa  fa-angle-right" : subLeftMenuItems[j].content.value.icon) +'"></i> <span>'+subLeftMenuItems[j].content.cfg_comment+'</span>';
+                            sidebar_html += '<li class="treeview"><a id="nav'+subLeftMenuItems[j].content.id+'" data-label="'+subLeftMenuItems[j].content.cfg_comment+'" data-id="'+subLeftMenuItems[j].content.id+'" href="'+subLeftMenuItems[j].content.value.url+'"><i class="'+ ( oa_icon_is_empty( subLeftMenuItems[j].content.value.icon ) ? "fa  fa-angle-right" : subLeftMenuItems[j].content.value.icon) +'"></i> <span>'+subLeftMenuItems[j].content.cfg_comment+'</span>';
                             sidebar_html += '<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i> </span></a>';
                             var thirdMenuItems = subLeftMenuItems[j].items;
                             sidebar_html += '<ul class="treeview-menu">';
                             for(var k in thirdMenuItems){
-                                sidebar_html += '<li><a class="openlink" data-label="'+thirdMenuItems[k].content.cfg_comment+'" data-id="'+thirdMenuItems[k].content.id+'" href="'+thirdMenuItems[k].content.value.url+'"><i class="'+ ( oa_icon_is_empty( thirdMenuItems[k].content.value.icon ) ? "fa  fa-angle-double-right" : thirdMenuItems[k].content.value.icon) +'"></i> '+thirdMenuItems[k].content.cfg_comment+'</a></li>';
+                                sidebar_html += '<li><a id="nav'+thirdMenuItems[k].content.id+'" class="openlink" data-label="'+thirdMenuItems[k].content.cfg_comment+'" data-id="'+thirdMenuItems[k].content.id+'" href="'+thirdMenuItems[k].content.value.url+'"><i class="'+ ( oa_icon_is_empty( thirdMenuItems[k].content.value.icon ) ? "fa  fa-angle-double-right" : thirdMenuItems[k].content.value.icon) +'"></i> '+thirdMenuItems[k].content.cfg_comment+'</a></li>';
                             }
                             sidebar_html += '</ul></li>'
                         }
@@ -104,22 +104,9 @@ function oa_top_menu_click() {
     })
 }
 
-function oa_open_window(el) {
-
+function oa_open_app(url,label,id) {
     var tab_box    = $('#tab_box');
     var tabnav_box = $('#tab_nav');
-
-
-
-    var id = $(el).data('id');
-    var url   = $(el).attr('href');
-    if(url=="#"){
-        url = $(el).data('url');
-    }
-    var label = $(el).data('label');
-    if(typeof label == "undefined"){
-        label = $(el).text();
-    }
     //判断tab是否已经存在
     if($('#tab_nav_'+id).length==0) {
         //create tab nav
@@ -145,6 +132,20 @@ function oa_open_window(el) {
     oa_tab_context_menu(tab_nav);
 
     oa_setTabActiveById(id);
+
+}
+
+function oa_open_window(el) {
+    var id = $(el).data('id');
+    var url   = $(el).attr('href');
+    if(url=="#"){
+        url = $(el).data('url');
+    }
+    var label = $(el).data('label');
+    if(typeof label == "undefined"){
+        label = $(el).text();
+    }
+    oa_open_app(url,label,id)
     return false;
 }
 
@@ -233,8 +234,8 @@ function oa_tab_context_menu(el) {
         bindings:{
             'refresh':function (t) {
                 oa_setTabActiveById(id);
-                var url = oa_timestamp($('#iframe_'+id).attr("src"));
-                $('#iframe_'+id).attr("src",url);
+                var url = oa_timestamp(document.getElementById('iframe_'+id).contentDocument.location.href);
+                document.getElementById('iframe_'+id).contentDocument.location.href = url;
                 $("div#tabmenu").hide();
             },
             'cancel': function(t) {
@@ -280,6 +281,12 @@ function oa_update_menu(delMenuId)
     if(activeLi.length>0){
         activeMenuId = parseInt($(activeLi).find('a').data('id'));
     }
+    //记录左侧菜单的active状态
+    var leftActiveLi = $('.sidebar-menu li.active');
+    var leftActiveMenuId = 0;
+    if(leftActiveLi.length>0){
+        leftActiveMenuId = parseInt($(leftActiveLi).find('a').data('id'));
+    }
     //请求后台,获取最新的菜单数据
     $.get('/admin/dashboard/index',function (data) {
         $('body').append(data);
@@ -293,6 +300,9 @@ function oa_update_menu(delMenuId)
         });
         if(!hasFoundOldMenu){
             $("#topmenu").find("li:first a").click();
+        }
+        if(leftActiveMenuId>0){
+            $('#nav'+leftActiveMenuId).trigger("click");
         }
     });
 }
@@ -308,14 +318,35 @@ function oa_timestamp(url) {
     }
     return newurl;
 }
-
+(function ($) {
+    $.getUrlParam = function (name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURI(r[2]); return null;
+    }
+})(jQuery);
 function checkTopWindow() {
-    if(typeof User == "undefined"){
-        var pattern = new RegExp('/admin');
-        if(!pattern.test(top.location.pathname)){
-            var url = window.location.protocol+'//'+window.location.host+'/admin/';
+    var pattern = new RegExp('/admin/dashboard');
+    if(!pattern.test(top.location.pathname)){
+        //not top
+        if(typeof User == "undefined"){
+            var url = window.location.protocol+'//'+window.location.host+'/admin/dashboard?url='+location.href+"&title="+document.title;
             location.href = url;
+        }
+    }else{
+        //top
+        //check if url!=""
+        if(location.search != ""){
+            var url = $.getUrlParam("url");
+            var label = $.getUrlParam("title");
+            if(url != ""){
+                oa_open_app(url,label,1000);
+            }
         }
     }
 }
 checkTopWindow();
+
+top.window.onresize = function (e) {
+    resizeIFramesSize();
+}
