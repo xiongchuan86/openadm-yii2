@@ -348,6 +348,7 @@ class PluginManager
      */
     static public function _PluginInjectMenu($pluginId,$cfg_pid,array $menus)
     {
+        $plugin_last_config = self::PluginLastSavedConfig($pluginId);
         foreach ($menus as $menu){
             $params = [
                 'cfg_value'   => isset($menu['cfg_value']) ? $menu['cfg_value'] : '',
@@ -355,6 +356,12 @@ class PluginManager
                 'cfg_pid'     => $cfg_pid ==0 ? (isset($menu['cfg_pid']) ? $menu['cfg_pid'] : 0) : $cfg_pid,
                 'cfg_order'   => isset($menu['cfg_order']) ? $menu['cfg_order'] : 0
             ];
+            //使用旧的配置信息
+            if(!empty($plugin_last_config) && isset($plugin_last_config['menus']) && isset($plugin_last_config['menus'][$params['cfg_comment']])){
+                $params['cfg_pid'] = $plugin_last_config['menus'][$params['cfg_comment']]['cfg_pid'];
+                $params['cfg_order'] = $plugin_last_config['menus'][$params['cfg_comment']]['cfg_order'];
+            }
+
             if(empty($params['cfg_value']) || empty($params['cfg_comment']))continue;
             //检查cfg_value是否为数组,并且有url,icon(可选)
             if(is_array($params['cfg_value']) && isset($params['cfg_value']['url'])){
@@ -499,6 +506,10 @@ class PluginManager
                 $value = Json::decode($plugin['cfg_value']);
                 $config_ids = isset($value[self::PLUGIN_CONFIG_ID_RECORD_KEY]) ? $value[self::PLUGIN_CONFIG_ID_RECORD_KEY] : [];
                 if(is_array($config_ids) && !empty($config_ids))foreach ($config_ids as $id){
+                    $configRaw = SystemConfig::GetById($id);
+                    if($configRaw && in_array($configRaw['cfg_name'],[SystemConfig::MENU_KEY,SystemConfig::HOMEMENU_KEY])){
+                        self::PluginSaveOldConfig($pluginid,$configRaw);
+                    }
                     SystemConfig::Remove($id);
                 }
             }catch (InvalidParamException $e){
@@ -508,6 +519,66 @@ class PluginManager
             SystemConfig::Remove($plugin['id']);
         }
         return false;
+    }
+
+    /**
+     * 卸载前 把插件的配置保存,以便下次安装的时候可以使用之前配置好的参数
+     * @param $pluginid
+     * @param $config
+     */
+    static public function PluginSaveOldConfig($pluginid,$config)
+    {
+        self::showMsg('<br/>保存插件配置信息到插件目录...');
+        $Dir = self::GetPluginPath($pluginid).'unsetup/';
+        if(!is_dir($Dir)){
+            @mkdir($Dir,0777);
+        }
+        $old_config_path = $Dir.'unsetup_save_config.php';
+        if(!is_file($old_config_path)){
+            @file_put_contents($old_config_path,'');
+        }
+        if(is_writable($Dir) && is_writable($old_config_path)){
+            $content = file_get_contents($old_config_path);
+            $save_config = [];
+            if($content){
+                try{
+                    $save_config = Json::decode($content,true);
+                }catch (InvalidParamException $e){
+                }
+            }
+            if( is_array($save_config) ){
+                if(!isset($save_config["menus"])){
+                    $save_config["menus"] = [];
+                }
+            }else{
+                $save_config = [];
+                $save_config["menus"] = [];
+            }
+            $save_config["menus"][$config['cfg_comment']] = $config;
+            file_put_contents($old_config_path,Json::encode($save_config));
+            self::showMsg("配置路径:$old_config_path ... 保存完成!");
+        }else{
+            self::showMsg("配置路径:$old_config_path ... 不可写, 跳过!");
+        }
+    }
+
+    /**
+     * 获取插件之前保存的配置信息
+     * @param $pluginid
+     * @return array|mixed
+     */
+    static public function PluginLastSavedConfig($pluginid)
+    {
+        $path = self::GetPluginPath($pluginid).'unsetup/unsetup_save_config.php';
+        $save_config = [];
+        if(is_file($path)){
+            $content = file_get_contents( $path );
+            try{
+                $save_config = Json::decode($content,true);
+            }catch (InvalidParamException $e){
+            }
+        }
+        return $save_config;
     }
 
 
