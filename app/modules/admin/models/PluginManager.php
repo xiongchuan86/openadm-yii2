@@ -121,7 +121,8 @@ class PluginManager
 
     static public function PluginSetupedCompleted($pluginid,array $config)
     {
-        $cfg_value = Json::encode(array_merge($config,[self::PLUGIN_CONFIG_ID_RECORD_KEY=>self::$_plugins[$pluginid][self::PLUGIN_CONFIG_ID_RECORD_KEY]]));
+        $record_key = isset(self::$_plugins[$pluginid][self::PLUGIN_CONFIG_ID_RECORD_KEY]) ? self::$_plugins[$pluginid][self::PLUGIN_CONFIG_ID_RECORD_KEY] : [];
+        $cfg_value = Json::encode(array_merge($config,[self::PLUGIN_CONFIG_ID_RECORD_KEY=>$record_key]));
         $params = array(
             'cfg_value'   => $cfg_value,
             'cfg_comment' => $config['name'],
