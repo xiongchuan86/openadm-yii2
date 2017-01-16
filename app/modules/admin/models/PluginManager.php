@@ -286,18 +286,16 @@ class PluginManager
     static public function PluginInjectRoute(array $conf)
     {
         if(isset($conf['route']) && !empty($conf['route']) && is_array($conf['route'])){
-            foreach($conf['route'] as $rule){
-                $params = [
-                    'cfg_value'   => $rule,
-                    'cfg_comment' => $conf['id'],
-                    'cfg_pid'     => 0,
-                    'cfg_order'   => 0,
-                    'cfg_type'    => 'ROUTE'
-                ];
-                $cfg_name = strtoupper("plugin_{$conf['id']}_route");
-                $lastid = SystemConfig::Set($cfg_name,$params);
-                self::RecordPluginConfigId($conf['id'],$lastid);
-            }
+            $params = [
+                'cfg_value'   => Json::encode($conf['route']),
+                'cfg_comment' => $conf['id'],
+                'cfg_pid'     => 0,
+                'cfg_order'   => 0,
+                'cfg_type'    => 'ROUTE'
+            ];
+            $cfg_name = strtoupper("plugin_{$conf['id']}_route");
+            $lastid = SystemConfig::Set($cfg_name,$params);
+            self::RecordPluginConfigId($conf['id'],$lastid);
         }
     }
 

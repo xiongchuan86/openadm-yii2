@@ -116,8 +116,8 @@ $config = [
         ],
         'user' => [
             'class' => 'amnah\yii2\user\Module',
-	        'loginRedirect' => '/admin/dashboard/index',
-	        'logoutRedirect'=>'/user/admin/login',
+	        'loginRedirect' => '/',
+	        'logoutRedirect'=>'/',
             'requireEmail' => true,
             'requireUsername' => true,
             'controllerMap' => [

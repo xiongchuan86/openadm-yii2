@@ -12,6 +12,16 @@ class SystemEvent extends Component
 
     static public function beforeRequest()
     {
+        //去掉pathInfo最后面的斜线:blog/=> blog,有斜线,urlRule无法正常匹配
+        $length = strlen(Yii::$app->request->pathInfo);
+        if($length>0){
+            if('/' === Yii::$app->request->pathInfo[$length-1]){
+                $pathInfo = substr(Yii::$app->request->pathInfo,0,$length-1);
+                Yii::$app->request->pathInfo = $pathInfo;
+            }
+
+        }
+        //=====
         self::AddUrlRules();
     }
 
@@ -19,13 +29,13 @@ class SystemEvent extends Component
     {
         $routes = SystemConfig::Get("",null,'ROUTE');
         if($routes){
-            $rules = [];
             foreach($routes as $route){
-                $tmp = explode("=>", $route['cfg_value']);
-                if(2 == count($tmp))
-                    $rules[$tmp[0]] = $tmp[1];
+                try{
+                    $rules = Json::decode($route['cfg_value'],true);
+                    Yii::$app->urlManager->addRules($rules);
+                }catch (InvalidParamException $e){
+                }
             }
-            if($rules)Yii::$app->urlManager->addRules($rules);
         }
     }
 

@@ -34,7 +34,7 @@ use yii\helpers\Url;
                             <!-- Menu Footer-->
                             <li><a data-id="10001" class="openlink" href="<?=Url::to('/user/admin/profile')?>"><i class="fa fa-user"></i> 个人资料</a></li>
                             <li><a data-id="10002" class="openlink" href="<?=Url::to('/user/admin/account')?>"><i class="fa fa-user"></i> 修改密码</a></li>
-                            <li><a href="<?=Url::to('/user/admin/logout')?>"><i class="fa fa-off"></i> 退出</a></li>
+                            <li><a href="<?=Url::to('/user/admin/logout')?>"><i class="fa  fa-sign-out"></i> 退出</a></li>
                         </ul>
                     </li>
                 </ul>
