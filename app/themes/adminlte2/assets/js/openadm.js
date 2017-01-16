@@ -330,8 +330,11 @@ function checkTopWindow() {
     if(!pattern.test(top.location.pathname)){
         //not top
         if(typeof User == "undefined"){
-            var url = window.location.protocol+'//'+window.location.host+'/admin/dashboard?url='+location.href+"&title="+document.title;
-            location.href = url;
+            var pattern = new RegExp("#\d*");
+            if(!pattern.test(document.title)){
+                var url = window.location.protocol+'//'+window.location.host+'/admin/dashboard?url='+location.href+"&title="+document.title;
+                location.href = url;
+            }
         }
     }else{
         //top
