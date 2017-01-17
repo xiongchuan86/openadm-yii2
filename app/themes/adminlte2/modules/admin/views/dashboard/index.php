@@ -8,6 +8,10 @@ ThemeAsset::register($this);
 ShowLoadingAsset::register($this);
 
 $this->registerJs( "var OA_Menus=". Json::encode($menus),\yii\web\View::POS_HEAD);
+$checkWindowJs = '';
+if(!Yii::$app->user->isGuest){
+    $checkWindowJs = 'checkTopWindow();';
+}
 $this->registerJs( '
         
         $(document).ready(function(){
@@ -15,6 +19,7 @@ $this->registerJs( '
             $("#topmenu").find("li:first a").click();
         });
         window.onMenuChange = function(id){oa_update_menu(id);};
+        '.$checkWindowJs.'
     ',\yii\web\View::POS_END);
 ?>
 <?php $this->beginPage() ?>
@@ -58,7 +63,7 @@ $this->registerJs( '
         <?php if(0 && !Yii::$app->user->isGuest):?>
             <footer class="main-footer">
                 <div class="pull-right hidden-xs">
-                    Powered by <strong><a href="http://openadm.com" target="_blank">OpenAdm.Com</a>.</strong> <b>Version</b> <?=\app\common\SystemConfig::getVersion()?>
+                    Powered by <strong><a href="http://openadm.com" target="_blank">OpenADM.Com</a>.</strong> <b>Version</b> <?=\app\common\SystemConfig::getVersion()?>
                 </div>
                 <strong>Copyright &copy; 2016-2017 <a href="http://openadm.com" target="_blank"><?=Yii::$app->name?></a>.</strong> All rights
                 reserved.

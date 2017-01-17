@@ -333,7 +333,7 @@ function checkTopWindow() {
             var pattern = new RegExp("#\d*");
             if(!pattern.test(document.title)){
                 var url = window.location.protocol+'//'+window.location.host+'/admin/dashboard?url='+location.href+"&title="+document.title;
-                location.href = url;
+                top.location.href = url;
             }
         }
     }else{
@@ -348,7 +348,6 @@ function checkTopWindow() {
         }
     }
 }
-checkTopWindow();
 
 top.window.onresize = function (e) {
     resizeIFramesSize();

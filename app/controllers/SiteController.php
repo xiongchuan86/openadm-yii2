@@ -1,8 +1,9 @@
 <?php
-
+/**
+ * 此文件作为示例存在,完全可以由plugin下面的home插件代替,具体参见frontend插件
+ */
 namespace app\controllers;
 
-use Yii;
 use app\common\Controller;
 
 class SiteController extends Controller
@@ -16,24 +17,11 @@ class SiteController extends Controller
         ];
     }
 
+    public $layout = 'column1';
+
     public function actionIndex()
     {
-        return $this->redirect('/user/login/');
-    }
-	
-	public function actionError()
-	{
-	    $exception = Yii::$app->errorHandler->exception;
-	    if ($exception !== null) {
-	        return $this->render('error', ['exception' => $exception]);
-	    }
-	}
-	
-	public function actionClear()
-	{
-		$asset = Yii::getAlias("@webroot")."/static/assets/*";
-		//var_dump($asset);
-		exec("rm -rf $asset");
-	}
 
+        return $this->render('index');
+    }
 }

@@ -15,9 +15,6 @@ ThemeAsset::register($this);
     <head>
         <meta charset="<?= Yii::$app->charset ?>">
         <title><?= Html::encode($this->title) ?></title>
-        <meta name="description" content="yetcms">
-        <meta name="author" content="xiongchuan86@vip.qq.com">
-        <meta name="keyword" content="yetcms">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -36,7 +33,7 @@ ThemeAsset::register($this);
         <![CDATA[YII-BLOCK-HEAD]]>
         <script>var User= {login : false};</script>
     </head>
-    <body class="hold-transition <?= \dmstr\helpers\AdminLteHelper::skinClass() ?> layout-top-nav">
+    <body class="hold-transition skin-white layout-top-nav">
         <?php $this->beginBody() ?>
 
             <div class="wrapper">
