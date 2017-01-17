@@ -47,6 +47,7 @@ $config = [
             'bundles' => require(__DIR__ . '/' . (YII_ENV_PROD ? 'assets-prod.php' : 'assets-dev.php')),
         ],
         'errorHandler' => [
+            'class' =>'app\modules\admin\components\ErrorHandler',
             'errorAction' => 'site/error',
         ],
         'urlManager' => [
@@ -86,14 +87,10 @@ $config = [
         ],
         'user' => [
             'class' => 'amnah\yii2\user\components\User',
+            'loginUrl' => '/user/admin/login'
         ],
         //文件系统
         'fs' => [
-            'class' => 'creocoder\flysystem\LocalFilesystem',
-            'path' => '@webroot/uploads',
-        ],
-        //云文件系统
-        'cloudFs' => [
             'class' => 'creocoder\flysystem\LocalFilesystem',
             'path' => '@webroot/uploads',
         ],
