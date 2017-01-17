@@ -4,9 +4,9 @@
         <p>基于Yii2最好用(可能是)的快速开发框架,让开发更简单,让创业更容易!</p>
         <br /><br />
         <p>
-            <a class="btn btn-success btn-sm" href="http://openadm.com/page/download" target="_blank">立即获取</a>
+            <a class="btn btn-success btn-sm" href="http://openadm.com/" target="_blank">官方网站</a>
             <a class="btn btn-warning btn-sm" href="https://github.com/xiongchuan86/openadm-yii2" target="_blank">Github</a>
-            <a class="btn btn-info btn-sm" href="/user/admin/login">登录管理后台</a>
+            <a class="btn btn-info btn-sm" href="/user/admin/login">管理后台</a>
         </p>
         <p style="font-size:14px ">QQ群: 468907734</p>
     </div>
