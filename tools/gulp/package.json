@@ -1,0 +1,17 @@
+{
+  "name": "yii2-gulp",
+  "version": "1.0.0",
+  "description": "Yii2 Gulp",
+  "keywords": [
+    "tools"
+  ],
+  "author": "Darko Lukic",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "*",
+	"gulp-uglify": "*",
+	"minimist": "*",
+	"gulp-rename": "*",
+	"gulp-css": "*"
+  }
+}
