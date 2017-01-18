@@ -286,6 +286,6 @@ class SystemConfig
      */
 	static public function getVersion()
     {
-        return "v0.2";
+        return "v0.2.1";
     }
 }
