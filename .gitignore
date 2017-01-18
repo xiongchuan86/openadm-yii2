@@ -44,5 +44,4 @@ phpunit.phar
 /storage/backup/*.sql
 /storage/backup/*.sql.gz
 
-yii
 web/index.php
