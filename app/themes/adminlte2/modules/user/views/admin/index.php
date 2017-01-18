@@ -196,19 +196,19 @@ function oa_action(action,status,tips){
     }
 }
 $(".batchdelete").on("click", function () {
-    oa_action("admin/deletes",1,"确定要删除?");
+    oa_action("/user/admin/deletes",1,"确定要删除?");
 });
 $(".batch-active").on("click", function () {
-    oa_action("admin/active",1,"");
+    oa_action("/user/admin/active",1,"");
 });
 $(".batch-inactive").on("click", function () {
-    oa_action("admin/active",0,"");
+    oa_action("/user/admin/active",0,"");
 });
 $(".batch-banned").on("click", function () {
-    oa_action("admin/banned",1,"");
+    oa_action("/user/admin/banned",1,"");
 });
 $(".batch-unbanned").on("click", function () {
-    oa_action("admin/banned",0,"");
+    oa_action("/user/admin/banned",0,"");
 });
 ');
 

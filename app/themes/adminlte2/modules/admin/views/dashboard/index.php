@@ -31,6 +31,7 @@ $this->registerJs( '
         <meta name="author" content="xiongchuan86@gmail.com">
         <meta name="keyword" content="openadmin,admin,yii2,adminlte,rbac">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <?= Html::csrfMetaTags() ?>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

@@ -1,11 +1,8 @@
 html,body{
-    font-weight: 100;
+    font-weight: 300;
 }
-th{
-    font-weight:100;
-}
-.label,.btn,.dropdown-menu>li>a{
-    font-weight: 100;
+th,.label,.btn,.dropdown-menu>li>a{
+    font-weight: 300;
 }
 .navbar-nav>.user-menu>.dropdown-menu{
     width: auto;
