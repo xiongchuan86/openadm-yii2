@@ -10,10 +10,10 @@ class m161219_025311_openadm_rbac_init extends Migration
         $this->createRole('User', '普通用户');
 
         $this->createPermission('/*');
-        $this->createPermission('/dashboard/*');
+        $this->createPermission('/admin/dashboard/*');
         $this->createPermission('/debug/*');
         $this->createPermission('/gii/*');
-        $this->createPermission('/plugin-manager/*');
+        $this->createPermission('/admin/plugin-manager/*');
         $this->createPermission('/plugin/*');
         $this->createPermission('/rbac/*');
         $this->createPermission('/site/*');
@@ -21,17 +21,17 @@ class m161219_025311_openadm_rbac_init extends Migration
         $this->createPermission('/user/default/*');
 
         $this->addChild('Admin', '/*');
-        $this->addChild('Admin', '/dashboard/*');
+        $this->addChild('Admin', '/admin/dashboard/*');
         $this->addChild('Admin', '/debug/*');
         $this->addChild('Admin', '/gii/*');
-        $this->addChild('Admin', '/plugin-manager/*');
+        $this->addChild('Admin', '/admin/plugin-manager/*');
         $this->addChild('Admin', '/plugin/*');
         $this->addChild('Admin', '/rbac/*');
         $this->addChild('Admin', '/site/*');
         $this->addChild('Admin', '/user/*');
 
 
-        $this->addChild('User', '/dashboard/*');
+        $this->addChild('User', '/admin/dashboard/*');
         $this->addChild('User', '/site/*');
         $this->addChild('User', '/plugin/*');
         $this->addChild('User', '/user/default/*');
