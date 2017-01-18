@@ -29,9 +29,6 @@ class PluginManager
 
     static private $_plugins = array();
     static private $_setupedplugins = array();
-    static private $_valid_menu_cfgnames = [
-        SystemConfig::MENU_KEY,
-    ];
 
     const YII_COMMAND   = '@root/yii';
     const MIGRATE_UP    = 'up';
@@ -42,7 +39,7 @@ class PluginManager
 
     static public function setShowMsg($value)
     {
-        self::$isShowMsg = $value;
+        static::$isShowMsg = $value;
     }
 
     /**
@@ -71,7 +68,7 @@ class PluginManager
      */
     static public function showMsg($msg,$rn=1,$type='info',$boxId='')
     {
-        if(!self::$isShowMsg){
+        if(!static::$isShowMsg){
             return;
         }
         $color='';
@@ -106,23 +103,23 @@ class PluginManager
      */
     static public function GetSetupedPlugins()
     {
-        if(empty(self::$_setupedplugins)){
+        if(empty(static::$_setupedplugins)){
             $plugins = SystemConfig::Get('',null,SystemConfig::CONFIG_TYPE_PLUGIN);
             foreach ($plugins as $plugin){
                 try{
-                    self::$_setupedplugins[$plugin['cfg_name']] = Json::decode($plugin['cfg_value'],true);
+                    static::$_setupedplugins[$plugin['cfg_name']] = Json::decode($plugin['cfg_value'],true);
                 }catch (InvalidParamException $e){
-                    self::$_setupedplugins[$plugin['cfg_name']] = $plugin['cfg_value'];
+                    static::$_setupedplugins[$plugin['cfg_name']] = $plugin['cfg_value'];
                 }
             }
         }
-        return self::$_setupedplugins;
+        return static::$_setupedplugins;
     }
 
     static public function PluginSetupedCompleted($pluginid,array $config)
     {
-        $record_key = isset(self::$_plugins[$pluginid][self::PLUGIN_CONFIG_ID_RECORD_KEY]) ? self::$_plugins[$pluginid][self::PLUGIN_CONFIG_ID_RECORD_KEY] : [];
-        $cfg_value = Json::encode(array_merge($config,[self::PLUGIN_CONFIG_ID_RECORD_KEY=>$record_key]));
+        $record_key = isset(static::$_plugins[$pluginid][static::PLUGIN_CONFIG_ID_RECORD_KEY]) ? static::$_plugins[$pluginid][static::PLUGIN_CONFIG_ID_RECORD_KEY] : [];
+        $cfg_value = Json::encode(array_merge($config,[static::PLUGIN_CONFIG_ID_RECORD_KEY=>$record_key]));
         $params = array(
             'cfg_value'   => $cfg_value,
             'cfg_comment' => $config['name'],
@@ -142,20 +139,22 @@ class PluginManager
      */
     static public function GetPluginConfig($pluginid,$cache=true,$dir=null,$checkDependency = true)
     {
-        $dir = $dir ? $dir : self::GetPluginPath($pluginid);
+        $dir = $dir ? $dir : static::GetPluginPath($pluginid);
         $config = array(
-            'setup'  => self::IsSetuped($pluginid),
+            'setup'  => static::IsSetuped($pluginid),
             'config' => false
         );
         $pluginconfigfile = $dir ."/config.php";
         if(is_file($pluginconfigfile)){
-            if(!self::ParsePluginConfig($pluginid))return false;
+            if(!static::ParsePluginConfig($pluginid))return false;
             $config['config'] = require $pluginconfigfile;
             //检查依赖插件
-            if($checkDependency)self::CheckDependency($config['config']);
+            if($checkDependency){
+                static::CheckDependency($config['config']);
+            }
         }
         if($cache){
-            self::$_plugins[$pluginid] = $config;
+            static::$_plugins[$pluginid] = $config;
         }
         return $config;
     }
@@ -172,14 +171,12 @@ class PluginManager
     static public function GetPlugins($type="all",$page=1,$pageSize=20)
     {
         //获取数据源
-        $setupedplugins = self::GetSetupedPlugins();
-        //var_dump($setupedplugins);exit;
+        $setupedplugins = static::GetSetupedPlugins();
         if("setuped"==$type){
             $fileArray = array_map('strtolower',array_keys($setupedplugins));
         }else{
             $pluginDir = Yii::getAlias('@plugins');
             $fileArray = array_slice(scandir($pluginDir,0),2);//过滤掉.|..目录
-//			var_dump($fileArray);exit;
             //改写fileArray
             if("new" == $type){
                 $setuped = array_map('strtolower',array_keys($setupedplugins));
@@ -188,11 +185,17 @@ class PluginManager
         }//获取数据源结束
 
         //对分页进行边界判断
-        if($pageSize <=0) $pageSize = 20;
+        if($pageSize <=0){
+            $pageSize = 20;
+        }
         $total = count($fileArray);
         $pages = ceil($total/$pageSize);
-        if($page<=0) $page = 1;
-        if($page>=$pages) $page = $pages;
+        if($page<=0){
+            $page = 1;
+        }
+        if($page>=$pages){
+            $page = $pages;
+        }
         //分页判断结束
         $start = ($page-1)*$pageSize;
         $fileArraySlice = array_slice($fileArray, $start,$pageSize);
@@ -200,16 +203,18 @@ class PluginManager
         if(!empty($fileArraySlice)){
             foreach($fileArraySlice as $pluginid){
                 //过滤不合格的plugin
-                if(!self::ParsePluginConfig($pluginid))continue;
-                self::$_plugins[$pluginid] = array(
-                    'setup'  => self::IsSetuped($pluginid),
+                if(!static::ParsePluginConfig($pluginid)){
+                    continue;
+                }
+                static::$_plugins[$pluginid] = array(
+                    'setup'  => static::IsSetuped($pluginid),
                     'config' => false
                 );
-                $pluginconfigfile = self::GetPluginPath($pluginid)."/config.php";
+                $pluginconfigfile = static::GetPluginPath($pluginid)."/config.php";
                 if(is_file($pluginconfigfile)){
-                    self::$_plugins[$pluginid]['config'] = require $pluginconfigfile;
+                    static::$_plugins[$pluginid]['config'] = require $pluginconfigfile;
                     //检查依赖插件
-                    self::CheckDependency(self::$_plugins[$pluginid]['config']);
+                    static::CheckDependency(static::$_plugins[$pluginid]['config']);
                 }
             }
             $result = array(
@@ -217,7 +222,7 @@ class PluginManager
                 'pageSize' => $pageSize,
                 'total' => $total,
                 'pages' => $pages,
-                'data'  => self::$_plugins
+                'data'  => static::$_plugins
             );
             return $result;
         }
@@ -238,8 +243,8 @@ class PluginManager
      */
     static public function PluginDeleteStaticVar($pluginid)
     {
-        if(!empty(self::$_setupedplugins)){
-            unset(self::$_setupedplugins[$pluginid]);
+        if(!empty(static::$_setupedplugins)){
+            unset(static::$_setupedplugins[$pluginid]);
         }
     }
 
@@ -248,10 +253,10 @@ class PluginManager
      */
     static public function IsSetuped($pluginid)
     {
-        if(empty(self::$_setupedplugins)){
-            self::GetSetupedPlugins();
+        if(empty(static::$_setupedplugins)){
+            static::GetSetupedPlugins();
         }
-        return isset(self::$_setupedplugins[$pluginid]) ? 1 : 0;
+        return isset(static::$_setupedplugins[$pluginid]) ? 1 : 0;
     }
 
     /**
@@ -264,15 +269,15 @@ class PluginManager
             $dependencies = isset($config['dependencies']) ? $config['dependencies'] : '';
             $array = $dependencies ? explode(",", $dependencies) : '';
             if(!empty($array)){
-                self::showMsg('');
+                static::showMsg('');
                 foreach($array as $pluginid){
                     if($pluginid){
-                        self::showMsg('|___检测依赖插件:'.$pluginid.'是否安装...',0);
-                        if(0 == self::IsSetuped($pluginid)){
+                        static::showMsg('|___检测依赖插件:'.$pluginid.'是否安装...',0);
+                        if(0 == static::IsSetuped($pluginid)){
                             $unsetuped[] = $pluginid;
-                            self::showMsg('未安装',1,'error');
+                            static::showMsg('未安装',1,'error');
                         }else{
-                            self::showMsg('已安装',1,'success');
+                            static::showMsg('已安装',1,'success');
                         }
                     }
                 }
@@ -296,7 +301,7 @@ class PluginManager
             ];
             $cfg_name = strtoupper("plugin_{$conf['id']}_route");
             $lastid = SystemConfig::Set($cfg_name,$params);
-            self::RecordPluginConfigId($conf['id'],$lastid);
+            static::RecordPluginConfigId($conf['id'],$lastid);
         }
     }
 
@@ -315,7 +320,7 @@ class PluginManager
                         'cfg_comment' => isset($config['cfg_comment']) ? $config['cfg_comment'] : '',
                     ];
                     $lastid = SystemConfig::Set($config['cfg_name'],$params);
-                    self::RecordPluginConfigId($conf['id'],$lastid);
+                    static::RecordPluginConfigId($conf['id'],$lastid);
                 }
             }
         }
@@ -329,13 +334,13 @@ class PluginManager
     static public function RecordPluginConfigId($pluginId,$configId)
     {
         if( $configId>0){
-            if(!isset(self::$_plugins[$pluginId])){
-                self::$_plugins[$pluginId] = [];
+            if(!isset(static::$_plugins[$pluginId])){
+                static::$_plugins[$pluginId] = [];
             }
-            if(!isset(self::$_plugins[$pluginId][self::PLUGIN_CONFIG_ID_RECORD_KEY])){
-                self::$_plugins[$pluginId][self::PLUGIN_CONFIG_ID_RECORD_KEY] = [];
+            if(!isset(static::$_plugins[$pluginId][static::PLUGIN_CONFIG_ID_RECORD_KEY])){
+                static::$_plugins[$pluginId][static::PLUGIN_CONFIG_ID_RECORD_KEY] = [];
             }
-            array_push(self::$_plugins[$pluginId][self::PLUGIN_CONFIG_ID_RECORD_KEY],$configId);
+            array_push(static::$_plugins[$pluginId][static::PLUGIN_CONFIG_ID_RECORD_KEY],$configId);
         }
     }
 
@@ -347,7 +352,7 @@ class PluginManager
      */
     static public function _PluginInjectMenu($pluginId,$cfg_pid,array $menus)
     {
-        $plugin_last_config = self::PluginLastSavedConfig($pluginId);
+        $plugin_last_config = static::PluginLastSavedConfig($pluginId);
         foreach ($menus as $menu){
             $params = [
                 'cfg_value'   => isset($menu['cfg_value']) ? $menu['cfg_value'] : '',
@@ -370,11 +375,11 @@ class PluginManager
             }
             //写入system_config表
             $lastPuginConfigId = SystemConfig::Set(SystemConfig::MENU_KEY,$params);
-            self::RecordPluginConfigId($pluginId,$lastPuginConfigId);
+            static::RecordPluginConfigId($pluginId,$lastPuginConfigId);
 
             //检查是否有子菜单
             if(isset($menu['items']) && is_array($menu['items'])){
-                self::_PluginInjectMenu($pluginId,$lastPuginConfigId,$menu['items']);
+                static::_PluginInjectMenu($pluginId,$lastPuginConfigId,$menu['items']);
             }
         }
 
@@ -387,34 +392,34 @@ class PluginManager
      */
     static public function PluginInjectMigration($pluginid,$type)
     {
-        $configRaw = self::GetPluginConfig($pluginid,true,null,false);
+        $configRaw = static::GetPluginConfig($pluginid,true,null,false);
         $conf      = $configRaw['config'];
         if(!$conf){
             //plugin 目录异常
-            self::showMsg("");
-            self::showMsg("获取插件配置失败,请检查插件是否正常!",1,'error');
+            static::showMsg("");
+            static::showMsg("获取插件配置失败,请检查插件是否正常!",1,'error');
             return false;
         }
         if(isset($conf['migrationDirName']) && !empty($conf['migrationDirName'])){
             $migrationDirName = $conf['migrationDirName'];
         }else{
-            $migrationDirName = self::MIGRATION_DEFAULT_DIRNAME;
+            $migrationDirName = static::MIGRATION_DEFAULT_DIRNAME;
         }
         //检查是否需要migrate操作,原则是看是否有migrations目录
         $migrationPath = Yii::getAlias('@plugins/'.$pluginid.'/'.$migrationDirName);
         if(is_dir($migrationPath)){
-            self::showMsg("需要",1,'success');
-            self::showMsg("开始执行Migrate操作...");
-            $yii = Yii::getAlias(self::YII_COMMAND);
+            static::showMsg("需要",1,'success');
+            static::showMsg("开始执行Migrate操作...");
+            $yii = Yii::getAlias(static::YII_COMMAND);
             //--interactive=0 非交互式命令行
             $params = "--migrationPath=$migrationPath --interactive=0";
             $action = "migrate/";
             switch ($type){
-                case self::MIGRATE_UP:
-                    $action .= self::MIGRATE_UP;
+                case static::MIGRATE_UP:
+                    $action .= static::MIGRATE_UP;
                     break;
-                case self::MIGRATE_DOWN:
-                    $action .= self::MIGRATE_DOWN;
+                case static::MIGRATE_DOWN:
+                    $action .= static::MIGRATE_DOWN;
                     break;
                 default:
                     break;
@@ -425,19 +430,19 @@ class PluginManager
                 $params
             ];
             $cmd = join(" ",$cmds);
-            self::showMsg("<p id='cmd_box' style='background-color: #2c763e;color:#f5db88'>",0);
+            static::showMsg("<p id='cmd_box' style='background-color: #2c763e;color:#f5db88'>",0);
             //执行
             $handler = popen($cmd, 'r');
-            self::showMsg("cmd:  ".$cmd."\n",1,'','cmd_box');
+            static::showMsg("cmd:  ".$cmd."\n",1,'','cmd_box');
             while (!feof($handler)) {
                 $output = fgets($handler,1024);
-                self::showMsg($output,1,'','cmd_box');
+                static::showMsg($output,1,'','cmd_box');
             }
             pclose($handler);
 
-            self::showMsg("</p>",0);
+            static::showMsg("</p>",0);
         }else{
-            self::showMsg("不需要",1,'success');
+            static::showMsg("不需要",1,'success');
         }
         return true;
     }
@@ -449,18 +454,18 @@ class PluginManager
     {
         $pluginId = $conf['id'];
         if(isset($conf['menus']) && is_array($conf['menus']) && !empty($conf['menus'])){
-            self::_PluginInjectMenu($pluginId,0,$conf['menus']);
+            static::_PluginInjectMenu($pluginId,0,$conf['menus']);
         }
     }
 
     static public function SetupLocalPlugin($pluginName)
     {
         //解析配置
-        $config = self::ParsePluginConfig($pluginName);
+        $config = static::ParsePluginConfig($pluginName);
         //根据配置执行操作
         foreach ($config as $action => $conf) {
             if(method_exists(self, $action)){
-                self::$action($conf);
+                static::$action($conf);
             }
         }
     }
@@ -473,7 +478,7 @@ class PluginManager
         if(is_array($conf)){
             $config = $conf;
         }else{
-            $configfile = self::GetPluginPath($pluginid)."/config.php";
+            $configfile = static::GetPluginPath($pluginid)."/config.php";
             if(!is_file($configfile))return false;
             $config = require $configfile;
         }
@@ -503,11 +508,11 @@ class PluginManager
         if($plugins && is_array($plugins))foreach ($plugins as $plugin){
             try{
                 $value = Json::decode($plugin['cfg_value']);
-                $config_ids = isset($value[self::PLUGIN_CONFIG_ID_RECORD_KEY]) ? $value[self::PLUGIN_CONFIG_ID_RECORD_KEY] : [];
+                $config_ids = isset($value[static::PLUGIN_CONFIG_ID_RECORD_KEY]) ? $value[static::PLUGIN_CONFIG_ID_RECORD_KEY] : [];
                 if(is_array($config_ids) && !empty($config_ids))foreach ($config_ids as $id){
                     $configRaw = SystemConfig::GetById($id);
                     if($configRaw && in_array($configRaw['cfg_name'],[SystemConfig::MENU_KEY,SystemConfig::HOMEMENU_KEY])){
-                        self::PluginSaveOldConfig($pluginid,$configRaw);
+                        static::PluginSaveOldConfig($pluginid,$configRaw);
                     }
                     SystemConfig::Remove($id);
                 }
@@ -527,8 +532,8 @@ class PluginManager
      */
     static public function PluginSaveOldConfig($pluginid,$config)
     {
-        self::showMsg('<br/>保存插件配置信息到插件目录...');
-        $Dir = self::GetPluginPath($pluginid).'unsetup/';
+        static::showMsg('<br/>保存插件配置信息到插件目录...');
+        $Dir = static::GetPluginPath($pluginid).'unsetup/';
         if(!is_dir($Dir)){
             @mkdir($Dir,0777);
         }
@@ -555,9 +560,9 @@ class PluginManager
             }
             $save_config["menus"][$config['cfg_comment']] = $config;
             file_put_contents($old_config_path,Json::encode($save_config));
-            self::showMsg("配置路径:$old_config_path ... 保存完成!");
+            static::showMsg("配置路径:$old_config_path ... 保存完成!");
         }else{
-            self::showMsg("配置路径:$old_config_path ... 不可写, 跳过!");
+            static::showMsg("配置路径:$old_config_path ... 不可写, 跳过!");
         }
     }
 
@@ -568,7 +573,7 @@ class PluginManager
      */
     static public function PluginLastSavedConfig($pluginid)
     {
-        $path = self::GetPluginPath($pluginid).'unsetup/unsetup_save_config.php';
+        $path = static::GetPluginPath($pluginid).'unsetup/unsetup_save_config.php';
         $save_config = [];
         if(is_file($path)){
             $content = file_get_contents( $path );
@@ -587,66 +592,66 @@ class PluginManager
      */
     static public function setup($pluginid)
     {
-        self::showMsg("开始安装插件...");
-        $data = array("status"=>self::STATUS_ERROR,'msg'=>'未知错误');
+        static::showMsg("开始安装插件...");
+        $data = array("status"=>static::STATUS_ERROR,'msg'=>'未知错误');
         //检查是否已经安装
-        if( 0 == self::IsSetuped($pluginid)){
-            self::showMsg("获取插件配置...",0);
-            $configRaw = self::GetPluginConfig($pluginid,false,null,false);//关闭这里的插件检测
+        if( 0 == static::IsSetuped($pluginid)){
+            static::showMsg("获取插件配置...",0);
+            $configRaw = static::GetPluginConfig($pluginid,false,null,false);//关闭这里的插件检测
             $config = $configRaw['config'];
-            self::showMsg("完成",1,'success');
-            self::showMsg("检测插件依赖...",0);
-            self::CheckDependency($config);//在这里检测插件依赖
+            static::showMsg("完成",1,'success');
+            static::showMsg("检测插件依赖...",0);
+            static::CheckDependency($config);//在这里检测插件依赖
             if(isset($config['needed']) && !empty($config['needed'])){
-                self::showMsg("");
-                self::showMsg("请先安装缺失的依赖插件:{$config['needed']}，再安装此插件！",1,'error');
-                $data['status'] = self::STATUS_ERROR;
-                $data['error_no'] = self::ERROR_NEEDED;
+                static::showMsg("");
+                static::showMsg("请先安装缺失的依赖插件:{$config['needed']}，再安装此插件！",1,'error');
+                $data['status'] = static::STATUS_ERROR;
+                $data['error_no'] = static::ERROR_NEEDED;
                 $data['msg']      = "请先安装缺失的依赖插件，再安装此插件！";
                 return $data;
             }
-            self::showMsg("检测完成",1,'success');
+            static::showMsg("检测完成",1,'success');
             if($config){
-                self::showMsg("检测是否需要执行Migrate...",0);
+                static::showMsg("检测是否需要执行Migrate...",0);
                 //导入数据表
-                $rn = self::PluginInjectMigration($pluginid,self::MIGRATE_UP);
+                $rn = static::PluginInjectMigration($pluginid,static::MIGRATE_UP);
                 if(!$rn){
-                    $data['status'] = self::STATUS_ERROR;
-                    $data['error_no'] = self::ERROR_MIGRATE;
+                    $data['status'] = static::STATUS_ERROR;
+                    $data['error_no'] = static::ERROR_MIGRATE;
                     $data['msg']      = "插件Migrate失败,请检查插件Migration配置!";
                     return $data;
                 }
-                self::showMsg("开始注册菜单...",0);
+                static::showMsg("开始注册菜单...",0);
                 //注入菜单
-                self::PluginInjectMenu($config);
-                self::showMsg("完成",1,'success');
-                self::showMsg("开始注册路由...",0);
+                static::PluginInjectMenu($config);
+                static::showMsg("完成",1,'success');
+                static::showMsg("开始注册路由...",0);
                 //注入route
-                self::PluginInjectRoute($config);
-                self::showMsg("完成",1,'success');
-                self::showMsg("开始注册系统配置...",0);
+                static::PluginInjectRoute($config);
+                static::showMsg("完成",1,'success');
+                static::showMsg("开始注册系统配置...",0);
                 //注入config
-                self::PluginInjectConfig($config);
-                self::showMsg("完成",1,'success');
-                self::showMsg("保存插件信息到数据库...",0);
+                static::PluginInjectConfig($config);
+                static::showMsg("完成",1,'success');
+                static::showMsg("保存插件信息到数据库...",0);
                 //完成最后操作
-                self::PluginSetupedCompleted($pluginid,$config);
-                self::showMsg("完成",1,'success');
-                $data['status'] = self::STATUS_SUCCESS;
+                static::PluginSetupedCompleted($pluginid,$config);
+                static::showMsg("完成",1,'success');
+                $data['status'] = static::STATUS_SUCCESS;
                 $data['msg'] = "安装成功";
-                self::showMsg("插件安装完成",1,'success');
+                static::showMsg("插件安装完成",1,'success');
                 return $data;
             }else{
-                self::showMsg("插件配置文件解析错误,请重新下载后解压到插件目录！",1,'error');
+                static::showMsg("插件配置文件解析错误,请重新下载后解压到插件目录！",1,'error');
                 //需要去插件商城下载
-                $data['status'] = self::STATUS_ERROR;
-                $data['error_no'] = self::ERROR_NOTATLOCAL;
+                $data['status'] = static::STATUS_ERROR;
+                $data['error_no'] = static::ERROR_NOTATLOCAL;
                 $data['msg']      = "插件在本地不存在，请去插件商城下载安装！";
                 return $data;
             }
         }else{
-            self::showMsg("插件已经安装!",1,'success');
-            $data = array("status"=>self::STATUS_ERROR,'msg'=>'已经安装了');
+            static::showMsg("插件已经安装!",1,'success');
+            $data = array("status"=>static::STATUS_ERROR,'msg'=>'已经安装了');
         }
         return $data;
     }
@@ -657,21 +662,21 @@ class PluginManager
      */
     static public function unsetup($pluginid)
     {
-        self::showMsg('开始卸载插件...');
-        self::showMsg('检测是否需要执行Migrate...',0);
-        $rn = self::PluginInjectMigration($pluginid,self::MIGRATE_DOWN);
+        static::showMsg('开始卸载插件...');
+        static::showMsg('检测是否需要执行Migrate...',0);
+        $rn = static::PluginInjectMigration($pluginid,static::MIGRATE_DOWN);
         if(!$rn){
-            $data['status'] = self::STATUS_ERROR;
-            $data['error_no'] = self::ERROR_MIGRATE;
+            $data['status'] = static::STATUS_ERROR;
+            $data['error_no'] = static::ERROR_MIGRATE;
             $data['msg']      = "插件Migrate失败,请检查插件Migration配置!";
             return $data;
         }
-        self::showMsg('删除数据库配置...',0);
-        self::PluginDeleteDBConfig($pluginid);
-        self::showMsg('完成',1,'success');
-        self::PluginDeleteStaticVar($pluginid);
-        self::showMsg('卸载完成!',1,'success');
-        $data = array("status"=>self::STATUS_SUCCESS,'msg'=>'卸载完成');
+        static::showMsg('删除数据库配置...',0);
+        static::PluginDeleteDBConfig($pluginid);
+        static::showMsg('完成',1,'success');
+        static::PluginDeleteStaticVar($pluginid);
+        static::showMsg('卸载完成!',1,'success');
+        $data = array("status"=>static::STATUS_SUCCESS,'msg'=>'卸载完成');
         return $data;
     }
 
@@ -681,16 +686,16 @@ class PluginManager
      */
     static public function delete($pluginid)
     {
-        self::showMsg('开始删除插件...');
+        static::showMsg('开始删除插件...');
         try{
-            $pluginDir = self::GetPluginPath($pluginid);
+            $pluginDir = static::GetPluginPath($pluginid);
             FileHelper::removeDirectory($pluginDir);
-            self::showMsg('删除完成',1,'success');
-            return ['status'=>self::STATUS_SUCCESS,'msg'=>'删除成功'];
+            static::showMsg('删除完成',1,'success');
+            return ['status'=>static::STATUS_SUCCESS,'msg'=>'删除成功'];
         }catch(ErrorException $e){
-            self::showMsg('删除失败(没有权限)，请手动删除插件相关文件和目录！',1,'error');
-            self::showMsg($e->getMessage(),1,'error');
-            return ['status' => self::STATUS_ERROR,'msg' => "删除失败(没有权限)，请手动删除插件相关文件和目录！"];
+            static::showMsg('删除失败(没有权限)，请手动删除插件相关文件和目录！',1,'error');
+            static::showMsg($e->getMessage(),1,'error');
+            return ['status' => static::STATUS_ERROR,'msg' => "删除失败(没有权限)，请手动删除插件相关文件和目录！"];
         }
     }
 

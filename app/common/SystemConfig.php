@@ -36,14 +36,17 @@ class SystemConfig
         return Yii::$app->cache;
     }
 
-    static public function cache_set($key,$data,$expired=self::CACHE_1HOURS)
+    static public function cache_set($key,$data,$expired='')
     {
-        return self::getCache()->set($key,$data,$expired);
+        if(empty($expired)){
+            $expired = static::CACHE_1HOURS;
+        }
+        return static::getCache()->set($key,$data,$expired);
     }
 
     static public function cache_get($key)
     {
-        return self::getCache()->get($key);
+        return static::getCache()->get($key);
     }
 	
 	/**
@@ -53,9 +56,9 @@ class SystemConfig
 	static public function GetArrayValue($name,$pid=0,$type='USER')
 	{
 		$array = array();
-		$config = self::Get($name,$pid,$type);
+		$config = static::Get($name,$pid,$type);
 		if($config){
-			foreach($config as $k=>$v){
+			foreach($config as $v){
 				$array[$v['cfg_value']] = $v['cfg_comment'];
 			}
 		}
@@ -64,7 +67,7 @@ class SystemConfig
 	
 	static public function GetById($id)
 	{
-		$sql = "SELECT * FROM {{".self::$_tableName."}} WHERE id=:id";
+		$sql = "SELECT * FROM {{".static::$_tableName."}} WHERE id=:id";
 		$cmd = Yii::$app->db->createCommand($sql);
 		$cmd->bindvalue(":id",$id);
 		$row = $cmd->queryOne();
@@ -79,13 +82,13 @@ class SystemConfig
 	{
 	    if($allowCaching){
             $cacheKey = $name.'-'.$pid.'-'.$type;
-            $data = self::cache_get($cacheKey);
+            $data = static::cache_get($cacheKey);
             if(!$data || empty($data)){
-                $data = self::_Get($name,$pid,$type);
-                self::cache_set($cacheKey,$data);
+                $data = static::_Get($name,$pid,$type);
+                static::cache_set($cacheKey,$data);
             }
         }else{
-            $data = self::_Get($name,$pid,$type);
+            $data = static::_Get($name,$pid,$type);
         }
 
 		return $data;
@@ -97,7 +100,7 @@ class SystemConfig
      */
     static public function GetOne($name='',$pid=0,$type='USER')
     {
-        $configs = self::Get($name,$pid,$type);
+        $configs = static::Get($name,$pid,$type);
         return is_array($configs) && count($configs)>0 ? $configs[0] : false ;
     }
 	
@@ -108,7 +111,7 @@ class SystemConfig
 	 */
 	static public function Set($name,array $value)
 	{
-		$sql = "INSERT INTO {{".self::$_tableName."}} SET 
+		$sql = "INSERT INTO {{".static::$_tableName."}} SET 
 				cfg_name    = :cfg_name,
 				cfg_value   = :cfg_value,
 				cfg_pid     = :cfg_pid,
@@ -156,26 +159,39 @@ class SystemConfig
 		}
 
 		//分页
-		$limit = " ";
-		if($page<=0) $page = 1;
-		if($pageSize<=0) $pageSize = 50;
-		$sql = "SELECT count(*) cnt FROM {{".self::$_tableName."}} WHERE 1 {$where}";
+		if($page<=0){
+		    $page = 1;
+        }
+		if($pageSize<=0){
+		    $pageSize = 50;
+        }
+		$sql = "SELECT count(*) cnt FROM {{".static::$_tableName."}} WHERE 1 {$where}";
 		$cmd = Yii::$app->db->createCommand($sql);
 		$cmd->bindvalue(":name",$name);
-		if($pid && $pid>0) $cmd->bindValue(":pid",$pid);
-		if($type) $cmd->bindValue(":type",$type);
+		if($pid && $pid>0){
+		    $cmd->bindValue(":pid",$pid);
+        }
+		if($type){
+		    $cmd->bindValue(":type",$type);
+        }
 		$row = $cmd->queryRow();
 		if($row && $row['cnt']>0){
 			$total = $row['cnt'];
 			$pages = ceil($total/$pageSize);
-			if($page>=$pages) $page = $pages;
+			if($page>=$pages){
+			    $page = $pages;
+            }
 			$start = ($page-1)*$pageSize;
 			$limit = "LIMIT $start,$pageSize";
-			$sql = "SELECT * FROM {{".self::$_tableName."}} WHERE {$where} ORDER BY cfg_order ASC {$limit}";
+			$sql = "SELECT * FROM {{".static::$_tableName."}} WHERE {$where} ORDER BY cfg_order ASC {$limit}";
 			$cmd = Yii::$app->db->createCommand($sql);
 			$cmd->bindvalue(":name",$name);
-			if($pid && $pid>0) $cmd->bindValue(":pid",$pid);
-			if($type) $cmd->bindValue(":type",$type);
+			if($pid && $pid>0){
+			    $cmd->bindValue(":pid",$pid);
+            }
+			if($type){
+			    $cmd->bindValue(":type",$type);
+            }
 			$rows = $cmd->queryAll();
 			if($rows){
 				$result = array(
@@ -196,7 +212,7 @@ class SystemConfig
 	 * 查询配置
 	 * @return array|boolean
 	 */
-	static private function _Get($name='',$pid,$type){
+	static private function _Get($name,$pid,$type){
 		$where = " 1 ";
 		$pid   = intval($pid);
 		if($name){
@@ -208,11 +224,17 @@ class SystemConfig
 		if($type){
 			$where .= " AND cfg_type=:type ";
 		}
-		$sql = "SELECT * FROM {{".self::$_tableName."}} WHERE {$where} ORDER BY cfg_order ASC";
+		$sql = "SELECT * FROM {{".static::$_tableName."}} WHERE {$where} ORDER BY cfg_order ASC";
 		$cmd = Yii::$app->db->createCommand($sql);
-		if($name)$cmd->bindvalue(":name",$name);
-		if($pid && $pid>0) $cmd->bindValue(":pid",$pid);
-		if($type) $cmd->bindValue(":type",$type);
+		if($name){
+		    $cmd->bindvalue(":name",$name);
+        }
+		if($pid && $pid>0){
+		    $cmd->bindValue(":pid",$pid);
+        }
+		if($type){
+		    $cmd->bindValue(":type",$type);
+        }
 		$rows = $cmd->queryAll();
 		return $rows;
 	}
@@ -234,7 +256,7 @@ class SystemConfig
                 }
             }
             if(count($useFields)>0){
-                $sql = "UPDATE {{".self::$_tableName."}} SET ". join(",",$useFields) ." WHERE   id  = :id LIMIT 1";
+                $sql = "UPDATE {{".static::$_tableName."}} SET ". join(",",$useFields) ." WHERE   id  = :id LIMIT 1";
                 //echo $sql . "\n";
                 $cmd = Yii::$app->db->createCommand($sql);
                 foreach ($useFields as $key=>$v){
@@ -253,19 +275,18 @@ class SystemConfig
 	 * 
 	 * */
 	 static public function changeStauts($id){
-	 	$sql = "SELECT * FROM {{".self::$_tableName."}} WHERE id=:id";
+	 	$sql = "SELECT * FROM {{".static::$_tableName."}} WHERE id=:id";
 		$res = Yii::$app->db->createCommand($sql)->bindValue(':id',$id)->queryRow();
 		if(1 == $res['cfg_status']){
 			$newStatus = 0;
 		}else{
 			$newStatus = 1;
 		}
-		$sql_update = "UPDATE {{".self::$_tableName."}} 
+		$sql_update = "UPDATE {{".static::$_tableName."}} 
 						SET cfg_status=:status
 						WHERE id=:id;
 		";
-		$result = Yii::$app->db->createCommand($sql_update)->bindValues(array(":id"=>$id,":status"=>$newStatus))->execute();
-				
+		Yii::$app->db->createCommand($sql_update)->bindValues(array(":id"=>$id,":status"=>$newStatus))->execute();
 	 }
 	/**
 	 * 移除配置
@@ -274,7 +295,7 @@ class SystemConfig
 	 */
 	static public function Remove($id)
 	{
-		$sql = "DELETE FROM {{".self::$_tableName."}} WHERE   id  = :id LIMIT 1";
+		$sql = "DELETE FROM {{".static::$_tableName."}} WHERE   id  = :id LIMIT 1";
 		$cmd = Yii::$app->db->createCommand($sql);
 		$cmd->bindvalue(":id",$id);
 		return $cmd->execute();

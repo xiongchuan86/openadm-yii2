@@ -130,7 +130,7 @@ class RouteModel extends Object
             $this->getRouteRecursive($module, $result);
             if ($this->cache !== null) {
                 $this->cache->set($key, $result, $this->cacheDuration, new TagDependency([
-                    'tags' => self::CACHE_TAG,
+                    'tags' => static::CACHE_TAG,
                 ]));
             }
         }
@@ -144,7 +144,7 @@ class RouteModel extends Object
     public function invalidate()
     {
         if ($this->cache !== null) {
-            TagDependency::invalidate($this->cache, self::CACHE_TAG);
+            TagDependency::invalidate($this->cache, static::CACHE_TAG);
         }
     }
 

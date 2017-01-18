@@ -23,7 +23,7 @@ class Functions
 
             foreach (Yii::$app->params[$menu_key] as $k=>$v){
                 if($v['cfg_pid'] == 0){
-                    $items[$v['id']] = self::formatItem($v);
+                    $items[$v['id']] = static::formatItem($v);
                 }else{
                     continue;
                 }
@@ -33,12 +33,12 @@ class Functions
                     if(isset($items[$v['cfg_pid']])){
                         if(!isset($items[$v['cfg_pid']]['items'])){
                             $items[$v['cfg_pid']]['items']   = [];
-                            $items[$v['cfg_pid']]['items'][$v['id']] = self::formatItem($v);
+                            $items[$v['cfg_pid']]['items'][$v['id']] = static::formatItem($v);
                         }else{
-                            $items[$v['cfg_pid']]['items'][$v['id']] = self::formatItem($v);
+                            $items[$v['cfg_pid']]['items'][$v['id']] = static::formatItem($v);
                         }
                     }else{
-                        $items[$v['id']] = self::formatItem($v); //cfg_pid 不正确的情况
+                        $items[$v['id']] = static::formatItem($v); //cfg_pid 不正确的情况
                     }
                 }
             }

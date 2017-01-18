@@ -74,7 +74,7 @@ class Wrapper extends Widget
         $this->url = Yii::$app->getUrlManager()->createUrl(['noty/default/index']);
 
         if (!$this->layerClass) {
-            $this->layerClass = self::DEFAULT_LAYER;
+            $this->layerClass = static::DEFAULT_LAYER;
         }
     }
 

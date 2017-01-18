@@ -49,12 +49,6 @@ class MigrateController extends BaseMigrateController
 
     protected $_plugin_migration_paths = [];
 
-    public function init()
-    {
-
-        parent::init();
-    }
-
     /**
      * 如果 migrationPath 有值,则说明yii migrate --migrationPath=$path,通过传参运行
      * migrationPath 没有传参,则使用默认的 defaultMigrationPath 和 plugin的migrations
@@ -78,11 +72,13 @@ class MigrateController extends BaseMigrateController
             try {
                 //自动把插件的migrations path加入到搜索路径
                 $setupedPlugins = PluginManager::GetSetupedPlugins();
-                if ($setupedPlugins && is_array($setupedPlugins)) foreach ($setupedPlugins as $plugin) {
-                    $pluginId = isset($plugin['id']) ? $plugin['id'] : '';
-                    $path = Yii::getAlias('@plugins') . DIRECTORY_SEPARATOR . "{$pluginId}" . DIRECTORY_SEPARATOR . "migrations";
-                    if (is_dir($path)) {
-                        $this->_plugin_migration_paths[] = $path;
+                if ($setupedPlugins && is_array($setupedPlugins)){
+                    foreach ($setupedPlugins as $plugin) {
+                        $pluginId = isset($plugin['id']) ? $plugin['id'] : '';
+                        $path = Yii::getAlias('@plugins') . DIRECTORY_SEPARATOR . "{$pluginId}" . DIRECTORY_SEPARATOR . "migrations";
+                        if (is_dir($path)) {
+                            $this->_plugin_migration_paths[] = $path;
+                        }
                     }
                 }
             }catch (yii\base\Exception $e){
@@ -136,10 +132,6 @@ class MigrateController extends BaseMigrateController
         foreach ($this->_plugin_migration_paths as $_path){
             $migrationPaths[] = $_path;
         }
-        //已经包含过了
-//        if (!empty($this->migrationPath)) {
-//            $migrationPaths[''] = $this->migrationPath;
-//        }
         foreach ($this->migrationNamespaces as $namespace) {
             $migrationPaths[$namespace] = $this->getNamespacePath($namespace);
         }
@@ -194,7 +186,7 @@ class MigrateController extends BaseMigrateController
         if (empty($migrations)) {
             $this->stdout("No migration has been done before.\n", Console::FG_YELLOW);
 
-            return self::EXIT_CODE_NORMAL;
+            return static::EXIT_CODE_NORMAL;
         }
 
         $n = count($migrations);
@@ -211,7 +203,7 @@ class MigrateController extends BaseMigrateController
                     $this->stdout("\n$reverted from $n " . ($reverted === 1 ? 'migration was' : 'migrations were') ." reverted.\n", Console::FG_RED);
                     $this->stdout("\nMigration failed. The rest of the migrations are canceled.\n", Console::FG_RED);
 
-                    return self::EXIT_CODE_ERROR;
+                    return static::EXIT_CODE_ERROR;
                 }
                 $reverted++;
             }
