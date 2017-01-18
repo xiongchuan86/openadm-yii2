@@ -40,7 +40,7 @@ class m161219_020410_openadm_init extends Migration
             [8,'MENU', '{"url":"/rbac/role"}', 0, 3, $ctime, 'USER', 1, '角色列表'],
             [9,'MENU', '{"url":"/rbac/route"}', 0, 3, $ctime, 'USER', 1, '路由列表'],
             //第12条路由很重要,删除后不能正确访问插件管理功能
-            [10,'PLUGINMANAGER_ROUTE', '{"admin/plugin-manager/<a:\\\w+>/<tab:\\\w+>":"admin/plugin-manager/<a>"}', 0, 0, $ctime, 'ROUTE', 1, '插件管理路由']
+            [10,'PLUGINMANAGER_ROUTE', '{"admin/plugin-manager/<a:\w+>/<tab:\w+>":"admin/plugin-manager/<a>"}', 0, 0, $ctime, 'ROUTE', 1, '插件管理路由']
         ]);
 
     }
