@@ -23,18 +23,20 @@ return [
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
         'rmrevin\yii\fontawesome\AssetBundle',
-        'dmstr\web\AdminLteAsset',
         'app\themes\adminlte2\AdminltePluginsAsset',
         'app\plugins\menu\assets\MenuAsset',
         'app\themes\adminlte2\ThemeAsset',
         'nirvana\showloading\ShowLoadingAsset',
+        'app\themes\adminlte2\AdminLteAsset',
+        'app\themes\adminlte2\ShowLoadingAsset',
+        'lo\modules\noty\assets\NotyAsset'
     ],
     // Asset bundle for compression output:
     'targets' => [
         'all' => [
             'class' => 'yii\web\AssetBundle',
-            'basePath' => '@webroot/static/assets',
-            'baseUrl' => '@web/static/assets',
+            'basePath' => '@webroot/assets',
+            'baseUrl' => '@web/assets',
             'js' => 'all-{hash}.js',
             'css' => 'all-{hash}.css',
         ],
@@ -43,5 +45,11 @@ return [
     'assetManager' => [
         'basePath' => '@webroot/static/assets',
         'baseUrl' => '@web/static/assets',
+        'bundles'=> [
+            'dmstr\web\AdminLteAsset'=>[
+                'class'=>'dmstr\web\AdminLteAsset',
+                'skin'=>'skin-blue'
+            ]
+        ]
     ],
 ];

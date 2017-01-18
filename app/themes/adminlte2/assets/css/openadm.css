@@ -1,3 +1,12 @@
+html,body{
+    font-weight: 100;
+}
+th{
+    font-weight:100;
+}
+.label,.btn,.dropdown-menu>li>a{
+    font-weight: 100;
+}
 .navbar-nav>.user-menu>.dropdown-menu{
     width: auto;
     min-width: 100px;
@@ -68,4 +77,12 @@ li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
 li.upload-kit-item.done.image img{
     max-width: 300px;
     max-height: 200px;
+}
+
+/**select2**/
+.select2-container--default .select2-selection--single, .select2-selection .select2-selection--single{
+    padding:4px;
+}
+.select2-container--default .select2-selection--single{
+    border-radius:0;
 }
