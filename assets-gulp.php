@@ -9,10 +9,8 @@
 include 'app/config/bootstrap.php';
 
 return [
-    // Adjust command/callback for JavaScript files compressing:
-    'jsCompressor' => 'java -jar tools/closure/closure-compiler-v20161201.jar --js {from} --js_output_file {to}',
-    // Adjust command/callback for CSS files compressing:
-    'cssCompressor' => 'java -jar tools/yui/yuicompressor-2.4.8.jar --type css {from} -o {to}',
+    'jsCompressor' => 'gulp compress-js --gulpfile tools/gulp/gulpfile.js --src {from} --dist {to}',
+    'cssCompressor' => 'gulp compress-css --gulpfile tools/gulp/gulpfile.js --src {from} --dist {to}',
     // Whether to delete asset source after compression:
     'deleteSource' => false,
     // The list of asset bundles to compress:
