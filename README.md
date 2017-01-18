@@ -16,8 +16,14 @@ OpenAdm
 
 资源压缩
 ----
->删除 web/static/assets/*  
->./yii asset assets.php app/config/assets-prod.php
+>两套资源打包和压缩的工具,自由随意选择~~    
+>assets.php 是yii默认支持的closure和yui打包和压缩
+>./yii asset assets.php app/config/assets-prod.php  
+>assets-gulp.php 是gulp方式
+>cd tools/gulp
+>npm install -g gulp  #安装全局的gulp命令
+>npm update
+>./yii asset assets-gulp.php app/config/assets-prod.php  
 
 持续集成部署
 ----
