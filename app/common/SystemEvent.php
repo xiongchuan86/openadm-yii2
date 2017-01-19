@@ -159,7 +159,6 @@ class SystemEvent extends Component
             return true;
         }
         $request = static::GetRouteFromUrl($url);
-        print_r($request);
         $m = empty($request['module']) ? "" : $request['module'] ;
         $p = empty($request['plugin']) ? "" : $request['plugin'] ;
         $c = empty($request['controller']) ? "" : $request['controller'] ;
