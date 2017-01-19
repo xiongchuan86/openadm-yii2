@@ -2,7 +2,15 @@ OpenAdm
 ======
 >OpenAdm是一个基于Yii2的后台开源骨架，集成了用户和插件系统,使用主题功能,默认使用AdminLTE2的模板的主题,可以非常方便的开发新的功能。
 
+
+Demo
+----
+地址: http://yii2.openadm.com   
+后台账号: admin  
+后台密码: admin  
+
 仓库地址:
+----
 >OSC:  
 >https://git.oschina.net/xiongchuan86/openadm-yii2.git
 
