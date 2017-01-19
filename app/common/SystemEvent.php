@@ -105,45 +105,46 @@ class SystemEvent extends Component
         $action = $controller = $module = $plugin = null;
         if(Yii::$app->urlManager->rules){
             foreach(Yii::$app->urlManager->rules as $rule){
-                $request = new Request;
-                $request->pathinfo = $url;
-                $request->hostinfo = "http://127.0.0.1";
-                list($route,$params) = $rule->parseRequest(Yii::$app->urlManager,$request);
-                if($route){
-                    list($id,$route) = explode("/",trim($route,"/"),2);
+//                $request = new Request;
+//                $request->pathinfo = $url;
+//                $request->hostinfo = "http://127.0.0.1";
+//                list($route,$params) = $rule->parseRequest(Yii::$app->urlManager,$request);
+                if($url){
+                    list($id,$route) = explode("/",trim($url,"/"),2);
                     if(isset(Yii::$app->modules[$id]) || array_search($id,Yii::$app->modules)){
                         $module     = $id;
                         if($module == 'plugin'){
                             $array      = explode("/", trim($route,"/"),3);
                             $plugin     = !empty($array[0]) ? $array[0] : null;
                             $controller = !empty($array[1]) ? $array[1] : null;
-                            $action     = !empty($array[2]) ? $array[2] : null;
+                            $action     = !empty($array[2]) ? $array[2] : 'index';
                         }else{
                             $array      = explode("/", trim($route,"/"),3);
                             $controller = !empty($array[0]) ? $array[0] : null;
-                            $action     = !empty($array[1]) ? $array[1] : null;
+                            $action     = !empty($array[1]) ? $array[1] : 'index';
                         }
                     }else{
                         $controller = $id;
                         $action     = explode("/", trim($route,"/"),2)[0];
                     }
-                }else{
-                    $array = explode("/", trim($url,"/"));
-                    $module     = !empty($array[0]) ? $array[0] : null;
-                    $plugin     = !empty($array[1]) ? $array[1] : null;
-                    $controller = !empty($array[2]) ? $array[2] : null;
-                    $action     = !empty($array[3]) ? $array[3] : null;
-
-                    //fixed 中间冒号的方式进入文件夹
-                    $plugin = str_replace(":","/",$plugin);
-                    if($module == 'plugin'){
-                        if($action == null){
-                            //plugin/menu/menuController的情况
-                            $action     = $controller;
-                            $controller = $plugin;
-                        }
-                    }
                 }
+//              else{
+//                    $array = explode("/", trim($url,"/"));
+//                    $module     = !empty($array[0]) ? $array[0] : null;
+//                    $plugin     = !empty($array[1]) ? $array[1] : null;
+//                    $controller = !empty($array[2]) ? $array[2] : null;
+//                    $action     = !empty($array[3]) ? $array[3] : null;
+//
+//                    //fixed 中间冒号的方式进入文件夹
+//                    $plugin = str_replace(":","/",$plugin);
+//                    if($module == 'plugin'){
+//                        if($action == null){
+//                            //plugin/menu/menuController的情况
+//                            $action     = $controller;
+//                            $controller = $plugin;
+//                        }
+//                    }
+//                }
             }
         }
         return ['action'=>$action,'controller'=>$controller,'module'=>$module,'plugin'=>$plugin];
@@ -158,6 +159,7 @@ class SystemEvent extends Component
             return true;
         }
         $request = static::GetRouteFromUrl($url);
+        print_r($request);
         $m = empty($request['module']) ? "" : $request['module'] ;
         $p = empty($request['plugin']) ? "" : $request['plugin'] ;
         $c = empty($request['controller']) ? "" : $request['controller'] ;
