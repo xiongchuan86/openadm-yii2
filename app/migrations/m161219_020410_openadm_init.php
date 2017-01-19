@@ -35,7 +35,7 @@ class m161219_020410_openadm_init extends Migration
             [3,'MENU', '{"url":"#","icon":"fa fa-unlock-alt"}', 51, 1,$ctime , 'USER', 1, '权限管理'],
             [4,'MENU', '{"url":"/admin/dashboard/main","icon":"fa fa-dashboard"}', 0, 1, $ctime, 'USER', 1, '控制面板'],
             [5,'MENU', '{"url":"/admin/plugin-manager/local/all"}', 0, 2, $ctime, 'USER', 1, '插件管理'],
-            [6,'MENU', '{"url":"/user/admin"}', 0, 2, $ctime, 'USER', 1, '用户管理'],
+            [6,'MENU', '{"url":"/user/admin/index"}', 0, 2, $ctime, 'USER', 1, '用户管理'],
             [7,'MENU', '{"url":"/rbac/assignment"}', 0, 3, $ctime, 'USER', 1, '授权用户'],
             [8,'MENU', '{"url":"/rbac/role"}', 0, 3, $ctime, 'USER', 1, '角色列表'],
             [9,'MENU', '{"url":"/rbac/route"}', 0, 3, $ctime, 'USER', 1, '路由列表'],
