@@ -2,9 +2,16 @@ OpenAdm
 ======
 >OpenAdm是一个基于Yii2的后台开源骨架，集成了用户和插件系统,使用主题功能,默认使用AdminLTE2的模板的主题,可以非常方便的开发新的功能。
 
+仓库地址:
+>OSC:  
+>https://git.oschina.net/xiongchuan86/openadm-yii2.git
+
+>Github:  
+>https://github.com/xiongchuan86/openadm-yii2.git  
+
 安装
 ----
-1. git clone https://code.aliyun.com/xiongchuan86/openadmin-yii2.git
+1. git clone https://git.oschina.net/xiongchuan86/openadm-yii2.git
 2. composer install
 3. 创建数据库openadm,如果不使用默认的数据库名,修改environments/dev/app/config/db.php
 3. ./init #安装
@@ -17,19 +24,20 @@ OpenAdm
 资源压缩
 ----
 >两套资源打包和压缩的工具,自由随意选择~~    
->assets.php 是yii默认支持的closure和yui打包和压缩   
-
->./yii asset assets.php app/config/assets-prod.php   
   
->assets-gulp.php #gulp方式  
+>1. assets.php #是yii默认支持的closure和yui打包和压缩   
 
->cd tools/gulp  
+>   ./yii asset assets.php app/config/assets-prod.php   
+  
+>2. assets-gulp.php #gulp方式  
 
->npm install -g gulp  #安装全局的gulp命令  
+>   cd tools/gulp  
 
->npm update  
+>   npm install -g gulp  #安装全局的gulp命令  
 
->./yii asset assets-gulp.php app/config/assets-prod.php  
+>   npm update  
+
+>   ./yii asset assets-gulp.php app/config/assets-prod.php  
 
 持续集成部署
 ----
