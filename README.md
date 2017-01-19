@@ -12,7 +12,8 @@ OpenAdm
 安装
 ----
 1. git clone https://git.oschina.net/xiongchuan86/openadm-yii2.git
-2. composer install
+2. composer install #如果是第一次安装yii2,请先执行  
+   composer global require "fxp/composer-asset-plugin:^1.2.0"    
 3. 创建数据库openadm,如果不使用默认的数据库名,修改environments/dev/app/config/db.php
 3. ./init #安装
 4. ./yii migrate #数据库初始化

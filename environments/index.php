@@ -34,6 +34,8 @@ return [
         'setWritable' => [
             'runtime',
             'web/static/assets',
+            'web/uploads',
+            'web/assets',
             'storage',
             'storage/backup',
         ],
@@ -49,6 +51,8 @@ return [
         'setWritable' => [
             'runtime',
             'web/static/assets',
+            'web/uploads',
+            'web/assets',
             'storage',
             'storage/backup',
         ],
