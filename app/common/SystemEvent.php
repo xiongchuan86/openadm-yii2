@@ -34,8 +34,6 @@ class SystemEvent extends Component
                     $rules = Json::decode($route['cfg_value'],true);
                     Yii::$app->urlManager->addRules($rules);
                 }catch (InvalidParamException $e){
-                    $rules = Json::decode(str_replace('\\','\\\\',$route['cfg_value']),true);
-                    Yii::$app->urlManager->addRules($rules);
                 }
             }
         }
