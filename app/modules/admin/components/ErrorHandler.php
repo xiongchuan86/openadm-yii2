@@ -35,6 +35,7 @@ class ErrorHandler extends BaseErrorHandler
             $request->pathinfo = $this->errorAction;
             $request->hostinfo = "http://127.0.0.1";
             list ($route, $params) = $request->resolve();
+            Yii::$app->setModule('plugin','app\modules\plugin\Module');
             Yii::$app->requestedRoute = $route;
             $result = Yii::$app->runAction($route, $params);
             if ($result instanceof Response) {
