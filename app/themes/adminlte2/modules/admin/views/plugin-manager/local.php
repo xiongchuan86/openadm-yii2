@@ -154,6 +154,7 @@ function submitForm(url,data)
         input.attr('value',data[key]);
         form.append(input);
     }
+    $(document.body).append(form);
     // 提交表单
     form.submit();
 }
