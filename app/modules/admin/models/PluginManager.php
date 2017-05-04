@@ -30,12 +30,25 @@ class PluginManager
     static private $_plugins = array();
     static private $_setupedplugins = array();
 
-    const YII_COMMAND   = '@root/yii';
     const MIGRATE_UP    = 'up';
     const MIGRATE_DOWN  = 'down-plugin';//重写数据库清楚操作
     const MIGRATION_DEFAULT_DIRNAME = 'migrations';
 
     static public $isShowMsg = 0;
+	
+	static public function isWin()
+	{
+		return strtoupper(substr(PHP_OS,0,3))==='WIN';
+	}
+	
+	static public function getYiiCommand()
+	{
+		if( self::isWin() )
+		{
+			return '@root/yii.bat';
+		}
+		return '@root/yii';
+	}
 
     static public function setShowMsg($value)
     {
@@ -410,7 +423,7 @@ class PluginManager
         if(is_dir($migrationPath)){
             static::showMsg("需要",1,'success');
             static::showMsg("开始执行Migrate操作...");
-            $yii = Yii::getAlias(static::YII_COMMAND);
+            $yii = Yii::getAlias(self::getYiiCommand());
             //--interactive=0 非交互式命令行
             $params = "--migrationPath=$migrationPath --interactive=0";
             $action = "migrate/";
@@ -430,6 +443,9 @@ class PluginManager
                 $params
             ];
             $cmd = join(" ",$cmds);
+			if(self::isWin()){
+				$cmd = str_replace("\\","\\\\",$cmd); 
+			}
             static::showMsg("<p id='cmd_box' style='background-color: #2c763e;color:#f5db88'>",0);
             //执行
             $handler = popen($cmd, 'r');
