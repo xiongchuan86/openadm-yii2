@@ -54,6 +54,6 @@ class PluginBaseController extends Controller
 	public function getPluginName()
 	{
 		$className = get_called_class();
-		$this->pluginName = str_replace("Controller", "", $className);
+		$this->pluginName = preg_replace("/Controller$/", '', $className);
 	}
 }

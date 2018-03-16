@@ -36,7 +36,7 @@ function oa_build_left_menu(el) {
     if(typeof OA_Menus_Children == "object"){
         if(typeof OA_Menus_Children[topmenu_id] == "object"){
             var currentLeftMenuItems = OA_Menus_Children[topmenu_id];
-            var sidebar_html = '<ul class="sidebar-menu">';
+            var sidebar_html = '<ul class="sidebar-menu" data-widget="tree">';
             for(var i in currentLeftMenuItems){
                 if(typeof currentLeftMenuItems[i].items == "undefined"){
                     sidebar_html += '<li class="treeview"><a id="nav'+currentLeftMenuItems[i].content.id+'" class="openlink" data-label="'+currentLeftMenuItems[i].content.cfg_comment+'" data-id="'+currentLeftMenuItems[i].content.id+'" href="'+currentLeftMenuItems[i].content.value.url+'"><i class="'+currentLeftMenuItems[i].content.value.icon+'"></i> <span>'+currentLeftMenuItems[i].content.cfg_comment+'</span>';

@@ -27,7 +27,8 @@
       "trntv/yii2-file-kit": "*",
       "dmstr/yii2-adminlte-asset":"2.*",
       "kucha/ueditor": "*",
-        "intervention/image": "^2.3"
+        "intervention/image": "^2.3",
+        "bizley/migration": "^2.2"
     },
     "require-dev": {
       "yiisoft/yii2-debug": "~2.0.0",
@@ -58,5 +59,11 @@
         "npm-asset-library": "vendor/npm",
         "bower-asset-library": "vendor/bower"
       }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
     }
 }

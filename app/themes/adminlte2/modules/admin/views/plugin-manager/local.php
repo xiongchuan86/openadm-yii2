@@ -48,13 +48,13 @@ if(is_array($result) && isset($result['data'])){
 			}
 			//增加操作类型
             $btn_setup_label = Html::tag('i','安装',['class'=>'fa fa-cog']);
-			$btn_setup = Html::a($btn_setup_label,'#',['class' => 'setup btn btn-xs btn-primary','style'=>'','data-toggle' => 'modal']);
+			$btn_setup = Html::a($btn_setup_label,'#',['class' => 'setup btn btn-xs btn-primary','style'=>'','data-toggle' => 'modal','data-title'=>$v['config']['name'],'data-target'=>'#install-modal']);
 
             $btn_unsetup_label = Html::tag('i','卸载',['class'=>'fa fa-edit']);
-			$btn_unsetup = Html::a($btn_unsetup_label,'#',['class' => 'unsetup btn btn-xs btn-success','style'=>'','data-toggle' => 'modal']);
+			$btn_unsetup = Html::a($btn_unsetup_label,'#',['class' => 'unsetup btn btn-xs btn-success','style'=>'','data-toggle' => 'modal','data-title'=>$v['config']['name'],'data-toggle'=>'#modal']);
 
 			$btn_delete_label = Html::tag('i','删除',['class'=>'fa fa-trash']);
-            $btn_delete = Html::a($btn_delete_label,'#',['class' => 'delete btn btn-xs btn-danger','style'=>'','data-toggle' => 'modal']);
+            $btn_delete = Html::a($btn_delete_label,'#',['class' => 'delete btn btn-xs btn-danger','style'=>'','data-title'=>$v['config']['name'],'data-toggle' => 'modal','data-toggle'=>'#modal']);
 			$v['config']['_action_'] = '';
 			if($v['setup']){
 				$v['config']['_action_'] = $btn_unsetup;
@@ -119,6 +119,9 @@ function plugin_action(o,action)
 
 function doAction(o,action){
     $('#install-modal').modal('show');
+    var title = action == 'setup' ? "安装插件" : ( action == 'unsetup' ? "卸载插件" : "删除插件" );
+    title += ": <b>"+$(o).data('title')+"</b>";
+    $('#install-modal .modal-header').html(title);
     $('.modal-body').css('height','400px');
     $('.modal-body').css('overflow-y','scroll');
     var tr = $(o).parent().parent();
@@ -184,11 +187,13 @@ $js = <<<JS
     })
 JS;
 $this->registerJs($js);
+
 Modal::begin([
 'id' => 'install-modal',
-'header' => '<div class="modal-title">安装插件: <b>菜单管理</b></div>',
+'header' => '<div class="modal-title"></div>',
 'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">关闭</a>',
 ]);
 Modal::end();
 ?>
+
 <iframe name="comet_iframe" id="comet_iframe" src="" style="display: none"></iframe>

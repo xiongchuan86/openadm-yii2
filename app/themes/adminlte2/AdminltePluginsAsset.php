@@ -9,9 +9,9 @@ namespace app\themes\adminlte2;
 use yii\web\AssetBundle;
 class AdminltePluginsAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/almasaeed2010/adminlte/plugins';
+    public $sourcePath = '@vendor/almasaeed2010/adminlte/bower_components';
     public $js = [
-        'fastclick/fastclick.js',
+        'fastclick/lib/fastclick.js',
     ];
     public $css = [
     ];
